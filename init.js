@@ -1,34 +1,38 @@
-// To use Command key in Mac OS X
+// OSX mapping: Command => A | Option => M
 modifiers.M = new modifier(function (event) { return event.altKey; },
                            function (event) { event.altKey = true; });
 modifiers.A = new modifier(function (event) { return event.metaKey; },
                            function (event) { event.metaKey = true; });
 
+// Some useful modules
 require("mode-line.js");
 require("new-tabs.js");
-//require("tab-bar.js");
 require("daemon.js");
 require("session.js");
-// editor_shell_command = "mate -w";
 
+// Textmate as external editor
+editor_shell_command = "mate -w";
+
+// Personal theme
 theme_load_paths.unshift("/Users/ubolonton/.conkerorrc/themes/");
 theme_unload("default");
 theme_load("ubolonton");
-
 interactive("ubolonton-theme", "Load my personal theme", 
             function(I) {
               theme_load("ubolonton");
             });
 define_key(default_global_keymap, "A-u", "ubolonton-theme");
 
+// gmail-mode
 require("page-modes/gmail.js");
 define_key(gmail_keymap, "v", null, $fallthrough);
 
-// user_pref("signon.prefillForms", true);
+// Does not seem to work :-(
+user_pref("signon.prefillForms", true);
 user_pref("signon.autofillForms", true);
 user_pref("signon.rememberSignons", true);
 
-// Custom keys
+// Custom key-bindings
 define_key(content_buffer_normal_keymap, "M-f", "follow-new-buffer-background");
 define_key(content_buffer_normal_keymap, "A-[", "back");
 define_key(content_buffer_normal_keymap, "A-]", "forward");
@@ -127,16 +131,7 @@ define_key(default_global_keymap, "A-return", "switch-to-recent-buffer");
 define_key(read_buffer_keymap, "A-return", "minibuffer-complete");
 define_key(read_buffer_keymap, "A-S-return", "minibuffer-complete-previous");
 
-// Big hint numbers
-// register_user_stylesheet(
-//     "data:text/css," +
-//         escape(
-//             "@namespace url(\"http://www.w3.org/1999/xhtml\");\n" +
-//             "span.__conkeror_hint {\n"+
-//             "  font-size: 18px !important;\n"+
-//             "  line-height: 18px !important;\n"+
-//             "}"));
-
+// Readability tool
 interactive("readability_arc90",
             "Readability is a simple tool that makes reading on the web more enjoyable by removing the clutter around what you are reading",
             function readability_arc90(I) {
@@ -184,6 +179,7 @@ interactive("readability_arc90",
             });
 define_key(content_buffer_normal_keymap, "j", "readability_arc90");
 
+// What's this?
 function repl_context() {
   let ctx = {};
   ctx.__proto__ = conkeror;
@@ -194,7 +190,7 @@ function repl_context() {
   return ctx;
 }
 
-// theme_load_paths.push("/Users/ubolonton"); theme_load("blackened");
+// The rest is experimental ----------------------------------------------------
 
 // Darken page
 // TODO: use a boolean to keep track of dark/light state
