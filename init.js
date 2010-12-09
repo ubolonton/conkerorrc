@@ -258,7 +258,7 @@ define_key(content_buffer_normal_keymap, "A-d", "toggle-darkened-page");
 // FIXME: the page is darkened only after the DOM is finished
 // loading. This causes flickering, which is sub-optimal
 
-define_variable("darkened", true, "Darkened or not");
+define_variable("darkened", false, "Darkened or not");
 
 function set_darkness (buffer) {
   var styles='* { background: black !important; color: gray !important; }'+
