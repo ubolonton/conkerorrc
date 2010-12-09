@@ -4,7 +4,7 @@
 #minibuffer {
   border-top: 1px solid -moz-Dialog;
   font-family: Menlo;
-  font-size: 14;
+  font-size: 12px;
 }
 
 #minibuffer-prompt {

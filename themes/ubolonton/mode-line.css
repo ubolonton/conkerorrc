@@ -3,5 +3,7 @@
 
 .mode-line {
   padding: 2px;
-  -moz-appearance: toolbar;
+  -moz-appearance: -moz-mac-unified-toolbar;
+  font-family: Menlo;
+  font-size: 12px;
 }
