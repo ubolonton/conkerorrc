@@ -2,25 +2,44 @@
 @namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");
 
 #tab2-bar {
+  -moz-appearance: textfield;
   border-bottom: 1px solid threedshadow;
 }
 
 .tab2 {
-    -moz-appearance: tab;
-    min-width: 200px;
-    max-width: 300px;
-    overflow: hidden; /* Chops end of label */
+  /* -moz-appearance: statusbar; */
+  -moz-appearance: none;
+  min-width: 100px;
+  max-width: 300px;
+  overflow: hidden; /* Chops end of label */
+  border-style: solid;
+  border-width: 1px 1px 0 1px;
+  border-color: #999999;
+  -moz-border-radius-topleft: 10px 12px;
+  -moz-border-radius-topright: 10px 12px;
+  background: -moz-linear-gradient(top, rgba(180,180,180,255), rgba(230,230,230,255));
+  color: #111111;
+}
+
+.tab2:hover {
+  background: -moz-linear-gradient(top, rgba(230,230,230,255), rgba(230,230,230,255));
+}
+
+.tab2[selected="true"] {
+  /* -moz-appearance: toolbar; */
+  background: -moz-linear-gradient(top, rgba(255,255,255,255), rgba(255,255,255,255));
+  color: black;
 }
 
 .tab2-label {
-    margin-left: 4px;
-    padding-top: 1px;
-    font: 14px Sans;
+  margin-left: 4px;
+  font-family: Verdana;
+  font-size: 12px;
 }
 
 .tab2-icon {
-    padding: 0px 2px 0px 3px;
-    font: 900 14px Menlo;
-    text-align: center;
-    color: blue;
+  padding: 0px 2px 0px 3px;
+  font: 900 15px Menlo;
+  text-align: center;
+  color: blue;
 }
