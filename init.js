@@ -1,8 +1,19 @@
 require("mode-line.js");
 require("new-tabs.js");
+//require("tab-bar.js");
 require("daemon.js");
 require("session.js");
 // editor_shell_command = "mate -w";
+
+theme_load_paths.unshift("/Users/ubolonton/.conkerorrc/themes/");
+theme_unload("default");
+theme_load("ubolonton");
+
+interactive("ubolonton-theme", "Load my personal theme", 
+            function(I) {
+              theme_load("ubolonton");
+            });
+define_key(default_global_keymap, "A-u", "ubolonton-theme");
 
 require("page-modes/gmail.js");
 define_key(gmail_keymap, "v", null, $fallthrough);
