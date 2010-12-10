@@ -71,7 +71,7 @@ clicks_in_new_buffer_target = OPEN_NEW_BUFFER_BACKGROUND;
 user_pref('extensions.mozrepl.autoStart', true);
 user_pref('extensions.mozrepl.loopbackOnly', false);
 let (mozrepl_init = get_home_directory()) {
-    mozrepl_init.appendRelativePath(".mozrepl.js");
+    mozrepl_init.appendRelativePath(".conkerorrc/mozrepl/init.js");
     session_pref('extensions.mozrepl.initUrl', make_uri(mozrepl_init).spec);
 }
 
