@@ -9,6 +9,7 @@ require("mode-line.js");
 require("new-tabs.js");
 require("daemon.js");
 require("session.js");
+require("dom-inspector.js");
 
 // Textmate as external editor
 editor_shell_command = "mate -w";
