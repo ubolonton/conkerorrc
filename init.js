@@ -6,10 +6,15 @@ modifiers.A = new modifier(function (event) { return event.metaKey; },
 
 // Some useful modules
 require("mode-line.js");
-require("new-tabs.js");
 require("daemon.js");
 require("session.js");
 require("dom-inspector.js");
+
+load_paths.unshift("file:///Users/ubolonton/.conkerorrc/modules/");
+require("new-tabs.js");
+
+define_key(default_global_keymap, "A-i", "inspect-chrome");
+define_key(read_buffer_keymap, "A-i", "inspect-chrome");
 
 // Textmate as external editor
 editor_shell_command = "mate -w";
@@ -112,6 +117,7 @@ minibuffer.prototype.read_recent_buffer = function () {
         $default_completion = arguments.$default);
     yield co_return(result);
 };
+
 interactive("switch-to-recent-buffer",
             "Switch to a buffer specified in the minibuffer.  List of buffers "+
             "will be ordered by recency.",

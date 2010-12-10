@@ -9,20 +9,21 @@
 .tab2 {
   /* -moz-appearance: statusbar; */
   -moz-appearance: none;
-  min-width: 100px;
-  max-width: 300px;
+  min-width: 150px;
+  max-width: 200px;
   overflow: hidden; /* Chops end of label */
   border-style: solid;
   border-width: 1px 1px 0 1px;
   border-color: #999999;
   -moz-border-radius-topleft: 10px 12px;
   -moz-border-radius-topright: 10px 12px;
-  background: -moz-linear-gradient(top, rgba(180,180,180,255), rgba(230,230,230,255));
-  color: #111111;
+  background: -moz-linear-gradient(top, rgba(170,170,170,255), rgba(240,240,240,255));
+  color: #222222;
+  height: 23px;
 }
 
 .tab2:hover {
-  background: -moz-linear-gradient(top, rgba(230,230,230,255), rgba(230,230,230,255));
+  background: -moz-linear-gradient(top, rgba(240,240,240,255), rgba(240,240,240,255));
 }
 
 .tab2[selected="true"] {
@@ -38,8 +39,9 @@
 }
 
 .tab2-icon {
-  padding: 0px 2px 0px 3px;
   font: 900 15px Menlo;
   text-align: center;
   color: blue;
+  max-width: 30px;
+  margin: 3px 0px 3px 10px;
 }
