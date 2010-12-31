@@ -46,6 +46,7 @@ define_key(default_global_keymap, "A-{", "buffer-previous");
 define_key(default_global_keymap, "A-}", "buffer-next");
 define_key(default_global_keymap, "A--", "zoom-out-full");
 define_key(default_global_keymap, "A-t", "find-url-new-buffer");
+define_key(default_global_keymap, "A-s", "save-page-complete");
 
 // caret-mode by default
 user_pref('accessibility.browsewithcaret', false);
