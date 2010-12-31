@@ -4,6 +4,14 @@ modifiers.M = new modifier(function (event) { return event.altKey; },
 modifiers.A = new modifier(function (event) { return event.metaKey; },
                            function (event) { event.metaKey = true; });
 
+interactive("viewmarks",
+    "Open ViewMarks window.",
+    function (I) {
+        make_chrome_window('chrome://viewmarks/content/viewmark.xul');
+    });
+
+define_key(default_global_keymap, "A-`", null, $fallthrough);
+
 // Some useful modules
 require("mode-line.js");
 require("daemon.js");
