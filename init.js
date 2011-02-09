@@ -18,8 +18,11 @@ require("daemon.js");
 require("session.js");
 require("dom-inspector.js");
 
-load_paths.unshift("file:///Users/ubolonton/.conkerorrc/modules/");
+// load_paths.unshift("file:///Users/ubolonton/.conkerorrc/modules/");
+require("favicon.js"); // they forgot this in new-tabs.js
 require("new-tabs.js");
+tab_bar_show_icon = true;
+tab_bar_show_index = true;
 
 define_key(default_global_keymap, "A-i", "inspect-chrome");
 define_key(read_buffer_keymap, "A-i", "inspect-chrome");

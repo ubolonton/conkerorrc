@@ -38,10 +38,18 @@
   font-size: 12px;
 }
 
-.tab2-icon {
-  font: 900 15px Menlo;
+.tab2-index {
+  font: 500 15px Menlo;
   text-align: center;
   color: blue;
   max-width: 30px;
+  margin: 0px 0px 3px 0px;
+}
+
+.tab2-icon  {
+  width: 16px;
+  height: 16px;
+  /* -moz-margin-start: 4px; */
+  /* -moz-margin-end: 3px; */
   margin: 3px 0px 3px 10px;
 }
