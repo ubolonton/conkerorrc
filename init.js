@@ -4,31 +4,41 @@ modifiers.M = new modifier(function (event) { return event.altKey; },
 modifiers.A = new modifier(function (event) { return event.metaKey; },
                            function (event) { event.metaKey = true; });
 
+// Some useful modules
+require("mode-line.js");
+require("daemon.js");
+require("session.js");
+require("dom-inspector.js");
+require("page-modes/gmail.js");
+
+session_auto_save_auto_load = "prompt";
+
 interactive("viewmarks",
     "Open ViewMarks window.",
     function (I) {
         make_chrome_window('chrome://viewmarks/content/viewmark.xul');
     });
 
-define_key(default_global_keymap, "A-`", null, $fallthrough);
-
-// Some useful modules
-require("mode-line.js");
-require("daemon.js");
-require("session.js");
-require("dom-inspector.js");
-
-// load_paths.unshift("file:///Users/ubolonton/.conkerorrc/modules/");
+// Tab settings
 require("favicon.js"); // they forgot this in new-tabs.js
 require("new-tabs.js");
 tab_bar_show_icon = true;
 tab_bar_show_index = true;
 
-define_key(default_global_keymap, "A-i", "inspect-chrome");
-define_key(read_buffer_keymap, "A-i", "inspect-chrome");
-
 // Textmate as external editor
 editor_shell_command = "mate -w";
+
+add_hook("before_quit_hook",
+           function () {
+               var w = get_recent_conkeror_window();
+               var result = (w == null) ||
+                   "y" == (yield w.minibuffer.read_single_character_option(
+                       $prompt = "Quit Conkeror? (y/n)",
+                       $options = ["y", "n"]));
+               yield co_return(result);
+           });
+
+can_kill_last_buffer = false;
 
 // Personal theme
 theme_load_paths.unshift("/Users/ubolonton/.conkerorrc/themes/");
@@ -38,27 +48,85 @@ interactive("ubolonton-theme", "Load my personal theme",
             function(I) {
                 theme_load("ubolonton");
             });
-define_key(default_global_keymap, "A-u", "ubolonton-theme");
 
-// gmail-mode
-require("page-modes/gmail.js");
-define_key(gmail_keymap, "v", null, $fallthrough);
-
-// Does not seem to work :-(
+// Remember credentials
 user_pref("signon.prefillForms", true);
 user_pref("signon.autofillForms", true);
 user_pref("signon.rememberSignons", true);
-
+
 // Custom key-bindings
-define_key(content_buffer_normal_keymap, "M-f", "follow-new-buffer-background");
-define_key(content_buffer_normal_keymap, "A-[", "back");
-define_key(content_buffer_normal_keymap, "A-]", "forward");
-define_key(default_global_keymap, "A-{", "buffer-previous");
+define_key(default_global_keymap, "A-{", "buffer-next");
 define_key(default_global_keymap, "A-}", "buffer-next");
 define_key(default_global_keymap, "A--", "zoom-out-full");
 define_key(default_global_keymap, "A-t", "find-url-new-buffer");
 define_key(default_global_keymap, "A-s", "save-page-complete");
+define_key(default_global_keymap, "A-i", "inspect-chrome");
+define_key(default_global_keymap, "A-u", "ubolonton-theme");
+define_key(default_global_keymap, "A-`", null, $fallthrough);
+define_key(default_global_keymap, "C-x B", "switch-to-recent-buffer");
+define_key(default_global_keymap, "C-tab", "switch-to-recent-buffer");
+define_key(default_global_keymap, "A-return", "switch-to-recent-buffer");
+define_key(default_global_keymap, "A-h", "switch-to-recent-buffer");
+define_key(default_global_keymap, "A-=", "zoom-in-full");
 
+define_key(default_global_keymap, "0",
+           function (I)
+           {
+               switch_to_buffer(I.window,
+                                I.window.buffers.get_buffer(I.window.buffers.count - 1));
+           });
+
+define_key(default_global_keymap, "C-G",
+           function (I)
+           {
+               for (var i = 0; i < I.window.buffers.count; i++)
+               {
+                   stop_loading(I.window.buffers.get_buffer(i));
+               }
+           });
+
+define_key(content_buffer_normal_keymap, "M-f", "follow-new-buffer-background");
+define_key(content_buffer_normal_keymap, "A-[", "back");
+define_key(content_buffer_normal_keymap, "A-]", "forward");
+
+// Dvorak
+define_key(content_buffer_normal_keymap, "M-c", "cmd_scrollLineUp");
+define_key(content_buffer_normal_keymap, "M-t", "cmd_scrollLineDown");
+define_key(content_buffer_normal_keymap, "M-h", "cmd_scrollLeft");
+define_key(content_buffer_normal_keymap, "M-n", "cmd_scrollRight");
+define_key(content_buffer_normal_keymap, "M-C", "cmd_scrollPageUp");
+define_key(content_buffer_normal_keymap, "M-T", "cmd_scrollPageDown");
+define_key(content_buffer_normal_keymap, "M-H", "scroll",
+           $browser_object = browser_object_previous_heading);
+define_key(content_buffer_normal_keymap, "M-N", "scroll",
+           $browser_object = browser_object_next_heading);
+define_key(content_buffer_normal_keymap, "M-G", "scroll-top-left");
+define_key(content_buffer_normal_keymap, "M-R", "cmd_scrollBottom");
+
+define_key(text_keymap, "M-c", "cmd_scrollLineUp");
+define_key(text_keymap, "M-t", "cmd_scrollLineDown");
+define_key(text_keymap, "M-h", "backward-char");
+define_key(text_keymap, "M-n", "forward-char");
+define_key(text_keymap, "M-g", "backward-word");
+define_key(text_keymap, "M-r", "forward-word");
+define_key(text_keymap, "M-C", "cmd_scrollPageUp");
+define_key(text_keymap, "M-T", "cmd_scrollPageDown");
+define_key(text_keymap, "M-H", "scroll",
+           $browser_object = browser_object_previous_heading);
+define_key(text_keymap, "M-N", "scroll",
+           $browser_object = browser_object_next_heading);
+define_key(text_keymap, "M-G", "scroll-top-left");
+define_key(text_keymap, "M-R", "cmd_scrollBottom");
+
+define_key(read_buffer_keymap, "A-i", "inspect-chrome");
+define_key(read_buffer_keymap, "C-tab", "minibuffer-complete");
+define_key(read_buffer_keymap, "C-S-tab", "minibuffer-complete-previous");
+define_key(read_buffer_keymap, "A-return", "minibuffer-complete");
+define_key(read_buffer_keymap, "A-S-return", "minibuffer-complete-previous");
+define_key(read_buffer_keymap, "A-h", "exit-minibuffer");
+
+define_key(gmail_keymap, "v", null, $fallthrough);
+
 // caret-mode by default
 user_pref('accessibility.browsewithcaret', false);
 
@@ -100,10 +168,11 @@ function define_switch_buffer_key (key, buf_num) {
                                     I.window.buffers.get_buffer(buf_num));
                });
 }
-for (let i = 0; i < 10; ++i) {
+for (let i = 0; i < 9; ++i) {
     define_switch_buffer_key(String((i+1)%10), i);
 }
 
+
 // Replacement of built-in C-x b
 minibuffer.prototype.read_recent_buffer = function () {
     var window = this.window;
@@ -142,14 +211,7 @@ interactive("switch-to-recent-buffer",
                                     I.window.buffers.buffer_list[1] :
                                     I.buffer))));
             });
-define_key(default_global_keymap, "C-x B", "switch-to-recent-buffer");
-define_key(default_global_keymap, "C-tab", "switch-to-recent-buffer");
-define_key(read_buffer_keymap, "C-tab", "minibuffer-complete");
-define_key(read_buffer_keymap, "C-S-tab", "minibuffer-complete-previous");
-define_key(default_global_keymap, "A-return", "switch-to-recent-buffer");
-define_key(read_buffer_keymap, "A-return", "minibuffer-complete");
-define_key(read_buffer_keymap, "A-S-return", "minibuffer-complete-previous");
-
+
 // Readability tool
 interactive("readability_arc90",
             "Readability is a simple tool that makes reading on the web more enjoyable by removing the clutter around what you are reading",
