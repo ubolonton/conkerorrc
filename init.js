@@ -208,14 +208,14 @@ function repl_context() {
     ctx.document = ctx.buffer.document;
     return ctx;
 }
-
+
 // The rest is experimental ----------------------------------------------------
 
 // Darken page
 // TODO: use a boolean to keep track of dark/light state
 // TODO: add hook for new buffers
 function foo (I) {
-    var styles='* { background: black !important; color: gray !important; }'+
+    var styles='* { background: #0C141E !important; color: #A0AFA8 !important; }'+
         ':link, :link * { color: #4986dd !important; }'+
         ':visited, :visited * { color: #d75047 !important; }';
     var wd = conkeror.get_recent_conkeror_window();
@@ -249,7 +249,7 @@ function foo (I) {
 interactive("foo", "Toggle darkening all pages", foo);
 define_key(content_buffer_normal_keymap, "A-D", "foo");
 function toggle_darkened_page (I) {
-    var styles='* { background: black !important; color: gray !important; }'+
+    var styles='* { background: #0C141E !important; color: #A0AFA8 !important; }'+
         ':link, :link * { color: #4986dd !important; }'+
         ':visited, :visited * { color: #d75047 !important; }';
     var document = I.buffer.document;
@@ -276,7 +276,7 @@ define_key(content_buffer_normal_keymap, "A-d", "toggle-darkened-page");
 define_variable("darkened", false, "Darkened or not");
 
 function set_darkness (buffer) {
-    var styles='* { background: black !important; color: gray !important; }'+
+    var styles='* { background: #0C141E !important; color: #A0AFA8 !important; }'+
         ':link, :link * { color: #4986dd !important; }'+
         ':visited, :visited * { color: #d75047 !important; }';
     var document = buffer.document;
