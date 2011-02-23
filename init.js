@@ -105,6 +105,13 @@ define_key(default_global_keymap, "C-G",
                }
            });
 
+define_key(default_global_keymap, "M-\\",
+           function (I)
+           {
+               switch_to_buffer(I.window,
+                                I.window.buffers.buffer_list[1])
+           });
+
 define_key(content_buffer_normal_keymap, "M-f", "follow-new-buffer-background");
 define_key(content_buffer_normal_keymap, "A-[", "back");
 define_key(content_buffer_normal_keymap, "A-]", "forward");
