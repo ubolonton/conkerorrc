@@ -11,6 +11,26 @@ require("session.js");
 require("dom-inspector.js");
 require("page-modes/gmail.js");
 
+read_buffer_show_icons = true;
+
+// { background: #0C141E !important; color: #A0AFA8 !important; }'+
+//         ':link, :link * { color: #4986dd !important; }'+
+//         ':visited, :visited * { color: #d75047 !important; }';
+
+// user_pref("browser.active_color", "#EE0000");
+// user_pref("browser.anchor_color", "#4986dd");
+// user_pref("browser.display.background_color", "#0C141E");
+// user_pref("browser.display.foreground_color", "#A0AFA8");
+// user_pref("browser.visited_color", "#d75047");
+interactive("colors-toggle", "toggle between document and forced colors",
+            function (I) {
+              var p = "browser.display.use_document_colors";
+              if (get_pref(p))
+                session_pref(p, false);
+                else session_pref(p, true);
+            });
+define_key(content_buffer_normal_keymap, "f6", "colors-toggle");
+
 session_auto_save_auto_load = "prompt";
 
 interactive("viewmarks",
@@ -185,12 +205,16 @@ minibuffer.prototype.read_recent_buffer = function () {
     var completer = all_word_completer(
         $completions = buffers,
         $get_string = function (x) x.title,
-        $get_description = function (x) x.description);
+        $get_description = function (x) x.description,
+        $get_icon = (read_buffer_show_icons ?
+                     function (x) x.icon : null)
+    );
     var result = yield this.read(
         $keymap = read_buffer_keymap,
         $prompt = arguments.$prompt,
         $history = arguments.$history,
         $completer = completer,
+        $enable_icons = read_buffer_show_icons,
         $match_required = true,
         $auto_complete = "buffer",
         $auto_complete_initial = true,
