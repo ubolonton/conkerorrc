@@ -75,7 +75,7 @@ user_pref("signon.autofillForms", true);
 user_pref("signon.rememberSignons", true);
 
 // Custom key-bindings
-define_key(default_global_keymap, "A-{", "buffer-next");
+define_key(default_global_keymap, "A-{", "buffer-previous");
 define_key(default_global_keymap, "A-}", "buffer-next");
 define_key(default_global_keymap, "A--", "zoom-out-full");
 define_key(default_global_keymap, "A-t", "find-url-new-buffer");
@@ -129,6 +129,7 @@ define_key(content_buffer_normal_keymap, "M-N", "scroll",
            $browser_object = browser_object_next_heading);
 define_key(content_buffer_normal_keymap, "M-G", "scroll-top-left");
 define_key(content_buffer_normal_keymap, "M-R", "cmd_scrollBottom");
+define_key(content_buffer_normal_keymap, "A-v", "paste-url");
 
 define_key(text_keymap, "M-c", "cmd_scrollLineUp");
 define_key(text_keymap, "M-t", "cmd_scrollLineDown");
@@ -144,6 +145,9 @@ define_key(text_keymap, "M-N", "scroll",
            $browser_object = browser_object_next_heading);
 define_key(text_keymap, "M-G", "scroll-top-left");
 define_key(text_keymap, "M-R", "cmd_scrollBottom");
+define_key(text_keymap, "A-x", "kill-region");
+define_key(text_keymap, "A-v", "yank");
+define_key(text_keymap, "A-c", "kill-ring-save");
 
 define_key(read_buffer_keymap, "A-i", "inspect-chrome");
 define_key(read_buffer_keymap, "C-tab", "minibuffer-complete");
@@ -151,6 +155,15 @@ define_key(read_buffer_keymap, "C-S-tab", "minibuffer-complete-previous");
 define_key(read_buffer_keymap, "A-return", "minibuffer-complete");
 define_key(read_buffer_keymap, "A-S-return", "minibuffer-complete-previous");
 define_key(read_buffer_keymap, "A-h", "exit-minibuffer");
+define_key(read_buffer_keymap, "A-h", "exit-minibuffer");
+
+define_key(caret_keymap, "A-c", "cmd_copy");
+
+define_key(special_buffer_keymap, "A-c", "cmd_copy");
+
+define_key(minibuffer_keymap, "C-m", "exit-minibuffer");
+
+define_key(hint_keymap, "C-m", "hints-exit");
 
 define_key(gmail_keymap, "v", null, $fallthrough);
 
