@@ -30,23 +30,49 @@ require("page-modes/gmail.js");
 
 read_buffer_show_icons = true;
 
+// FIXME: Hack
+interactive("save-for-later",
+    "Save a page and all supporting documents, including images, css, "+
+    "and child frame documents to a folder for later reading.",
+    function (I) {
+        check_buffer(I.buffer, content_buffer);
+        var element = yield read_browser_object(I);
+        var spec = load_spec(element);
+        var doc;
+        if (!(doc = load_spec_document(spec)))
+            throw interactive_error("Element is not associated with a document.");
+        var suggested_path = get_home_directory();
+        suggested_path.appendRelativePath("read_later");
+
+        var panel;
+        panel = create_info_panel(I.window, "download-panel",
+                                  [["downloading",
+                                    element_get_operation_label(element, "Saving complete"),
+                                    load_spec_uri_string(spec)],
+                                   ["mime-type", "Mime type:", load_spec_mime_type(spec)]]);
+
+        try {
+            var file = yield I.minibuffer.read_file_check_overwrite(
+                $prompt = "Save page complete:",
+                $history = "save",
+                $initial_value = suggested_path.path + "/" + suggest_file_name(spec));
+            // FIXME: use proper read function
+            var dir = yield I.minibuffer.read_file(
+                $prompt = "Data Directory:",
+                $history = "save",
+                $initial_value = file.path + ".support");
+        } finally {
+            panel.destroy();
+        }
+
+        save_document_complete(doc, file, dir, $buffer = I.buffer);
+    },
+    $browser_object = browser_object_frames);
+define_key(default_global_keymap, "A-r", "save-for-later");
+
 // { background: #0C141E !important; color: #A0AFA8 !important; }'+
 //         ':link, :link * { color: #4986dd !important; }'+
 //         ':visited, :visited * { color: #d75047 !important; }';
-
-// user_pref("browser.active_color", "#EE0000");
-// user_pref("browser.anchor_color", "#4986dd");
-// user_pref("browser.display.background_color", "#0C141E");
-// user_pref("browser.display.foreground_color", "#A0AFA8");
-// user_pref("browser.visited_color", "#d75047");
-interactive("colors-toggle", "toggle between document and forced colors",
-            function (I) {
-              var p = "browser.display.use_document_colors";
-              if (get_pref(p))
-                session_pref(p, false);
-                else session_pref(p, true);
-            });
-define_key(content_buffer_normal_keymap, "f6", "colors-toggle");
 
 session_auto_save_auto_load = "prompt";
 
@@ -354,7 +380,7 @@ function foo (I) {
     }
 }
 interactive("foo", "Toggle darkening all pages", foo);
-define_key(content_buffer_normal_keymap, "A-D", "foo");
+define_key(content_buffer_normal_keymap, "f7", "foo");
 function toggle_darkened_page (I) {
     var styles='* { background: #0C141E !important; color: #A0AFA8 !important; }'+
         ':link, :link * { color: #4986dd !important; }'+
@@ -407,3 +433,38 @@ function set_darkness (buffer) {
 
 add_hook("buffer_dom_content_loaded_hook", set_darkness, false, true);
 add_hook("buffer_loaded_hook", set_darkness, false, true);
+
+// make the nasa-hsf-sightings page more printer friendly
+// register_user_stylesheet(
+//     "data:text/css," +
+//         escape (
+//             "@-moz-document url-prefix("+
+                
+// "http://spaceflight1.nasa.gov/realdata/sightings/cities/view.cgi)"+
+//                 "{img { display: none; }}"));
+
+interactive("colors-toggle", "toggle between document and forced colors",
+            function (I) {
+              var p = "browser.display.use_document_colors";
+              if (get_pref(p)) {
+                  session_pref("browser.active_color", "yellow");
+                  session_pref("browser.anchor_color", "#4986dd");
+                  session_pref("browser.display.background_color", "#0C141E");
+                  session_pref("browser.display.foreground_color", "#A0AFA8");
+                  session_pref("browser.display.focus_background_color", "green");
+                  session_pref("browser.display.focus_text_color", "red");
+                  session_pref("browser.visited_color", "#d75047");
+                  session_pref(p, false);
+              } else {
+                  session_pref("browser.active_color", "#EE0000");
+                  session_pref("browser.anchor_color", "#0000EE");
+                  session_pref("browser.display.background_color", "#FFFFFF");
+                  session_pref("browser.display.foreground_color", "#000000");
+                  session_pref("browser.display.focus_background_color", "#117722");
+                  session_pref("browser.display.focus_text_color", "#FFFFFF");
+                  session_pref("browser.visited_color", "#551A8B");
+                  session_pref(p, true);
+              }
+            });
+define_key(content_buffer_normal_keymap, "f6", "colors-toggle");
+
