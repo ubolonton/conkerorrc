@@ -6,11 +6,8 @@ let (mozrepl_init = get_home_directory()) {
     session_pref('extensions.mozrepl.initUrl', make_uri(mozrepl_init).spec);
 }
 
-require("global-overlay-keymap");
-define_key_alias("C-m", "return");
-define_key_alias("A-c", "M-w");
-define_key_alias("A-x", "C-w");
-define_key_alias("A-v", "C-y");
+// Link sent from outside gets opened in new tab
+url_remoting_fn = load_url_in_new_buffer;
 
 // TODO: How to determine system type?
 // OSX: Command    => A    Option   => M
@@ -20,6 +17,12 @@ modifiers.M = new modifier(function (event) { return event.altKey; },
 modifiers.A = new modifier(function (event) { return event.metaKey; },
                            function (event) { event.metaKey = true; });
 modifier_order = ['C', 'M', 'A', 'S'];
+
+require("global-overlay-keymap");
+define_key_alias("C-m", "return");
+define_key_alias("A-c", "M-w");
+define_key_alias("A-x", "C-w");
+define_key_alias("A-v", "C-y");
 
 // Some useful modules
 require("mode-line.js");
@@ -148,7 +151,7 @@ define_key(default_global_keymap, "C-G",
                }
            });
 
-define_key(default_global_keymap, "M-\\",
+define_key(default_global_keymap, "A-n",
            function (I)
            {
                switch_to_buffer(I.window,
