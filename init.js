@@ -23,16 +23,27 @@ define_key_alias("C-m", "return");
 define_key_alias("A-c", "M-w");
 define_key_alias("A-x", "C-w");
 define_key_alias("A-v", "C-y");
+
 define_key_alias("M-c", "up");
 define_key_alias("M-t", "down");
 define_key_alias("M-h", "left");
 define_key_alias("M-n", "right");
 define_key_alias("M-C", "page_up");
 define_key_alias("M-T", "page_down");
+// consider M-H and M-N
 define_key_alias("M-g", "C-left");
 define_key_alias("M-r", "C-right");
 define_key_alias("M-G", "home");
 define_key_alias("M-R", "end");
+
+define_key_alias("M-e", "back_space");
+define_key_alias("M-u", "delete");
+define_key_alias("M-.", "C-back_space");
+define_key_alias("M-p", "C-delete");
+
+define_key_alias("M-i", "C-k");
+define_key_alias("M-d", "C-a");
+define_key_alias("M-D", "C-e");
 // TODO: remove definition for aliased keys
 
 // Some useful modules
