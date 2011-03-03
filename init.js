@@ -129,11 +129,16 @@ add_hook("before_quit_hook",
 can_kill_last_buffer = false;
 
 // Personal theme
-theme_load_paths.unshift("/Users/ubolonton/.conkerorrc/themes/");
+let (p = get_home_directory()) {
+    p.append(".conkerorrc");
+    p.append("themes");
+    theme_load_paths.unshift(p);
+}
 theme_unload("default");
 theme_load("ubolonton");
 interactive("ubolonton-theme", "Load my personal theme",
             function(I) {
+                theme_unload("ubolonton");
                 theme_load("ubolonton");
             });
 
