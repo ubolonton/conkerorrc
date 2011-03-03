@@ -23,6 +23,17 @@ define_key_alias("C-m", "return");
 define_key_alias("A-c", "M-w");
 define_key_alias("A-x", "C-w");
 define_key_alias("A-v", "C-y");
+define_key_alias("M-c", "up");
+define_key_alias("M-t", "down");
+define_key_alias("M-h", "left");
+define_key_alias("M-n", "right");
+define_key_alias("M-C", "page_up");
+define_key_alias("M-T", "page_down");
+define_key_alias("M-g", "C-left");
+define_key_alias("M-r", "C-right");
+define_key_alias("M-G", "home");
+define_key_alias("M-R", "end");
+// TODO: remove definition for aliased keys
 
 // Some useful modules
 require("mode-line.js");
