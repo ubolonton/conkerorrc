@@ -18,7 +18,7 @@
   -moz-border-radius-topleft: 10px 12px;
   -moz-border-radius-topright: 10px 12px;
   background: -moz-linear-gradient(top, rgba(170,170,170,255), rgba(240,240,240,255));
-  color: #222222;
+t  color: #222222;
   height: 23px;
 }
 
@@ -34,12 +34,14 @@
 
 .tab2-label {
   margin-left: 4px;
-  font-family: Verdana;
-  font-size: 12px;
+  margin-top: 4px;
+  font-family: DejaVu Sans Condensed;
+  font-size: 14px;
+  font-weight: normal;
 }
 
 .tab2-index {
-  font: 500 15px Menlo;
+  font: 500 15px DejaVu Sans Mono;
   text-align: center;
   color: blue;
   max-width: 30px;

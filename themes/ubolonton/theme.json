@@ -6,6 +6,7 @@
       "tab-bar.css",
       "new-tabs.css",
       "hints--url-panel.css",
-      "eye-guide.css"
+      "eye-guide.css",
+      "sites.css"
   ]
 }

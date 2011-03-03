@@ -3,8 +3,8 @@
 
 #minibuffer {
   border-top: 1px solid -moz-Dialog;
-  font-family: Menlo;
-  font-size: 12px;
+  font-family: DejaVu Sans Mono;
+  font-size: 14px;
 }
 
 #minibuffer-prompt {

@@ -3,7 +3,9 @@
 
 .mode-line {
   padding: 2px;
-  -moz-appearance: -moz-mac-unified-toolbar;
-  font-family: Menlo;
+  -moz-appearance: none;
+  font-family: DejaVu Sans;
   font-size: 12px;
+  background-color: #CCCCCC;
+  color: black;
 }
