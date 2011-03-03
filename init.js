@@ -114,7 +114,7 @@ tab_bar_show_icon = true;
 tab_bar_show_index = true;
 
 // Textmate as external editor
-editor_shell_command = "mate -w";
+editor_shell_command = "emacsclient";
 
 add_hook("before_quit_hook",
            function () {
