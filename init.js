@@ -17,7 +17,7 @@ function repl_context() {
     ctx.document = ctx.buffer.document;
     return ctx;
 }
-
+
 // Custom key bindings
 
 // TODO: How to determine system type?
@@ -75,7 +75,7 @@ define_key(default_global_keymap, "A--", "zoom-out-full");
 define_key(default_global_keymap, "A-t", "find-url-new-buffer");
 define_key(default_global_keymap, "A-`", null, $fallthrough);
 define_key(default_global_keymap, "A-tab", null, $fallthrough);
-// Uhm, so many keys to waste 
+// Uhm, so many keys to waste
 define_key(default_global_keymap, "A-i", "inspect-chrome");
 define_key(default_global_keymap, "A-u", "ubolonton-theme");
 define_key(default_global_keymap, "A-h", "switch-to-recent-buffer");
@@ -136,7 +136,7 @@ define_key(minibuffer_keymap, "C-m", "exit-minibuffer");
 define_key(hint_keymap, "C-m", "hints-exit");
 
 define_key(gmail_keymap, "v", null, $fallthrough);
-
+
 // Misc
 
 // Some useful modules
@@ -167,14 +167,14 @@ editor_shell_command = "emacsclient";
 
 // Quit confirmation
 add_hook("before_quit_hook",
-           function () {
-               var w = get_recent_conkeror_window();
-               var result = (w == null) ||
-                   "y" == (yield w.minibuffer.read_single_character_option(
-                       $prompt = "Quit Conkeror? (y/n)",
-                       $options = ["y", "n"]));
-               yield co_return(result);
-           });
+         function () {
+             var w = get_recent_conkeror_window();
+             var result = (w == null) ||
+                 "y" == (yield w.minibuffer.read_single_character_option(
+                     $prompt = "Quit Conkeror? (y/n)",
+                     $options = ["y", "n"]));
+             yield co_return(result);
+         });
 can_kill_last_buffer = false;
 
 // Remember credentials
@@ -199,7 +199,7 @@ clicks_in_new_buffer_target = OPEN_NEW_BUFFER_BACKGROUND;
 // mode-line doodads
 add_hook("mode_line_hook", mode_line_adder(loading_count_widget), true);
 add_hook("mode_line_hook", mode_line_adder(buffer_count_widget), true);
-
+
 // Other personal stuffs
 
 let (p = get_home_directory()) {
@@ -217,10 +217,10 @@ interactive("ubolonton-theme", "Load my personal theme",
 
 // TODO: not that useful
 interactive("viewmarks",
-    "Open ViewMarks window.",
-    function (I) {
-        make_chrome_window('chrome://viewmarks/content/viewmark.xul');
-    });
+            "Open ViewMarks window.",
+            function (I) {
+                make_chrome_window('chrome://viewmarks/content/viewmark.xul');
+            });
 
 interactive("switch-to-last-tab", "Switch to the last tab",
             function (I) {
@@ -263,7 +263,7 @@ for (let i = 0; i < 9; ++i) {
     define_switch_buffer_key(String((i+1)%10), i);
 }
 
-
+
 // Replacement of built-in buffer switcher
 
 minibuffer.prototype.read_recent_buffer = function () {
@@ -307,7 +307,7 @@ interactive("switch-to-recent-buffer",
                                     I.window.buffers.buffer_list[1] :
                                     I.buffer))));
             });
-
+
 // Readability tool
 
 interactive("readability_arc90",
@@ -356,7 +356,7 @@ interactive("readability_arc90",
                 document.getElementsByTagName('head')[0].appendChild(_readability_print_css)
             });
 
-
+
 // The rest is experimental ----------------------------------------------------
 // FIXME: fix those hacks
 
@@ -453,36 +453,36 @@ add_hook("buffer_loaded_hook", set_darkness, false, true);
 //     "data:text/css," +
 //         escape (
 //             "@-moz-document url-prefix("+
-                
+
 // "http://spaceflight1.nasa.gov/realdata/sightings/cities/view.cgi)"+
 //                 "{img { display: none; }}"));
 
 interactive("colors-toggle", "toggle between document and forced colors",
             function (I) {
-              var p = "browser.display.use_document_colors";
-              if (get_pref(p)) {
-                  session_pref("browser.active_color", "yellow");
-                  session_pref("browser.anchor_color", "#4986dd");
-                  session_pref("browser.display.background_color", "#0C141E");
-                  session_pref("browser.display.foreground_color", "#A0AFA8");
-                  session_pref("browser.display.focus_background_color", "green");
-                  session_pref("browser.display.focus_text_color", "red");
-                  session_pref("browser.visited_color", "#d75047");
-                  session_pref(p, false);
-              } else {
-                  session_pref("browser.active_color", "#EE0000");
-                  session_pref("browser.anchor_color", "#0000EE");
-                  session_pref("browser.display.background_color", "#FFFFFF");
-                  session_pref("browser.display.foreground_color", "#000000");
-                  session_pref("browser.display.focus_background_color", "#117722");
-                  session_pref("browser.display.focus_text_color", "#FFFFFF");
-                  session_pref("browser.visited_color", "#551A8B");
-                  session_pref(p, true);
-              }
+                var p = "browser.display.use_document_colors";
+                if (get_pref(p)) {
+                    session_pref("browser.active_color", "yellow");
+                    session_pref("browser.anchor_color", "#4986dd");
+                    session_pref("browser.display.background_color", "#0C141E");
+                    session_pref("browser.display.foreground_color", "#A0AFA8");
+                    session_pref("browser.display.focus_background_color", "green");
+                    session_pref("browser.display.focus_text_color", "red");
+                    session_pref("browser.visited_color", "#d75047");
+                    session_pref(p, false);
+                } else {
+                    session_pref("browser.active_color", "#EE0000");
+                    session_pref("browser.anchor_color", "#0000EE");
+                    session_pref("browser.display.background_color", "#FFFFFF");
+                    session_pref("browser.display.foreground_color", "#000000");
+                    session_pref("browser.display.focus_background_color", "#117722");
+                    session_pref("browser.display.focus_text_color", "#FFFFFF");
+                    session_pref("browser.visited_color", "#551A8B");
+                    session_pref(p, true);
+                }
             });
 
 define_variable("firebug_url",
-    "/home/ubolonton/Programming/Tools/firebug-lite/build/firebug-lite.js");
+                "/home/ubolonton/Programming/Tools/firebug-lite/build/firebug-lite.js");
 
 function firebug (I) {
     var doc = I.buffer.document;
@@ -496,39 +496,39 @@ function firebug (I) {
 interactive("firebug", "open firebug lite", firebug);
 
 interactive("save-for-later",
-    "Save a page and all supporting documents, including images, css, "+
-    "and child frame documents to a folder for later reading.",
-    function (I) {
-        check_buffer(I.buffer, content_buffer);
-        var element = yield read_browser_object(I);
-        var spec = load_spec(element);
-        var doc;
-        if (!(doc = load_spec_document(spec)))
-            throw interactive_error("Element is not associated with a document.");
-        var suggested_path = get_home_directory();
-        suggested_path.appendRelativePath("read_later");
+            "Save a page and all supporting documents, including images, css, "+
+            "and child frame documents to a folder for later reading.",
+            function (I) {
+                check_buffer(I.buffer, content_buffer);
+                var element = yield read_browser_object(I);
+                var spec = load_spec(element);
+                var doc;
+                if (!(doc = load_spec_document(spec)))
+                    throw interactive_error("Element is not associated with a document.");
+                var suggested_path = get_home_directory();
+                suggested_path.appendRelativePath("read_later");
 
-        var panel;
-        panel = create_info_panel(I.window, "download-panel",
-                                  [["downloading",
-                                    element_get_operation_label(element, "Saving complete"),
-                                    load_spec_uri_string(spec)],
-                                   ["mime-type", "Mime type:", load_spec_mime_type(spec)]]);
+                var panel;
+                panel = create_info_panel(I.window, "download-panel",
+                                          [["downloading",
+                                            element_get_operation_label(element, "Saving complete"),
+                                            load_spec_uri_string(spec)],
+                                           ["mime-type", "Mime type:", load_spec_mime_type(spec)]]);
 
-        try {
-            var file = yield I.minibuffer.read_file_check_overwrite(
-                $prompt = "Save page complete:",
-                $history = "save",
-                $initial_value = suggested_path.path + "/" + suggest_file_name(spec));
-            // FIXME: use proper read function
-            var dir = yield I.minibuffer.read_file(
-                $prompt = "Data Directory:",
-                $history = "save",
-                $initial_value = file.path + ".support");
-        } finally {
-            panel.destroy();
-        }
+                try {
+                    var file = yield I.minibuffer.read_file_check_overwrite(
+                        $prompt = "Save page complete:",
+                        $history = "save",
+                        $initial_value = suggested_path.path + "/" + suggest_file_name(spec));
+                    // FIXME: use proper read function
+                    var dir = yield I.minibuffer.read_file(
+                        $prompt = "Data Directory:",
+                        $history = "save",
+                        $initial_value = file.path + ".support");
+                } finally {
+                    panel.destroy();
+                }
 
-        save_document_complete(doc, file, dir, $buffer = I.buffer);
-    },
-    $browser_object = browser_object_frames);
+                save_document_complete(doc, file, dir, $buffer = I.buffer);
+            },
+            $browser_object = browser_object_frames);
