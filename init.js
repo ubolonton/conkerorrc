@@ -1,4 +1,5 @@
-// MozRepl (4242)
+// MozRepl first, to control stuff from Emacs should there be problems
+// (4242)
 user_pref('extensions.mozrepl.autoStart', true);
 user_pref('extensions.mozrepl.loopbackOnly', false);
 let (mozrepl_init = get_home_directory()) {
@@ -6,12 +7,22 @@ let (mozrepl_init = get_home_directory()) {
     session_pref('extensions.mozrepl.initUrl', make_uri(mozrepl_init).spec);
 }
 
-// Link sent from outside gets opened in new tab
-url_remoting_fn = load_url_in_new_buffer;
+// What's this?
+function repl_context() {
+    let ctx = {};
+    ctx.__proto__ = conkeror;
+    ctx.conkeror = conkeror;
+    ctx.window = conkeror.get_recent_conkeror_window();
+    ctx.buffer = ctx.window.buffers.current;
+    ctx.document = ctx.buffer.document;
+    return ctx;
+}
+
+// Custom key bindings
 
 // TODO: How to determine system type?
-// OSX: Command    => A    Option   => M
-// GTK: Mod4/Super => A    Alt/Meta => M
+// OSX:    Command    => A    Option   => M
+// Ubuntu: Mod4/Super => A    Alt/Meta => M
 modifiers.M = new modifier(function (event) { return event.altKey; },
                            function (event) { event.altKey = true; });
 modifiers.A = new modifier(function (event) { return event.metaKey; },
@@ -19,175 +30,69 @@ modifiers.A = new modifier(function (event) { return event.metaKey; },
 modifier_order = ['C', 'M', 'A', 'S'];
 
 require("global-overlay-keymap");
-define_key_alias("C-m", "return");
+// OS X style
 define_key_alias("A-c", "M-w");
 define_key_alias("A-x", "C-w");
 define_key_alias("A-v", "C-y");
 
+// Because right pinky is overworked
+define_key_alias("C-m", "return");
+
+// Dvorak movement
 define_key_alias("M-c", "up");
 define_key_alias("M-t", "down");
 define_key_alias("M-h", "left");
 define_key_alias("M-n", "right");
 define_key_alias("M-C", "page_up");
 define_key_alias("M-T", "page_down");
-// consider M-H and M-N
+// TODO: consider M-H and M-N
 define_key_alias("M-g", "C-left");
 define_key_alias("M-r", "C-right");
 define_key_alias("M-G", "home");
 define_key_alias("M-R", "end");
 
+// Dvorak deletion
 define_key_alias("M-e", "back_space");
 define_key_alias("M-u", "delete");
 define_key_alias("M-.", "C-back_space");
 define_key_alias("M-p", "C-delete");
 
+// Dvorak remaining
 define_key_alias("M-i", "C-k");
 define_key_alias("M-d", "C-a");
 define_key_alias("M-D", "C-e");
+
+// C- M- is much worse than M- M-
+define_key_alias("M-space", "C-space");
+
 // TODO: remove definition for aliased keys
-
-// Some useful modules
-require("mode-line.js");
-require("daemon.js");
-require("session.js");
-require("dom-inspector.js");
-require("page-modes/gmail.js");
-
-read_buffer_show_icons = true;
-
-// FIXME: Hack
-interactive("save-for-later",
-    "Save a page and all supporting documents, including images, css, "+
-    "and child frame documents to a folder for later reading.",
-    function (I) {
-        check_buffer(I.buffer, content_buffer);
-        var element = yield read_browser_object(I);
-        var spec = load_spec(element);
-        var doc;
-        if (!(doc = load_spec_document(spec)))
-            throw interactive_error("Element is not associated with a document.");
-        var suggested_path = get_home_directory();
-        suggested_path.appendRelativePath("read_later");
-
-        var panel;
-        panel = create_info_panel(I.window, "download-panel",
-                                  [["downloading",
-                                    element_get_operation_label(element, "Saving complete"),
-                                    load_spec_uri_string(spec)],
-                                   ["mime-type", "Mime type:", load_spec_mime_type(spec)]]);
-
-        try {
-            var file = yield I.minibuffer.read_file_check_overwrite(
-                $prompt = "Save page complete:",
-                $history = "save",
-                $initial_value = suggested_path.path + "/" + suggest_file_name(spec));
-            // FIXME: use proper read function
-            var dir = yield I.minibuffer.read_file(
-                $prompt = "Data Directory:",
-                $history = "save",
-                $initial_value = file.path + ".support");
-        } finally {
-            panel.destroy();
-        }
-
-        save_document_complete(doc, file, dir, $buffer = I.buffer);
-    },
-    $browser_object = browser_object_frames);
-define_key(default_global_keymap, "A-r", "save-for-later");
-
-// { background: #0C141E !important; color: #A0AFA8 !important; }'+
-//         ':link, :link * { color: #4986dd !important; }'+
-//         ':visited, :visited * { color: #d75047 !important; }';
-
-session_auto_save_auto_load = "prompt";
-
-interactive("viewmarks",
-    "Open ViewMarks window.",
-    function (I) {
-        make_chrome_window('chrome://viewmarks/content/viewmark.xul');
-    });
-
-// Tab settings
-require("favicon.js"); // they forgot this in new-tabs.js
-require("new-tabs.js");
-tab_bar_show_icon = true;
-tab_bar_show_index = true;
-
-// Textmate as external editor
-editor_shell_command = "emacsclient";
-
-add_hook("before_quit_hook",
-           function () {
-               var w = get_recent_conkeror_window();
-               var result = (w == null) ||
-                   "y" == (yield w.minibuffer.read_single_character_option(
-                       $prompt = "Quit Conkeror? (y/n)",
-                       $options = ["y", "n"]));
-               yield co_return(result);
-           });
-
-can_kill_last_buffer = false;
-
-// Personal theme
-let (p = get_home_directory()) {
-    p.append(".conkerorrc");
-    p.append("themes");
-    theme_load_paths.unshift(p);
-}
-theme_unload("default");
-theme_load("ubolonton");
-interactive("ubolonton-theme", "Load my personal theme",
-            function(I) {
-                theme_unload("ubolonton");
-                theme_load("ubolonton");
-            });
-
-// Remember credentials
-user_pref("signon.prefillForms", true);
-user_pref("signon.autofillForms", true);
-user_pref("signon.rememberSignons", true);
-
-// Custom key-bindings
+// FIXME: define multiple keys in one pass
+// OS X conventions
 define_key(default_global_keymap, "A-{", "buffer-previous");
 define_key(default_global_keymap, "A-}", "buffer-next");
+define_key(default_global_keymap, "A-=", "zoom-in-full");
 define_key(default_global_keymap, "A--", "zoom-out-full");
 define_key(default_global_keymap, "A-t", "find-url-new-buffer");
-define_key(default_global_keymap, "A-s", "save-page-complete");
+define_key(default_global_keymap, "A-`", null, $fallthrough);
+define_key(default_global_keymap, "A-tab", null, $fallthrough);
+// Uhm, so many keys to waste 
 define_key(default_global_keymap, "A-i", "inspect-chrome");
 define_key(default_global_keymap, "A-u", "ubolonton-theme");
-define_key(default_global_keymap, "A-`", null, $fallthrough);
-define_key(default_global_keymap, "C-x B", "switch-to-recent-buffer");
-define_key(default_global_keymap, "C-tab", "switch-to-recent-buffer");
-define_key(default_global_keymap, "A-return", "switch-to-recent-buffer");
 define_key(default_global_keymap, "A-h", "switch-to-recent-buffer");
-define_key(default_global_keymap, "A-=", "zoom-in-full");
+define_key(default_global_keymap, "A-g", "caret-mode");
+define_key(default_global_keymap, "f6", "colors-toggle");
+define_key(default_global_keymap, "f7", "darken-page-mode");
+define_key(default_global_keymap, "A-n", "switch-to-last-buffer");
+define_key(default_global_keymap, "C-G", "stop-loading-all");
+define_key(default_global_keymap, "0", "switch-to-last-tab");
 
-define_key(default_global_keymap, "0",
-           function (I)
-           {
-               switch_to_buffer(I.window,
-                                I.window.buffers.get_buffer(I.window.buffers.count - 1));
-           });
-
-define_key(default_global_keymap, "C-G",
-           function (I)
-           {
-               for (var i = 0; i < I.window.buffers.count; i++)
-               {
-                   stop_loading(I.window.buffers.get_buffer(i));
-               }
-           });
-
-define_key(default_global_keymap, "A-n",
-           function (I)
-           {
-               switch_to_buffer(I.window,
-                                I.window.buffers.buffer_list[1])
-           });
-
+define_key(content_buffer_normal_keymap, "A-s", "save-page-complete");
 define_key(content_buffer_normal_keymap, "M-f", "follow-new-buffer-background");
 define_key(content_buffer_normal_keymap, "A-[", "back");
 define_key(content_buffer_normal_keymap, "A-]", "forward");
+define_key(content_buffer_normal_keymap, "h", "readability_arc90");
+define_key(content_buffer_normal_keymap, "A-d", "toggle-darkened-page");
+define_key(content_buffer_normal_keymap, "A-r", "save-for-later");
 
 // Dvorak
 define_key(content_buffer_normal_keymap, "M-c", "cmd_scrollLineUp");
@@ -232,17 +137,51 @@ define_key(hint_keymap, "C-m", "hints-exit");
 
 define_key(gmail_keymap, "v", null, $fallthrough);
 
-// caret-mode by default
-user_pref('accessibility.browsewithcaret', false);
+// Misc
 
-// Some webjumps
-define_webjump("bookmark",
-               function(term) {return term;},
-               $completer = history_completer($use_history = false,
-                                              $use_bookmarks = true,
-                                              $match_required = true),
-               $description = "Visit a conkeror bookmark");
-define_webjump("duckduckgo", "http://duckduckgo.com/?q=%s");
+// Some useful modules
+require("mode-line.js");
+require("daemon.js");
+require("session.js");
+require("dom-inspector.js");
+require("page-modes/gmail.js");
+
+// Link sent from outside gets opened in new tab
+url_remoting_fn = load_url_in_new_buffer;
+
+// Visual aid
+read_buffer_show_icons = true;
+
+// Ask to restore session
+// TODO: multiple session based on work/reading distinction
+session_auto_save_auto_load = "prompt";
+
+// Tab settings
+require("favicon.js"); // they forgot this in new-tabs.js
+require("new-tabs.js");
+tab_bar_show_icon = true;
+tab_bar_show_index = true;
+
+// Emacs-everywhere illusion
+editor_shell_command = "emacsclient";
+
+// Quit confirmation
+add_hook("before_quit_hook",
+           function () {
+               var w = get_recent_conkeror_window();
+               var result = (w == null) ||
+                   "y" == (yield w.minibuffer.read_single_character_option(
+                       $prompt = "Quit Conkeror? (y/n)",
+                       $options = ["y", "n"]));
+               yield co_return(result);
+           });
+can_kill_last_buffer = false;
+
+// Remember credentials
+// TODO: M-x password-manager still needed once per session
+user_pref("signon.prefillForms", true);
+user_pref("signon.autofillForms", true);
+user_pref("signon.rememberSignons", true);
 
 // Use history not bookmark?
 url_completion_use_history = true;
@@ -257,6 +196,61 @@ download_buffer_automatic_open_target = OPEN_NEW_BUFFER_BACKGROUND;
 require("clicks-in-new-buffer.js");
 clicks_in_new_buffer_target = OPEN_NEW_BUFFER_BACKGROUND;
 
+// mode-line doodads
+add_hook("mode_line_hook", mode_line_adder(loading_count_widget), true);
+add_hook("mode_line_hook", mode_line_adder(buffer_count_widget), true);
+
+// Other personal stuffs
+
+let (p = get_home_directory()) {
+    p.append(".conkerorrc");
+    p.append("themes");
+    theme_load_paths.unshift(p);
+}
+theme_unload("default");
+theme_load("ubolonton");
+interactive("ubolonton-theme", "Load my personal theme",
+            function(I) {
+                theme_unload("ubolonton");
+                theme_load("ubolonton");
+            });
+
+// TODO: not that useful
+interactive("viewmarks",
+    "Open ViewMarks window.",
+    function (I) {
+        make_chrome_window('chrome://viewmarks/content/viewmark.xul');
+    });
+
+interactive("switch-to-last-tab", "Switch to the last tab",
+            function (I) {
+                switch_to_buffer(I.window,
+                                 I.window.buffers.get_buffer(I.window.buffers.count - 1));
+            });
+interactive("switch-to-last-buffer", "Switch to the last visited buffer",
+            function (I) {
+                switch_to_buffer(I.window,
+                                 I.window.buffers.buffer_list[1])
+            });
+
+interactive("stop-loading-all", "Stop loading all document",
+            function (I) {
+                for (var i = 0; i < I.window.buffers.count; i++)
+                {
+                    stop_loading(I.window.buffers.get_buffer(i));
+                }
+            });
+
+// Some webjumps
+// TODO: key for this not webjump
+define_webjump("bm",
+               function(term) {return term;},
+               $completer = history_completer($use_history = false,
+                                              $use_bookmarks = true,
+                                              $match_required = true),
+               $description = "Visit a conkeror bookmark");
+define_webjump("duckduckgo", "http://duckduckgo.com/?q=%s");
+
 // Use numeric key to switch buffers
 function define_switch_buffer_key (key, buf_num) {
     define_key(default_global_keymap, key,
@@ -270,7 +264,8 @@ for (let i = 0; i < 9; ++i) {
 }
 
 
-// Replacement of built-in C-x b
+// Replacement of built-in buffer switcher
+
 minibuffer.prototype.read_recent_buffer = function () {
     var window = this.window;
     var buffer = this.window.buffers.current;
@@ -314,6 +309,7 @@ interactive("switch-to-recent-buffer",
             });
 
 // Readability tool
+
 interactive("readability_arc90",
             "Readability is a simple tool that makes reading on the web more enjoyable by removing the clutter around what you are reading",
             function readability_arc90(I) {
@@ -359,25 +355,15 @@ interactive("readability_arc90",
                 _readability_print_css.type = 'text/css'
                 document.getElementsByTagName('head')[0].appendChild(_readability_print_css)
             });
-define_key(content_buffer_normal_keymap, "j", "readability_arc90");
 
-// What's this?
-function repl_context() {
-    let ctx = {};
-    ctx.__proto__ = conkeror;
-    ctx.conkeror = conkeror;
-    ctx.window = conkeror.get_recent_conkeror_window();
-    ctx.buffer = ctx.window.buffers.current;
-    ctx.document = ctx.buffer.document;
-    return ctx;
-}
 
 // The rest is experimental ----------------------------------------------------
+// FIXME: fix those hacks
 
 // Darken page
 // TODO: use a boolean to keep track of dark/light state
 // TODO: add hook for new buffers
-function foo (I) {
+function darken_page_mode (I) {
     var styles='* { background: #0C141E !important; color: #A0AFA8 !important; }'+
         ':link, :link * { color: #4986dd !important; }'+
         ':visited, :visited * { color: #d75047 !important; }';
@@ -409,8 +395,7 @@ function foo (I) {
         }
     }
 }
-interactive("foo", "Toggle darkening all pages", foo);
-define_key(content_buffer_normal_keymap, "f7", "foo");
+interactive("darken-page-mode", "Toggle darkening all pages", darken_page_mode);
 function toggle_darkened_page (I) {
     var styles='* { background: #0C141E !important; color: #A0AFA8 !important; }'+
         ':link, :link * { color: #4986dd !important; }'+
@@ -431,7 +416,6 @@ function toggle_darkened_page (I) {
 }
 interactive("toggle-darkened-page", "Toggle darkening the page in an attempt to save your eyes.",
             toggle_darkened_page);
-define_key(content_buffer_normal_keymap, "A-d", "toggle-darkened-page");
 
 // FIXME: the page is darkened only after the DOM is finished
 // loading. This causes flickering, which is sub-optimal
@@ -496,5 +480,55 @@ interactive("colors-toggle", "toggle between document and forced colors",
                   session_pref(p, true);
               }
             });
-define_key(content_buffer_normal_keymap, "f6", "colors-toggle");
 
+define_variable("firebug_url",
+    "/home/ubolonton/Programming/Tools/firebug-lite/build/firebug-lite.js");
+
+function firebug (I) {
+    var doc = I.buffer.document;
+    var script = doc.createElement('script');
+    script.setAttribute('type', 'text/javascript');
+    script.setAttribute('src', firebug_url);
+    script.setAttribute('onload', 'firebug.init();');
+    doc.body.appendChild(script);
+};
+
+interactive("firebug", "open firebug lite", firebug);
+
+interactive("save-for-later",
+    "Save a page and all supporting documents, including images, css, "+
+    "and child frame documents to a folder for later reading.",
+    function (I) {
+        check_buffer(I.buffer, content_buffer);
+        var element = yield read_browser_object(I);
+        var spec = load_spec(element);
+        var doc;
+        if (!(doc = load_spec_document(spec)))
+            throw interactive_error("Element is not associated with a document.");
+        var suggested_path = get_home_directory();
+        suggested_path.appendRelativePath("read_later");
+
+        var panel;
+        panel = create_info_panel(I.window, "download-panel",
+                                  [["downloading",
+                                    element_get_operation_label(element, "Saving complete"),
+                                    load_spec_uri_string(spec)],
+                                   ["mime-type", "Mime type:", load_spec_mime_type(spec)]]);
+
+        try {
+            var file = yield I.minibuffer.read_file_check_overwrite(
+                $prompt = "Save page complete:",
+                $history = "save",
+                $initial_value = suggested_path.path + "/" + suggest_file_name(spec));
+            // FIXME: use proper read function
+            var dir = yield I.minibuffer.read_file(
+                $prompt = "Data Directory:",
+                $history = "save",
+                $initial_value = file.path + ".support");
+        } finally {
+            panel.destroy();
+        }
+
+        save_document_complete(doc, file, dir, $buffer = I.buffer);
+    },
+    $browser_object = browser_object_frames);
