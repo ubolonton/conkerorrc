@@ -17,7 +17,7 @@ function repl_context() {
     ctx.document = ctx.buffer.document;
     return ctx;
 }
-
+
 // Custom key bindings
 
 // TODO: How to determine system type?
@@ -90,7 +90,7 @@ define_key(content_buffer_normal_keymap, "A-s", "save-page-complete");
 define_key(content_buffer_normal_keymap, "M-f", "follow-new-buffer-background");
 define_key(content_buffer_normal_keymap, "A-[", "back");
 define_key(content_buffer_normal_keymap, "A-]", "forward");
-define_key(content_buffer_normal_keymap, "h", "readability_arc90");
+define_key(content_buffer_normal_keymap, "R", "readability_arc90");
 define_key(content_buffer_normal_keymap, "A-d", "toggle-darkened-page");
 define_key(content_buffer_normal_keymap, "A-r", "save-for-later");
 
@@ -135,8 +135,9 @@ define_key(minibuffer_keymap, "C-m", "exit-minibuffer");
 
 define_key(hint_keymap, "C-m", "hints-exit");
 
+require("page-modes/gmail.js");
 define_key(gmail_keymap, "v", null, $fallthrough);
-
+
 // Misc
 
 // Some useful modules
@@ -144,7 +145,6 @@ require("mode-line.js");
 require("daemon.js");
 require("session.js");
 require("dom-inspector.js");
-require("page-modes/gmail.js");
 
 // Link sent from outside gets opened in new tab
 url_remoting_fn = load_url_in_new_buffer;
@@ -199,7 +199,7 @@ clicks_in_new_buffer_target = OPEN_NEW_BUFFER_BACKGROUND;
 // mode-line doodads
 add_hook("mode_line_hook", mode_line_adder(loading_count_widget), true);
 add_hook("mode_line_hook", mode_line_adder(buffer_count_widget), true);
-
+
 // Other personal stuffs
 
 let (p = get_home_directory()) {
@@ -262,8 +262,7 @@ function define_switch_buffer_key (key, buf_num) {
 for (let i = 0; i < 9; ++i) {
     define_switch_buffer_key(String((i+1)%10), i);
 }
-
-
+
 // Replacement of built-in buffer switcher
 
 minibuffer.prototype.read_recent_buffer = function () {
@@ -307,7 +306,7 @@ interactive("switch-to-recent-buffer",
                                     I.window.buffers.buffer_list[1] :
                                     I.buffer))));
             });
-
+
 // Readability tool
 
 interactive("readability_arc90",
@@ -355,8 +354,7 @@ interactive("readability_arc90",
                 _readability_print_css.type = 'text/css'
                 document.getElementsByTagName('head')[0].appendChild(_readability_print_css)
             });
-
-
+
 // The rest is experimental ----------------------------------------------------
 // FIXME: fix those hacks
 
