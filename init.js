@@ -19,6 +19,8 @@ function repl_context() {
 }
 
 // Custom key bindings
+// TODO: Conkeror chains translation, unlike Emacs, so swapping or
+// aggressive rearrangement is not possible.
 
 // TODO: How to determine system type?
 // OSX:    Command    => A    Option   => M
@@ -182,6 +184,8 @@ can_kill_last_buffer = false;
 user_pref("signon.prefillForms", true);
 user_pref("signon.autofillForms", true);
 user_pref("signon.rememberSignons", true);
+Components.classes["@mozilla.org/login-manager;1"]
+    .getService(Components.interfaces.nsILoginManager);
 
 // Use history not bookmark?
 url_completion_use_history = true;
