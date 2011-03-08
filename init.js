@@ -207,6 +207,18 @@ add_hook("mode_line_hook", mode_line_adder(buffer_count_widget), true);
 
 // Other personal stuffs
 
+// From technomancy
+interactive("toggle-stylesheets",
+            "Toggle whether conkeror uses style sheets (CSS) for the " +
+            "current buffer. It is sometimes useful to turn off style " +
+            "sheets when the web site makes obnoxious choices.",
+            function(I) {
+              var s = I.buffer.document.styleSheets;
+              for (var i = 0; i < s.length; i++)
+                s[i].disabled = !s[i].disabled;
+            });
+require("page-modes/google-search-results.js");
+
 let (p = get_home_directory()) {
     p.append(".conkerorrc");
     p.append("themes");
@@ -280,7 +292,9 @@ minibuffer.prototype.read_recent_buffer = function () {
     buffers.push(buffers.shift());
     var completer = all_word_completer(
         $completions = buffers,
-        $get_string = function (x) x.title,
+        $get_string = function (x) {
+            return ' ' + x.title;
+        },
         $get_description = function (x) x.description,
         $get_icon = (read_buffer_show_icons ?
                      function (x) x.icon : null)
