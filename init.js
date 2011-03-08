@@ -84,6 +84,7 @@ define_key(default_global_keymap, "A-h", "switch-to-recent-buffer");
 define_key(default_global_keymap, "A-g", "caret-mode");
 define_key(default_global_keymap, "f6", "colors-toggle");
 define_key(default_global_keymap, "f7", "darken-page-mode");
+define_key(default_global_keymap, "f8", "toggle-gmail-fixed-width-messages");
 define_key(default_global_keymap, "A-n", "switch-to-last-buffer");
 define_key(default_global_keymap, "C-G", "stop-loading-all");
 define_key(default_global_keymap, "0", "switch-to-last-tab");
@@ -458,6 +459,32 @@ add_hook("buffer_loaded_hook", set_darkness, false, true);
 
 // "http://spaceflight1.nasa.gov/realdata/sightings/cities/view.cgi)"+
 //                 "{img { display: none; }}"));
+
+// /* Fixed-width textareas everywhere. */
+// textarea {
+//     font-family: MonoSpace !important;
+//     font-size: 14px !important;
+// }
+
+// Gmail messages
+let(st_on = false) {
+    function toggle_custom_stylesheet(str) {
+        if (!st_on) {
+            register_user_stylesheet(str);
+        } else {
+            unregister_user_stylesheet(str);
+        };
+        st_on = !st_on;
+    };
+};
+
+interactive("toggle-gmail-fixed-width-messages", "", 
+            function(I) {
+                toggle_custom_stylesheet("data:text/css,"
+                                         + escape("@-moz-document domain(mail.google.com)" + 
+                                                  "{ div.ii, input { " +
+                                                  "font-family: MonoSpace !important; font-size: 12px !important; }}"));
+            });
 
 interactive("colors-toggle", "toggle between document and forced colors",
             function (I) {
