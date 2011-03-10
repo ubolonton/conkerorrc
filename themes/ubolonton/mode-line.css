@@ -2,10 +2,11 @@
 @namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");
 
 .mode-line {
-  padding: 2px;
+  padding-top: 1px;
   -moz-appearance: none;
   font-family: DejaVu Sans;
   font-size: 12px;
-  background-color: #CCCCCC;
+  font-weight: bold;
+  background-color: #99B1F3;
   color: black;
 }

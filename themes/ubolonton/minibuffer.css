@@ -2,18 +2,21 @@
 @namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");
 
 #minibuffer {
-  border-top: 1px solid -moz-Dialog;
+  border-top: 0px solid #99B1F3;
   font-family: DejaVu Sans Mono;
   font-size: 14px;
+  background-color: #0C141E !important;
+  color: #A0AFA8 !important;
 }
 
 #minibuffer-prompt {
   font-weight: bold;
-  color: blue;
+  color: cyan;
 }
 
 #minibuffer-input {
-  background-color: -moz-field !important;
+  color: #A0AFA8 !important;
+  background-color: #0C141E !important;
 }
 
 
@@ -40,8 +43,8 @@
 /* minibuffer highlighting */
 
 #minibuffer.highlight {
-  background-color: Highlight;
-  color: HighlightText;
+  background-color: #2B343B !important;
+  color: #A0AFA8 !important;
 }
 
 #minibuffer.highlight[minibuffermode="message"] .mode-text-widget {
@@ -51,7 +54,11 @@
 
 /* Completions display */
 
-tree.completions { margin: 0px !important; }
+tree.completions { 
+  margin: 0px !important; 
+  background-color: #0C141E !important;
+  color: #A0AFA8 !important;
+}
 
 tree.completions treechildren { border: none !important; }
 
@@ -59,17 +66,18 @@ tree.completions treecol { -moz-binding: none !important; }
 tree.completions {
   -moz-appearance: none !important;
   border: 0px none !important;
-  border-top: 1px solid -moz-Dialog !important;
-  -moz-border-top-colors: -moz-initial !important;
+  border-top: 0px solid -moz-Dialog !important;
+  /* -moz-border-top-colors: -moz-initial !important; */
 }
 
 tree.completions treechildren::-moz-tree-row {
   border: none;
+  background-color: #0C141E !important;
+  color: #A0AFA8 !important;
 }
 
 tree.completions treechildren::-moz-tree-row(current) {
-  background-color: Highlight !important;
-  color: HighlightText !important;
+  background-color: #2B343B !important;
 }
 
 tree.completions treechildren::-moz-tree-cell-text(completion-description) {
@@ -77,6 +85,6 @@ tree.completions treechildren::-moz-tree-cell-text(completion-description) {
 }
 
 tree.completions treechildren::-moz-tree-cell-text(current) {
-  color: HighlightText !important;
+  color: cyan !important;
 }
 
