@@ -45,6 +45,7 @@
 #minibuffer.highlight {
   background-color: #2B343B !important;
   color: #A0AFA8 !important;
+  font-weight: bold !important;
 }
 
 #minibuffer.highlight[minibuffermode="message"] .mode-text-widget {

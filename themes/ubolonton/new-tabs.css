@@ -18,7 +18,7 @@
   -moz-border-radius-topleft: 10px 12px;
   -moz-border-radius-topright: 10px 12px;
   background: -moz-linear-gradient(top, rgba(170,170,170,255), rgba(240,240,240,255));
-t  color: #222222;
+  color: #222222;
   height: 23px;
 }
 
@@ -35,7 +35,8 @@ t  color: #222222;
 .tab2-label {
   margin-left: 4px;
   margin-top: 4px;
-  font-family: DejaVu Sans Condensed;
+  padding-top: 2px;
+  font-family: DejaVu Sans Condensed, Helvetica;
   font-size: 14px;
   font-weight: normal;
 }
@@ -45,7 +46,6 @@ t  color: #222222;
   text-align: center;
   color: blue;
   max-width: 30px;
-  margin: 0px 0px 3px 0px;
 }
 
 .tab2-icon  {
@@ -53,5 +53,5 @@ t  color: #222222;
   height: 16px;
   /* -moz-margin-start: 4px; */
   /* -moz-margin-end: 3px; */
-  margin: 3px 0px 3px 10px;
+  margin: 3px 0px 3px 2px;
 }
