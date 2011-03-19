@@ -549,9 +549,9 @@ interactive("colors-toggle", "toggle between document and forced colors",
                     session_pref("browser.anchor_color", "#4986dd");
                     session_pref("browser.display.background_color", "#0C141E");
                     session_pref("browser.display.foreground_color", "#A0AFA8");
-                    session_pref("browser.display.focus_background_color", "green");
-                    session_pref("browser.display.focus_text_color", "red");
-                    session_pref("browser.visited_color", "#d75047");
+                    session_pref("browser.display.focus_background_color", "green"); // ?
+                    session_pref("browser.display.focus_text_color", "red"); // ?
+                    session_pref("browser.visited_color", "#805DBB");
                     session_pref(p, false);
                 } else {
                     session_pref("browser.active_color", "#EE0000");
