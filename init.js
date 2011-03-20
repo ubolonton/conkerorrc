@@ -96,6 +96,7 @@ define_key(content_buffer_normal_keymap, "A-]", "forward");
 define_key(content_buffer_normal_keymap, "R", "readability_arc90");
 define_key(content_buffer_normal_keymap, "A-d", "toggle-darkened-page");
 define_key(content_buffer_normal_keymap, "A-r", "save-for-later");
+define_key(content_buffer_normal_keymap, "C-c C-c", "submit-form");
 
 // Dvorak
 define_key(content_buffer_normal_keymap, "M-c", "cmd_scrollLineUp");
@@ -350,7 +351,8 @@ minibuffer.prototype.read_recent_buffer = function () {
         $auto_complete = "buffer",
         $auto_complete_initial = true,
         $auto_complete_delay = 0,
-        $default_completion = arguments.$default);
+        $default_completion = arguments.$default
+    );
     yield co_return(result);
 };
 
