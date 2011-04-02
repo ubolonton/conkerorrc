@@ -36,6 +36,7 @@ require("global-overlay-keymap");
 define_key_alias("A-c", "M-w");
 define_key_alias("A-x", "C-w");
 define_key_alias("A-v", "C-y");
+define_key_alias("A-z", "C-_");
 
 // Because right pinky is overworked
 define_key_alias("C-m", "return");
@@ -67,6 +68,8 @@ define_key_alias("M-D", "C-e");
 // C- M- is much worse than M- M-
 define_key_alias("M-space", "C-space");
 
+// define_key_alias("C-t", "C-x");
+
 // TODO: remove definition for aliased keys
 // FIXME: define multiple keys in one pass
 // OS X conventions
@@ -88,6 +91,8 @@ define_key(default_global_keymap, "f8", "toggle-gmail-fixed-width-messages");
 define_key(default_global_keymap, "A-n", "switch-to-last-buffer");
 define_key(default_global_keymap, "C-G", "stop-loading-all");
 define_key(default_global_keymap, "0", "switch-to-last-tab");
+define_key(default_global_keymap, "C-M-h", "buffer-previous");
+define_key(default_global_keymap, "C-M-n", "buffer-next");
 
 define_key(content_buffer_normal_keymap, "A-s", "save-page-complete");
 define_key(content_buffer_normal_keymap, "M-f", "follow-new-buffer-background");
@@ -97,6 +102,8 @@ define_key(content_buffer_normal_keymap, "R", "readability_arc90");
 define_key(content_buffer_normal_keymap, "A-d", "toggle-darkened-page");
 define_key(content_buffer_normal_keymap, "A-r", "save-for-later");
 define_key(content_buffer_normal_keymap, "C-c C-c", "submit-form");
+define_key(content_buffer_normal_keymap, "M-A-h", "back");
+define_key(content_buffer_normal_keymap, "M-A-n", "forward");
 
 // Dvorak
 define_key(content_buffer_normal_keymap, "M-c", "cmd_scrollLineUp");
@@ -299,6 +306,7 @@ interactive("stop-loading-all", "Stop loading all document",
                     stop_loading(I.window.buffers.get_buffer(i));
                 }
             });
+
 
 // Some webjumps
 // TODO: key for this not webjump
