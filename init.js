@@ -7,6 +7,8 @@ let (mozrepl_init = get_home_directory()) {
     session_pref('extensions.mozrepl.initUrl', make_uri(mozrepl_init).spec);
 }
 
+user_pref('browser.history_expire_days', 99999);
+
 // What's this?
 function repl_context() {
     let ctx = {};
@@ -81,6 +83,7 @@ define_key(default_global_keymap, "A-t", "find-url-new-buffer");
 define_key(default_global_keymap, "A-`", null, $fallthrough);
 define_key(default_global_keymap, "A-tab", null, $fallthrough);
 // Uhm, so many keys to waste
+define_key(default_global_keymap, "A-k", "kill-current-buffer");
 define_key(default_global_keymap, "A-i", "inspect-chrome");
 define_key(default_global_keymap, "A-u", "ubolonton-theme");
 define_key(default_global_keymap, "A-h", "switch-to-recent-buffer");
