@@ -40,7 +40,8 @@ define_key_alias("A-x", "C-w");
 define_key_alias("A-v", "C-y");
 define_key_alias("A-z", "C-_");
 
-// Because right pinky is overworked
+// Because right pinky is overworked. Really? I would think left pinky
+// is often stressed more.
 define_key_alias("C-m", "return");
 
 // Dvorak movement
@@ -96,6 +97,8 @@ define_key(default_global_keymap, "C-G", "stop-loading-all");
 define_key(default_global_keymap, "0", "switch-to-last-tab");
 define_key(default_global_keymap, "C-M-h", "buffer-previous");
 define_key(default_global_keymap, "C-M-n", "buffer-next");
+define_key(default_global_keymap, "h", "find-url-from-history-new-buffer");
+define_key(default_global_keymap, "H", "find-url-from-history");
 
 define_key(content_buffer_normal_keymap, "A-s", "save-page-complete");
 define_key(content_buffer_normal_keymap, "M-f", "follow-new-buffer-background");
@@ -151,6 +154,10 @@ define_key(hint_keymap, "C-m", "hints-exit");
 
 require("page-modes/gmail.js");
 define_key(gmail_keymap, "v", null, $fallthrough);
+define_key(gmail_keymap, "space", null, $fallthrough);
+define_key(gmail_keymap, "S-space", null, $fallthrough);
+define_key(gmail_keymap, "page_up", null, $fallthrough);
+define_key(gmail_keymap, "page_down", null, $fallthrough);
 
 // Misc
 
@@ -630,3 +637,144 @@ interactive("save-for-later",
             },
             $browser_object = browser_object_frames);
 
+
+// http://conkeror.org/History
+define_browser_object_class(
+    "history-url", null, 
+    function (I, prompt) {
+        check_buffer (I.buffer, content_buffer);
+        var result = yield I.buffer.window.minibuffer.read_url(
+            $prompt = prompt,  $use_webjumps = false, $use_history = true, $use_bookmarks = false);
+        yield co_return (result);
+    });
+
+interactive("find-url-from-history",
+            "Find a page from history in the current buffer",
+            "find-url",
+            $browser_object = browser_object_history_url);
+
+interactive("find-url-from-history-new-buffer",
+            "Find a page from history in the current buffer",
+            "find-url-new-buffer",
+            $browser_object = browser_object_history_url);
+
+interactive("search-clipboard-contents", "Search in Google the content of the X clipboard (the selected text)",
+              "find-url-in-new-buffer",
+              $browser_object=
+              function(I) {
+                  return "g "+ read_from_x_primary_selection();
+              }
+);
+interactive("search-clipboard-contents-doublequoted", "Search in Google the content of the X clipboard (the selected text) as a fixed string",
+              "find-url-in-new-buffer",
+              $browser_object=
+              function(I) {
+                    return "g \""+ read_from_x_primary_selection()+"\"";
+                    }
+
+);
+
+
+// [{"id":2,
+//   "type":"input",
+//   "question":"What's your name?"},
+//  {"id":0,
+//   "type":"multiple",
+//   "question":"Choose one:",
+//   "options":["One","Three","Six"]},
+//  {"id":1,
+//   "type":"image",
+//   "question":"Show me"}]
+
+// [{"id":0,
+//   "type":"multiple",
+//   "question":"Choose among the options",
+//   "options":["Up","Down","Left","Right"]},
+//  {"id":1,
+//   "type":"boolean",
+//   "question":"Is it true?"},
+//  {"id":2,
+//   "type":"input",
+//   "question":"How often is it?"}]
+
+//set the proxy server for this session only
+proxy_server_default = "proxy.rmit.edu.vn";
+proxy_port_default = 8080;
+
+function set_proxy_session (window, server, port) {
+    if (server == "N") {
+       session_pref('network.proxy.type', 0); //direct connection
+       window.minibuffer.message("Direction connection to the internet enabled for this session");
+    } else {
+      if (server == "") server = proxy_server_default;
+      if (port == "") port = proxy_port_default;
+
+      session_pref('network.proxy.ftp',    server);
+      session_pref('network.proxy.gopher', server);
+      session_pref('network.proxy.http',   server);
+      session_pref('network.proxy.socks',  server);
+      session_pref('network.proxy.ssl',    server);
+
+      session_pref('network.proxy.ftp_port',    port);
+      session_pref('network.proxy.gopher_port', port);
+      session_pref('network.proxy.http_port',   port);
+      session_pref('network.proxy.socks_port',  port);
+      session_pref('network.proxy.ssl_port',    port);
+
+      session_pref('network.proxy.share_proxy_settings', 'true');
+      session_pref('network.proxy.type', 1);
+
+      window.minibuffer.message("All protocols using "+server+":"+port+" for this session");
+    }
+}
+
+interactive("set-proxy-session",
+    "set the proxy server for all protocols for this session only",
+    function (I) {
+        set_proxy_session(
+            I.window,
+            (yield I.minibuffer.read($prompt = "server ["+proxy_server_default+"] or N: ")),
+            (yield I.minibuffer.read($prompt = "port ["+proxy_port_default+"]: ")));
+    });
+
+var grid = jQuery("#list1").jqGrid({
+  url: '/admin/auctions/list_json',
+  postData: {},
+  datatype: 'json',
+  mtype: 'GET',
+  colNames:['Id', 'Code', 'Product', 'Active', 'Expires', 'Actions'],
+  colModel :[
+    {'width': 50, 'align': 'center', 'name': 'id', 'id': 'id'},
+    {'width': 200, 'name': 'code', 'id': 'code'},
+    {'name': 'product', 'id': 'product'},
+    {'name': 'active', 'id': 'active'},
+    {'name': 'expires', 'id': 'expires'},
+    {'name': 'Actions', 'id': '_actions',
+     'align': 'center', 'width': 50,
+     'formatter':delLinkFormatter},
+  ],
+  pager: '#pager1',
+  height: 500,
+  dummy: false
+});
+
+var grid = jQuery("#list1").jqGrid({
+url: '/admin/auctions/list_json',
+postData: {},
+datatype: 'json',
+mtype: 'GET',
+colNames:['Id', 'Code', 'Product', 'Active', 'Expires', 'Actions'],
+colModel :[
+{'width': 50, 'align': 'center', 'name': 'id', 'id': 'id'},{'width': 200, 'name': 'code', 'id': 'code'},{'name': 'product', 'id': 'product'},{'name': 'active', 'id': 'active'},{'name': 'expires', 'id': 'expires'},
+{'name': 'Actions', 'id': '_actions',
+'align': 'center', 'width': 50,
+'formatter':delLinkFormatter},
+],
+pager: '#pager1',
+viewrecords: true,
+rowNum: 10,
+rowList: [10,20,30],
+sortname: 'id',
+sortorder: 'asc',
+dummy: false
+}); 
