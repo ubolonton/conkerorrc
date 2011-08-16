@@ -553,10 +553,10 @@ let(st_on = false) {
     };
 };
 
-interactive("toggle-gmail-fixed-width-messages", "", 
+interactive("toggle-gmail-fixed-width-messages", "",
             function(I) {
                 toggle_custom_stylesheet("data:text/css,"
-                                         + escape("@-moz-document domain(mail.google.com)" + 
+                                         + escape("@-moz-document domain(mail.google.com)" +
                                                   "{ div.ii, input { " +
                                                   "font-family: MonoSpace !important; font-size: 12px !important; }}"));
             });
@@ -640,7 +640,7 @@ interactive("save-for-later",
 
 // http://conkeror.org/History
 define_browser_object_class(
-    "history-url", null, 
+    "history-url", null,
     function (I, prompt) {
         check_buffer (I.buffer, content_buffer);
         var result = yield I.buffer.window.minibuffer.read_url(
@@ -658,44 +658,23 @@ interactive("find-url-from-history-new-buffer",
             "find-url-new-buffer",
             $browser_object = browser_object_history_url);
 
-interactive("search-clipboard-contents", "Search in Google the content of the X clipboard (the selected text)",
-              "find-url-in-new-buffer",
+interactive("search-clipboard-contents", "Search in Google the content of the selected text (or clipboard)",
+              alternates(follow_new_buffer, follow_new_window),
+              // "find-url-in-new-buffer",
               $browser_object=
               function(I) {
                   return "g "+ read_from_x_primary_selection();
               }
 );
-interactive("search-clipboard-contents-doublequoted", "Search in Google the content of the X clipboard (the selected text) as a fixed string",
-              "find-url-in-new-buffer",
+interactive("search-clipboard-contents-doublequoted", "Search in Google the content of the selected text (or clipboard), as a fixed string",
+              alternates(follow_new_buffer, follow_new_window),
+              // "find-url-in-new-buffer",
               $browser_object=
               function(I) {
                     return "g \""+ read_from_x_primary_selection()+"\"";
                     }
 
 );
-
-
-// [{"id":2,
-//   "type":"input",
-//   "question":"What's your name?"},
-//  {"id":0,
-//   "type":"multiple",
-//   "question":"Choose one:",
-//   "options":["One","Three","Six"]},
-//  {"id":1,
-//   "type":"image",
-//   "question":"Show me"}]
-
-// [{"id":0,
-//   "type":"multiple",
-//   "question":"Choose among the options",
-//   "options":["Up","Down","Left","Right"]},
-//  {"id":1,
-//   "type":"boolean",
-//   "question":"Is it true?"},
-//  {"id":2,
-//   "type":"input",
-//   "question":"How often is it?"}]
 
 //set the proxy server for this session only
 proxy_server_default = "proxy.rmit.edu.vn";
@@ -737,44 +716,3 @@ interactive("set-proxy-session",
             (yield I.minibuffer.read($prompt = "port ["+proxy_port_default+"]: ")));
     });
 
-var grid = jQuery("#list1").jqGrid({
-  url: '/admin/auctions/list_json',
-  postData: {},
-  datatype: 'json',
-  mtype: 'GET',
-  colNames:['Id', 'Code', 'Product', 'Active', 'Expires', 'Actions'],
-  colModel :[
-    {'width': 50, 'align': 'center', 'name': 'id', 'id': 'id'},
-    {'width': 200, 'name': 'code', 'id': 'code'},
-    {'name': 'product', 'id': 'product'},
-    {'name': 'active', 'id': 'active'},
-    {'name': 'expires', 'id': 'expires'},
-    {'name': 'Actions', 'id': '_actions',
-     'align': 'center', 'width': 50,
-     'formatter':delLinkFormatter},
-  ],
-  pager: '#pager1',
-  height: 500,
-  dummy: false
-});
-
-var grid = jQuery("#list1").jqGrid({
-url: '/admin/auctions/list_json',
-postData: {},
-datatype: 'json',
-mtype: 'GET',
-colNames:['Id', 'Code', 'Product', 'Active', 'Expires', 'Actions'],
-colModel :[
-{'width': 50, 'align': 'center', 'name': 'id', 'id': 'id'},{'width': 200, 'name': 'code', 'id': 'code'},{'name': 'product', 'id': 'product'},{'name': 'active', 'id': 'active'},{'name': 'expires', 'id': 'expires'},
-{'name': 'Actions', 'id': '_actions',
-'align': 'center', 'width': 50,
-'formatter':delLinkFormatter},
-],
-pager: '#pager1',
-viewrecords: true,
-rowNum: 10,
-rowList: [10,20,30],
-sortname: 'id',
-sortorder: 'asc',
-dummy: false
-}); 
