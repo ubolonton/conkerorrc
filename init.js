@@ -337,7 +337,7 @@ define_webjump("bm",
                                               $use_bookmarks = true,
                                               $match_required = true),
                $description = "Visit a conkeror bookmark");
-define_webjump("duckduckgo", "http://duckduckgo.com/?q=%s");
+define_webjump("dd", "http://duckduckgo.com/?q=%s");
 
 // Use numeric key to switch buffers
 function define_switch_buffer_key (key, buf_num) {
@@ -675,6 +675,13 @@ interactive("search-clipboard-contents", "Search in Google the content of the se
               $browser_object=
               function(I) {
                   return "g "+ read_from_x_primary_selection();
+              }
+);
+interactive("search-clipboard-contents-duckduckgo", "Search in duckduckgo.com the content of the selected text (or clipboard)",
+              alternates(follow_new_buffer, follow_new_window),
+              $browser_object=
+              function(I) {
+                  return "dd "+ read_from_x_primary_selection();
               }
 );
 interactive("search-clipboard-contents-doublequoted", "Search in Google the content of the selected text (or clipboard), as a fixed string",
