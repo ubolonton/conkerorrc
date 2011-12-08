@@ -1,5 +1,6 @@
 
 { "sheets": [
+      "ibuffer.css",
       "completions.css",
       "content-buffer-input.css",
       "minibuffer.css",
