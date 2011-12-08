@@ -312,11 +312,19 @@ interactive("switch-to-last-buffer", "Switch to the last visited buffer",
                                  I.window.buffers.buffer_list[1])
             });
 
-interactive("stop-loading-all", "Stop loading all document",
+interactive("stop-loading-all", "Stop loading all documents",
             function (I) {
                 for (var i = 0; i < I.window.buffers.count; i++)
                 {
                     stop_loading(I.window.buffers.get_buffer(i));
+                }
+            });
+
+interactive("reload-all", "Reload all documents",
+            function (I) {
+                for (var i = 0; i < I.window.buffers.count; i++)
+                {
+                    reload(I.window.buffers.get_buffer(i));
                 }
             });
 
