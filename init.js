@@ -39,6 +39,7 @@ define_key_alias("A-c", "M-w");
 define_key_alias("A-x", "C-w");
 define_key_alias("A-v", "C-y");
 define_key_alias("A-z", "C-_");
+define_key_alias("A-Z", "C-?");
 
 // Because right pinky is overworked. Really? I would think left pinky
 // is often stressed more.
@@ -99,6 +100,8 @@ define_key(default_global_keymap, "C-M-h", "buffer-previous");
 define_key(default_global_keymap, "C-M-n", "buffer-next");
 define_key(default_global_keymap, "h", "find-url-from-history-new-buffer");
 define_key(default_global_keymap, "H", "find-url-from-history");
+// define_key(default_global_keymap, "M-m", "buffer-previous");
+// define_key(default_global_keymap, "M-v", "buffer-next");
 
 define_key(content_buffer_normal_keymap, "A-s", "save-page-complete");
 define_key(content_buffer_normal_keymap, "M-f", "follow-new-buffer-background");
