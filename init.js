@@ -341,11 +341,13 @@ define_webjump("dd", "http://duckduckgo.com/?q=%s",
                $description = "Duckduckgo web search");
 define_webjump("pd", "http://search.pdfchm.net/?q=%s",
                $description = "pdfchm book search");
-define_webjump("pr",
-               function(term) {
-                 return "http://thepiratebay.org/tag/" + term.split(" ").join("+");
-               },
+define_webjump("pr", "http://thepiratebay.org/search/%s",
                $description = "Pirate Bay torrent search");
+// define_webjump("pr",
+//                function(term) {
+//                  return "http://thepiratebay.org/tag/" + term.split(" ").join("+");
+//                },
+//                $description = "Pirate Bay torrent search");
 
 // Use numeric key to switch buffers
 function define_switch_buffer_key (key, buf_num) {
