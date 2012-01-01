@@ -337,7 +337,15 @@ define_webjump("bm",
                                               $use_bookmarks = true,
                                               $match_required = true),
                $description = "Visit a conkeror bookmark");
-define_webjump("dd", "http://duckduckgo.com/?q=%s");
+define_webjump("dd", "http://duckduckgo.com/?q=%s",
+               $description = "Duckduckgo web search");
+define_webjump("pd", "http://search.pdfchm.net/?q=%s",
+               $description = "pdfchm book search");
+define_webjump("pr",
+               function(term) {
+                 return "http://thepiratebay.org/tag/" + term.split(" ").join("+");
+               },
+               $description = "Pirate Bay torrent search");
 
 // Use numeric key to switch buffers
 function define_switch_buffer_key (key, buf_num) {
@@ -733,4 +741,3 @@ interactive("set-proxy-session",
             (yield I.minibuffer.read($prompt = "server ["+proxy_server_default+"] or N: ")),
             (yield I.minibuffer.read($prompt = "port ["+proxy_port_default+"]: ")));
     });
-
