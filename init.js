@@ -582,6 +582,14 @@ interactive("toggle-gmail-fixed-width-messages", "",
                                                   "font-family: MonoSpace !important; font-size: 12px !important; }}"));
             });
 
+interactive("toggle-google-groups-fixed-width-messages", "",
+            function(I) {
+                toggle_custom_stylesheet("data:text/css,"
+                                         + escape("@-moz-document domain(groups.google.com)" +
+                                                  "{ div#body { " +
+                                                  "font-family: MonoSpace !important; font-size: 12px !important; }}"));
+            });
+
 interactive("colors-toggle", "toggle between document and forced colors",
             function (I) {
                 var p = "browser.display.use_document_colors";
