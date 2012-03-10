@@ -309,7 +309,9 @@ interactive("switch-to-last-tab", "Switch to the last tab",
 interactive("switch-to-last-buffer", "Switch to the last visited buffer",
             function (I) {
                 switch_to_buffer(I.window,
-                                 I.window.buffers.buffer_list[1])
+                                 // This is the way to go in newer
+                                 // conkeror versions
+                                 I.window.buffers.buffer_history[1])
             });
 
 interactive("stop-loading-all", "Stop loading all documents",
