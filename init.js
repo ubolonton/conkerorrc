@@ -409,6 +409,20 @@ interactive("switch-to-recent-buffer",
                                     I.window.buffers.buffer_list[1] :
                                     I.buffer))));
             });
+
+// HACK
+interactive("switch-to-gmail-buffer",
+            "Switch to GMail",
+            function (I) {
+              var bs = I.window.buffers;
+              for (let i = 0; i < bs.count; ++i) {
+                var b = bs.get_buffer(i);
+                if (b.document.location.hostname == "mail.google.com") {
+                  switch_to_buffer(I.window, b);
+                  return;
+                }
+              }
+            });
 
 // Readability tool
 
