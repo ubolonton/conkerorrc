@@ -345,6 +345,8 @@ define_webjump("pd", "http://search.pdfchm.net/?q=%s",
                $description = "pdfchm book search");
 define_webjump("pr", "http://thepiratebay.org/search/%s",
                $description = "Pirate Bay torrent search");
+define_webjump("wa", "http://www.wolframalpha.com/input/?i=%s",
+               $description = "Wolfram Alpha query");
 // define_webjump("pr",
 //                function(term) {
 //                  return "http://thepiratebay.org/tag/" + term.split(" ").join("+");
