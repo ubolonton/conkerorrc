@@ -787,7 +787,9 @@ var user_agents = {
     "Gecko/20100101 Firefox/8.0.1",
   "android": "Mozilla/5.0 (Linux; U; Android 2.2; en-us; " +
     "Nexus One Build/FRF91) AppleWebKit/533.1 (KHTML, like " +
-    "Gecko) Version/4.0 Mobile Safari/533.1"};
+    "Gecko) Version/4.0 Mobile Safari/533.1",
+  "ie8": "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.0)"
+};
 
 var agent_completer = prefix_completer($completions = Object.keys(user_agents));
 
