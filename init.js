@@ -343,14 +343,18 @@ define_webjump("dd", "http://duckduckgo.com/?q=%s",
                $description = "Duckduckgo web search");
 define_webjump("pd", "http://search.pdfchm.net/?q=%s",
                $description = "pdfchm book search");
-define_webjump("pr", "http://thepiratebay.org/search/%s",
+define_webjump("pr", "http://thepiratebay.se/search/%s",
                $description = "Pirate Bay torrent search");
 define_webjump("wa", "http://www.wolframalpha.com/input/?i=%s",
                $description = "Wolfram Alpha query");
 define_webjump("cljr", "https://clojars.org/search?q=%s",
-               $description = "Clojars")
+               $description = "Clojars library search");
 define_webjump("clj", "http://clojuredocs.org/search?x=0&y=0&q=%s",
-               $description = "Clojure Docs")
+               $description = "Clojure Docs search");
+define_webjump("yt", "http://www.youtube.com/results?search_query=%s",
+               $description = "Youtube video search");
+define_webjump("ety", "http://www.etymonline.com/index.php?search=%s",
+               $description = "Etymology search");
 // define_webjump("pr",
 //                function(term) {
 //                  return "http://thepiratebay.org/tag/" + term.split(" ").join("+");
@@ -804,3 +808,40 @@ interactive("user-agent", "Pick a user agent from the list of presets",
                     $completer = agent_completer));
                 set_user_agent(user_agents[ua]);
             });
+
+
+// TODO: Move into a module
+var grooveshark = {
+  getBuffer: function(I) {
+    var bs = I.window.buffers;
+    for (let i = 0; i < bs.count; ++i) {
+      var b = bs.get_buffer(i);
+      if (b.document.location.hostname == "grooveshark.com") {
+        return b;
+      }
+    }
+  },
+
+  clickCommand: function(selector) {
+    var self = this;
+    return function(I) {
+      var buffer = self.getBuffer(I);
+      if (!buffer)
+        return;
+
+      var element = buffer.document.querySelector(selector);
+      if (!element)
+        return;
+
+      dom_node_click(element, 1, 1);
+    }
+  }
+};
+
+interactive("gs-play-or-pause", "Grooveshark Play or Pause",
+            grooveshark.clickCommand("button#player_play_pause"));
+interactive("gs-next", "Grooveshark Next",
+            grooveshark.clickCommand("button#player_next"));
+interactive("gs-previous", "Grooveshark Next",
+            grooveshark.clickCommand("button#player_previous"));
+
