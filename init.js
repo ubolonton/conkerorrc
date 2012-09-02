@@ -355,6 +355,10 @@ define_webjump("yt", "http://www.youtube.com/results?search_query=%s",
                $description = "Youtube video search");
 define_webjump("ety", "http://www.etymonline.com/index.php?search=%s",
                $description = "Etymology search");
+define_webjump("php", "http://www.php.net/manual-lookup.php?pattern=%s&scope=quickref",
+               $description = "PHP Doc Search");
+define_webjump("js", "https://developer.mozilla.org/en-US/search?q=%s",
+               $description = "Mozilla Doc Search");
 // define_webjump("pr",
 //                function(term) {
 //                  return "http://thepiratebay.org/tag/" + term.split(" ").join("+");
@@ -845,3 +849,9 @@ interactive("gs-next", "Grooveshark Next",
 interactive("gs-previous", "Grooveshark Next",
             grooveshark.clickCommand("button#player_previous"));
 
+
+// Wikipedia
+require("page-modes/wikipedia.js");
+wikipedia_didyoumean_follow_first_hit = true;
+wikipedia_enable_didyoumean = true;
+wikipedia_webjumps_format = "wiki-%s";
