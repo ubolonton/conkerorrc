@@ -867,3 +867,14 @@ require("page-modes/wikipedia.js");
 wikipedia_didyoumean_follow_first_hit = true;
 wikipedia_enable_didyoumean = true;
 wikipedia_webjumps_format = "wiki-%s";
+
+
+if ('@eff.org/https-everywhere;1' in Cc) {
+  interactive("https-everywhere-options-dialog",
+              "Open the HTTPS Everywhere options dialog.",
+              function (I) {
+                window_watcher.openWindow(
+                  null, "chrome://https-everywhere/content/preferences.xul",
+                  "", "chrome,titlebar,toolbar,centerscreen,resizable", null);
+              });
+}
