@@ -3,11 +3,20 @@
 user_pref('extensions.mozrepl.autoStart', true);
 user_pref('extensions.mozrepl.loopbackOnly', false);
 let (mozrepl_init = get_home_directory()) {
-    mozrepl_init.appendRelativePath(".conkerorrc/mozrepl/init.js");
+    mozrepl_init.appendRelativePath(".conkerorrc");
+    mozrepl_init.appendRelativePath("mozrepl");
+    mozrepl_init.appendRelativePath("init.js");
     session_pref('extensions.mozrepl.initUrl', make_uri(mozrepl_init).spec);
 }
 
 user_pref('browser.history_expire_days', 99999);
+
+// Add custom modules to load path
+let (path = get_home_directory()) {
+  path.appendRelativePath(".conkerorrc");
+  path.appendRelativePath("modules");
+  load_paths.unshift(make_uri(path).spec);
+}
 
 // What's this?
 function repl_context() {
@@ -164,11 +173,14 @@ define_key(gmail_keymap, "page_down", null, $fallthrough);
 
 // Misc
 
-// Some useful modules
+// Some useful built-in modules
 require("mode-line.js");
 require("daemon.js");
 require("session.js");
 require("dom-inspector.js");
+
+// Some useful additional modules
+require("hackernews");
 
 // Link sent from outside gets opened in new tab
 url_remoting_fn = load_url_in_new_buffer;
