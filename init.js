@@ -397,7 +397,7 @@ minibuffer.prototype.read_recent_buffer = function () {
     keywords(arguments, $prompt = "Buffer:",
              $default = buffer,
              $history = "buffer");
-    var buffers = window.buffers.buffer_list.slice(0);
+    var buffers = window.buffers.buffer_history.slice(0);
     buffers.push(buffers.shift());
     var completer = all_word_completer(
         $completions = buffers,
@@ -432,7 +432,7 @@ interactive("switch-to-recent-buffer",
                     (yield I.minibuffer.read_recent_buffer(
                         $prompt = "Switch to buffer:",
                         $default = (I.window.buffers.count > 1 ?
-                                    I.window.buffers.buffer_list[1] :
+                                    I.window.buffers.buffer_history[1] :
                                     I.buffer))));
             });
 
