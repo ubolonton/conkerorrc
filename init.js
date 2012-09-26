@@ -1,3 +1,5 @@
+// On OS X, use Dvorak - No Dead Keys
+
 // MozRepl first, to control stuff from Emacs should there be problems
 // (4242)
 user_pref('extensions.mozrepl.autoStart', true);

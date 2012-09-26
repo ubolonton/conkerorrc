@@ -4,7 +4,7 @@
 .mode-line {
   padding-top: 1px;
   -moz-appearance: none;
-  font-family: DejaVu Sans;
+  font-family: DejaVu Sans, Helvetica;
   font-size: 12px;
   font-weight: bold;
   background-color: #89A1F3;

@@ -3,7 +3,7 @@
 
 #minibuffer {
   border-top: 0px solid #99B1F3;
-  font-family: DejaVu Sans Mono;
+  font-family: DejaVu Sans Mono, Menlo;
   font-size: 14px;
   background-color: #0C141E !important;
   color: #A0AFA8 !important;
@@ -55,8 +55,8 @@
 
 /* Completions display */
 
-tree.completions { 
-  margin: 0px !important; 
+tree.completions {
+  margin: 0px !important;
   background-color: #0C141E !important;
   color: #A0AFA8 !important;
 }
@@ -88,4 +88,3 @@ tree.completions treechildren::-moz-tree-cell-text(completion-description) {
 tree.completions treechildren::-moz-tree-cell-text(current) {
   color: cyan !important;
 }
-

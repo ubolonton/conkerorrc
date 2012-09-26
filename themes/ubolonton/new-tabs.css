@@ -46,7 +46,7 @@
 }
 
 .tab2-index {
-  font: 500 15px DejaVu Sans Mono;
+  font: 500 15px DejaVu Sans Mono, Menlo;
   text-align: center;
   color: blue;
   max-width: 30px;
