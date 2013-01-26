@@ -100,10 +100,11 @@ define_key(default_global_keymap, "A-}", "buffer-next");
 define_key(default_global_keymap, "A-=", "zoom-in-full");
 define_key(default_global_keymap, "A--", "zoom-out-full");
 define_key(default_global_keymap, "A-t", "find-url-new-buffer");
+define_key(default_global_keymap, "A-T", "ublt-open-last-closed-buffer");
 define_key(default_global_keymap, "A-`", null, $fallthrough);
 define_key(default_global_keymap, "A-tab", null, $fallthrough);
 // Uhm, so many keys to waste
-define_key(default_global_keymap, "A-k", "kill-current-buffer");
+define_key(default_global_keymap, "A-k", "ublt-kill-current-buffer");
 define_key(default_global_keymap, "A-i", "inspect-chrome");
 define_key(default_global_keymap, "A-u", "ubolonton-theme");
 define_key(default_global_keymap, "A-h", "switch-to-recent-buffer");
@@ -217,6 +218,25 @@ tab_bar_show_index = true;
 
 // Emacs-everywhere illusion
 editor_shell_command = "emacsclient";
+
+var ublt_recent_buffers = [];
+// FIX: add before_kill_buffer_hook to conkeror?
+interactive("ublt-kill-current-buffer", "Kill current buffer after saving its url to be able to reopen",
+            function(I) {
+              var buffer = I.buffer;
+              var url = buffer._display_uri || buffer.document.URL;
+              kill_buffer(buffer);
+              // TODO: limit
+              ublt_recent_buffers.push(url);
+            });
+interactive("ublt-open-last-closed-buffer", "Open the last closed buffer",
+            function(I) {
+              var url = ublt_recent_buffers[ublt_recent_buffers.length - 1];
+              if (url) {
+                load_url_in_new_buffer(url, I.window);
+                ublt_recent_buffers.pop();
+              }
+            });
 
 // Quit confirmation
 add_hook("before_quit_hook",
