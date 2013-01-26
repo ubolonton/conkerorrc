@@ -333,7 +333,8 @@ interactive("switch-to-last-buffer", "Switch to the last visited buffer",
                 switch_to_buffer(I.window,
                                  // This is the way to go in newer
                                  // conkeror versions
-                                 I.window.buffers.buffer_history[1])
+                                 I.window.buffers.buffer_history[1]
+                                 || I.window.buffer)
             });
 
 // XXX FIX: 7 is just because of my current theme
