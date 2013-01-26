@@ -36,6 +36,8 @@ function repl_context() {
 // aggressive rearrangement is not possible.
 
 // TODO: How to determine system type?
+
+// FIX: This comment is obsolete
 // OSX:    Command    => A    Option   => M
 // Ubuntu: Mod4/Super => A    Alt/Meta => M
 
@@ -46,18 +48,21 @@ modifiers.M = new modifier(function (event) { return event.altKey; },
 // xulrunner/firefox (the problem seems to be xulrunner fucking up
 // keypress event (most attributes unset?!?) and keyup/keydown(metaKey
 // is never set?!?)). The fix is to use os-key instead of meta key
-// TODO: Handle old versions of xulrunner and conkeror
-modifiers.A = modifiers.s;
 
-modifier_order = ['C', 'M', 'A', 'S'];
+// Handle old versions of xulrunner and conkeror
+if (!modifiers.s) {
+  modifiers.s = new modifier(function (event) { return event.metaKey; },
+                             function (event) { event.metaKey = true; });
+}
+modifier_order = ['C', 'M', 'S', 's'];
 
 require("global-overlay-keymap");
 // OS X style
-define_key_alias("A-c", "M-w");
-define_key_alias("A-x", "C-w");
-define_key_alias("A-v", "C-y");
-define_key_alias("A-z", "C-_");
-define_key_alias("A-Z", "C-?");
+define_key_alias("s-c", "M-w");
+define_key_alias("s-x", "C-w");
+define_key_alias("s-v", "C-y");
+define_key_alias("s-z", "C-_");
+define_key_alias("s-Z", "C-?");
 
 // Because right pinky is overworked. Really? I would think left pinky
 // is often stressed more.
@@ -95,24 +100,24 @@ define_key_alias("M-space", "C-space");
 // TODO: remove definition for aliased keys
 // FIXME: define multiple keys in one pass
 // OS X conventions
-define_key(default_global_keymap, "A-{", "buffer-previous");
-define_key(default_global_keymap, "A-}", "buffer-next");
-define_key(default_global_keymap, "A-=", "zoom-in-full");
-define_key(default_global_keymap, "A--", "zoom-out-full");
-define_key(default_global_keymap, "A-t", "find-url-new-buffer");
-define_key(default_global_keymap, "A-T", "ublt-open-last-closed-buffer");
-define_key(default_global_keymap, "A-`", null, $fallthrough);
-define_key(default_global_keymap, "A-tab", null, $fallthrough);
+define_key(default_global_keymap, "s-{", "buffer-previous");
+define_key(default_global_keymap, "s-}", "buffer-next");
+define_key(default_global_keymap, "s-=", "zoom-in-full");
+define_key(default_global_keymap, "s--", "zoom-out-full");
+define_key(default_global_keymap, "s-t", "find-url-new-buffer");
+define_key(default_global_keymap, "s-T", "ublt-open-last-closed-buffer");
+define_key(default_global_keymap, "s-`", null, $fallthrough);
+define_key(default_global_keymap, "s-tab", null, $fallthrough);
 // Uhm, so many keys to waste
-define_key(default_global_keymap, "A-k", "ublt-kill-current-buffer");
-define_key(default_global_keymap, "A-i", "inspect-chrome");
-define_key(default_global_keymap, "A-u", "ubolonton-theme");
-define_key(default_global_keymap, "A-h", "switch-to-recent-buffer");
-define_key(default_global_keymap, "A-g", "caret-mode");
+define_key(default_global_keymap, "s-k", "ublt-kill-current-buffer");
+define_key(default_global_keymap, "s-i", "inspect-chrome");
+define_key(default_global_keymap, "s-u", "ubolonton-theme");
+define_key(default_global_keymap, "s-h", "switch-to-recent-buffer");
+define_key(default_global_keymap, "s-g", "caret-mode");
 define_key(default_global_keymap, "f6", "colors-toggle");
 define_key(default_global_keymap, "f7", "darken-page-mode");
 define_key(default_global_keymap, "f8", "toggle-gmail-fixed-width-messages");
-define_key(default_global_keymap, "A-n", "switch-to-last-buffer");
+define_key(default_global_keymap, "s-n", "switch-to-last-buffer");
 define_key(default_global_keymap, "C-G", "stop-loading-all");
 define_key(default_global_keymap, "0", "switch-to-last-tab");
 define_key(default_global_keymap, "C-M-h", "buffer-previous");
@@ -122,17 +127,17 @@ define_key(default_global_keymap, "H", "find-url-from-history");
 // define_key(default_global_keymap, "M-m", "buffer-previous");
 // define_key(default_global_keymap, "M-v", "buffer-next");
 
-define_key(content_buffer_normal_keymap, "A-s", "save-page-complete");
+define_key(content_buffer_normal_keymap, "s-s", "save-page-complete");
 define_key(content_buffer_normal_keymap, "M-f", "follow-new-buffer-background");
-define_key(content_buffer_normal_keymap, "A-f", "follow");
-define_key(content_buffer_normal_keymap, "A-[", "back");
-define_key(content_buffer_normal_keymap, "A-]", "forward");
+define_key(content_buffer_normal_keymap, "s-f", "follow");
+define_key(content_buffer_normal_keymap, "s-[", "back");
+define_key(content_buffer_normal_keymap, "s-]", "forward");
 define_key(content_buffer_normal_keymap, "R", "readability_arc90");
-define_key(content_buffer_normal_keymap, "A-d", "toggle-darkened-page");
-define_key(content_buffer_normal_keymap, "A-r", "save-for-later");
+define_key(content_buffer_normal_keymap, "s-d", "toggle-darkened-page");
+define_key(content_buffer_normal_keymap, "s-r", "save-for-later");
 define_key(content_buffer_normal_keymap, "C-c C-c", "submit-form");
-define_key(content_buffer_normal_keymap, "M-A-h", "back");
-define_key(content_buffer_normal_keymap, "M-A-n", "forward");
+define_key(content_buffer_normal_keymap, "M-s-h", "back");
+define_key(content_buffer_normal_keymap, "M-s-n", "forward");
 
 // Dvorak
 define_key(content_buffer_normal_keymap, "M-c", "cmd_scrollLineUp");
@@ -162,15 +167,15 @@ define_key(text_keymap, "M-N", "scroll",
            $browser_object = browser_object_next_heading);
 define_key(text_keymap, "M-G", "scroll-top-left");
 define_key(text_keymap, "M-R", "cmd_scrollBottom");
-define_key(text_keymap, "A-a", "cmd_selectAll");
+define_key(text_keymap, "s-a", "cmd_selectAll");
 
-define_key(read_buffer_keymap, "A-i", "inspect-chrome");
+define_key(read_buffer_keymap, "s-i", "inspect-chrome");
 define_key(read_buffer_keymap, "C-tab", "minibuffer-complete");
 define_key(read_buffer_keymap, "C-S-tab", "minibuffer-complete-previous");
-define_key(read_buffer_keymap, "A-return", "minibuffer-complete");
-define_key(read_buffer_keymap, "A-S-return", "minibuffer-complete-previous");
-define_key(read_buffer_keymap, "A-h", "exit-minibuffer");
-define_key(read_buffer_keymap, "A-h", "exit-minibuffer");
+define_key(read_buffer_keymap, "s-return", "minibuffer-complete");
+define_key(read_buffer_keymap, "s-S-return", "minibuffer-complete-previous");
+define_key(read_buffer_keymap, "s-h", "exit-minibuffer");
+define_key(read_buffer_keymap, "s-h", "exit-minibuffer");
 define_key(read_buffer_keymap, "page_up", "minibuffer-complete-previous-page");
 define_key(read_buffer_keymap, "page_down", "minibuffer-complete-next-page");
 
