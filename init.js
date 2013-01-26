@@ -894,11 +894,13 @@ var grooveshark = {
 };
 
 interactive("gs-play-or-pause", "Grooveshark Play or Pause",
-            grooveshark.clickCommand("button#player_play_pause"));
+            grooveshark.clickCommand("#play-pause"));
 interactive("gs-next", "Grooveshark Next",
-            grooveshark.clickCommand("button#player_next"));
+            grooveshark.clickCommand("#play-next"));
 interactive("gs-previous", "Grooveshark Next",
-            grooveshark.clickCommand("button#player_previous"));
+            grooveshark.clickCommand("#play-prev"));
+interactive("gs-resume", "Resume",
+            grooveshark.clickCommand("#lightbox-footer a.btn"));
 
 
 // Wikipedia
