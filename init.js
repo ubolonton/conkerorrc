@@ -116,6 +116,7 @@ define_key(default_global_keymap, "H", "find-url-from-history");
 
 define_key(content_buffer_normal_keymap, "A-s", "save-page-complete");
 define_key(content_buffer_normal_keymap, "M-f", "follow-new-buffer-background");
+define_key(content_buffer_normal_keymap, "A-f", "follow");
 define_key(content_buffer_normal_keymap, "A-[", "back");
 define_key(content_buffer_normal_keymap, "A-]", "forward");
 define_key(content_buffer_normal_keymap, "R", "readability_arc90");
@@ -153,6 +154,7 @@ define_key(text_keymap, "M-N", "scroll",
            $browser_object = browser_object_next_heading);
 define_key(text_keymap, "M-G", "scroll-top-left");
 define_key(text_keymap, "M-R", "cmd_scrollBottom");
+define_key(text_keymap, "A-a", "cmd_selectAll");
 
 define_key(read_buffer_keymap, "A-i", "inspect-chrome");
 define_key(read_buffer_keymap, "C-tab", "minibuffer-complete");
@@ -161,6 +163,9 @@ define_key(read_buffer_keymap, "A-return", "minibuffer-complete");
 define_key(read_buffer_keymap, "A-S-return", "minibuffer-complete-previous");
 define_key(read_buffer_keymap, "A-h", "exit-minibuffer");
 define_key(read_buffer_keymap, "A-h", "exit-minibuffer");
+define_key(read_buffer_keymap, "page_up", "minibuffer-complete-previous-page");
+define_key(read_buffer_keymap, "page_down", "minibuffer-complete-next-page");
+
 
 define_key(minibuffer_keymap, "C-m", "exit-minibuffer");
 
@@ -327,6 +332,12 @@ interactive("switch-to-last-buffer", "Switch to the last visited buffer",
                                  // conkeror versions
                                  I.window.buffers.buffer_history[1])
             });
+
+// XXX FIX: 7 is just because of my current theme
+interactive("minibuffer-complete-next-page", null,
+            function(I) { minibuffer_complete(I.window, 7); });
+interactive("minibuffer-complete-previous-page", null,
+            function(I) { minibuffer_complete(I.window, -7); });
 
 interactive("stop-loading-all", "Stop loading all documents",
             function (I) {
