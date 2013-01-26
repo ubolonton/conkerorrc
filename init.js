@@ -378,6 +378,10 @@ define_webjump("yt", "http://www.youtube.com/results?search_query=%s",
                $description = "\u21d2 Youtube video search");
 define_webjump("pr", "http://thepiratebay.se/search/%s",
                $description = "\u21d2 Pirate Bay torrent search");
+define_webjump("ly", "https://encrypted.google.com/search?q=%s%20site%3Alyrigram.com&ie=utf-8&oe=utf-8&aq=t",
+               $description = "\u21d2 Lyrigram lyrics search (Google)");
+define_webjump("lg", "https://www.lyrigram.com/search/%s",
+               $description = "\u21d2 Lyrigram lyrics search (Lyrigram)");
 
 // Languages
 define_webjump("cljr", "https://clojars.org/search?q=%s",
