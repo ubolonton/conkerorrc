@@ -192,6 +192,9 @@ require("hackernews");
 // Link sent from outside gets opened in new tab
 url_remoting_fn = load_url_in_new_buffer;
 
+// Go ahead if a DOM node is the sole selection
+hints_auto_exit_delay = 500;
+
 // Visual aid
 read_buffer_show_icons = true;
 
