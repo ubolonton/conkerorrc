@@ -38,10 +38,26 @@ function repl_context() {
 // TODO: How to determine system type?
 // OSX:    Command    => A    Option   => M
 // Ubuntu: Mod4/Super => A    Alt/Meta => M
+
 modifiers.M = new modifier(function (event) { return event.altKey; },
                            function (event) { event.altKey = true; });
-modifiers.A = new modifier(function (event) { return event.metaKey; },
-                           function (event) { event.metaKey = true; });
+
+// FIX: Tested only on Linux (and this should be fixed in
+// xulrunner/firefox (the problem seems to be xulrunner fucking up
+// keypress event (most attributes unset?!?) and keyup/keydown(metaKey
+// is never set?!?)). The temporary hack is this, plus hacking
+// input.js to keep track of meta key (window key) state ourselves
+modifiers.A = new modifier(
+  function (event) {
+    if (event.faked_by_overlay)
+      return false;
+    return event.isMeta || isMeta || event.metaKey;
+  },
+  function (event) {
+    event.isMeta = true;
+    event.metaKey = true;
+  });
+
 modifier_order = ['C', 'M', 'A', 'S'];
 
 require("global-overlay-keymap");
