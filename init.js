@@ -45,18 +45,9 @@ modifiers.M = new modifier(function (event) { return event.altKey; },
 // FIX: Tested only on Linux (and this should be fixed in
 // xulrunner/firefox (the problem seems to be xulrunner fucking up
 // keypress event (most attributes unset?!?) and keyup/keydown(metaKey
-// is never set?!?)). The temporary hack is this, plus hacking
-// input.js to keep track of meta key (window key) state ourselves
-modifiers.A = new modifier(
-  function (event) {
-    if (event.faked_by_overlay)
-      return false;
-    return event.isMeta || isMeta || event.metaKey;
-  },
-  function (event) {
-    event.isMeta = true;
-    event.metaKey = true;
-  });
+// is never set?!?)). The fix is to use os-key instead of meta key
+// TODO: Handle old versions of xulrunner and conkeror
+modifiers.A = modifiers.s;
 
 modifier_order = ['C', 'M', 'A', 'S'];
 
