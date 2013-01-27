@@ -48,13 +48,19 @@ wikipedia_webjumps_format = "wiki-%s";
 
 
 // Misc
-define_webjump("down?", function (url) {
-  if (url) {
-    return "http://downforeveryoneorjustme.com/" + url;
-  } else {
-    return "javascript:window.location.href='http://downforeveryoneorjustme.com/'+window.location.href;";
-  }
-}, $argument = "optional");
+define_webjump("down?",
+               function (url) {
+                   if (url) {
+                       return "http://downforeveryoneorjustme.com/" + url;
+                   } else {
+                       return "javascript:window.location.href='http://downforeveryoneorjustme.com/'+window.location.href;";
+                   }
+               },
+               $description = "\u21d2 Check if a page is down",
+               $argument = "optional",
+               $completer = history_completer($use_history = false,
+                                              $use_bookmarks = true)
+              );
 
 // TODO: key for this not webjump
 define_webjump("bm",
