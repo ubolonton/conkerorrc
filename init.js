@@ -41,6 +41,7 @@ require("ublt-appearance");
 require("ublt-download");
 require("ublt-proxy");
 require("ublt-user-agents");
+require("ublt-grooveshark");
 
 
 // Misc
@@ -375,44 +376,6 @@ interactive("search-clipboard-contents-doublequoted", "Search in Google the cont
               }
 
 );
-
-
-// TODO: Move into a module
-var grooveshark = {
-  getBuffer: function(I) {
-    var bs = I.window.buffers;
-    for (let i = 0; i < bs.count; ++i) {
-      var b = bs.get_buffer(i);
-      if (b.document.location.hostname == "grooveshark.com") {
-        return b;
-      }
-    }
-  },
-
-  clickCommand: function(selector) {
-    var self = this;
-    return function(I) {
-      var buffer = self.getBuffer(I);
-      if (!buffer)
-        return;
-
-      var element = buffer.document.querySelector(selector);
-      if (!element)
-        return;
-
-      dom_node_click(element, 1, 1);
-    }
-  }
-};
-
-interactive("gs-play-or-pause", "Grooveshark Play or Pause",
-            grooveshark.clickCommand("#play-pause"));
-interactive("gs-next", "Grooveshark Next",
-            grooveshark.clickCommand("#play-next"));
-interactive("gs-previous", "Grooveshark Next",
-            grooveshark.clickCommand("#play-prev"));
-interactive("gs-resume", "Resume",
-            grooveshark.clickCommand("#lightbox-footer a.btn"));
 
 
 if ('@eff.org/https-everywhere;1' in Cc) {
