@@ -110,7 +110,7 @@ define_key(content_buffer_normal_keymap, "M-f", "follow-new-buffer-background");
 define_key(content_buffer_normal_keymap, "s-f", "follow");
 define_key(content_buffer_normal_keymap, "s-[", "back");
 define_key(content_buffer_normal_keymap, "s-]", "forward");
-define_key(content_buffer_normal_keymap, "R", "readability_arc90");
+define_key(content_buffer_normal_keymap, "R", "readability-arc90");
 define_key(content_buffer_normal_keymap, "s-d", "toggle-darkened-page");
 define_key(content_buffer_normal_keymap, "s-r", "save-for-later");
 define_key(content_buffer_normal_keymap, "C-c C-c", "submit-form");
