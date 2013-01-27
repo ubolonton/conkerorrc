@@ -248,8 +248,6 @@ define_webjump("bm",
                                               $use_bookmarks = true,
                                               $match_required = true),
                $description = "\u21d2 Visit a conkeror bookmark");
-define_webjump("dd", "http://duckduckgo.com/?q=%s",
-               $description = "\u21d2 Duckduckgo web search");
 define_webjump("wa", "http://www.wolframalpha.com/input/?i=%s",
                $description = "\u21d2 Wolfram Alpha query");
 
