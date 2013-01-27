@@ -13,12 +13,16 @@ let (mozrepl_init = get_home_directory()) {
 
 user_pref('browser.history_expire_days', 99999);
 
-// Add custom modules to load path
+// Add custom modules & config to load path
+function ublt_add_path(dir) {
 let (path = get_home_directory()) {
   path.appendRelativePath(".conkerorrc");
-  path.appendRelativePath("modules");
+    path.appendRelativePath(dir);
   load_paths.unshift(make_uri(path).spec);
 }
+}
+ublt_add_path("modules");
+ublt_add_path("config");
 
 // What's this?
 function repl_context() {
@@ -31,173 +35,17 @@ function repl_context() {
     return ctx;
 }
 
-// Custom key bindings
-// TODO: Conkeror chains translation, unlike Emacs, so swapping or
-// aggressive rearrangement is not possible.
+require("ublt-dvorak");
 
-// TODO: How to determine system type?
-
-// FIX: This comment is obsolete
-// OSX:    Command    => A    Option   => M
-// Ubuntu: Mod4/Super => A    Alt/Meta => M
-
-modifiers.M = new modifier(function (event) { return event.altKey; },
-                           function (event) { event.altKey = true; });
-
-// FIX: Tested only on Linux (and this should be fixed in
-// xulrunner/firefox (the problem seems to be xulrunner fucking up
-// keypress event (most attributes unset?!?) and keyup/keydown(metaKey
-// is never set?!?)). The fix is to use os-key instead of meta key
-
-// Handle old versions of xulrunner and conkeror
-if (!modifiers.s) {
-  modifiers.s = new modifier(function (event) { return event.metaKey; },
-                             function (event) { event.metaKey = true; });
-}
-modifier_order = ['C', 'M', 'S', 's'];
-
-require("global-overlay-keymap");
-// OS X style
-define_key_alias("s-c", "M-w");
-define_key_alias("s-x", "C-w");
-define_key_alias("s-v", "C-y");
-define_key_alias("s-z", "C-_");
-define_key_alias("s-Z", "C-?");
-
-// Because right pinky is overworked. Really? I would think left pinky
-// is often stressed more.
-define_key_alias("C-m", "return");
-
-// Dvorak movement
-define_key_alias("M-c", "up");
-define_key_alias("M-t", "down");
-define_key_alias("M-h", "left");
-define_key_alias("M-n", "right");
-define_key_alias("M-C", "page_up");
-define_key_alias("M-T", "page_down");
-// TODO: consider M-H and M-N
-define_key_alias("M-g", "C-left");
-define_key_alias("M-r", "C-right");
-define_key_alias("M-G", "home");
-define_key_alias("M-R", "end");
-
-// Dvorak deletion
-define_key_alias("M-e", "back_space");
-define_key_alias("M-u", "delete");
-define_key_alias("M-.", "C-back_space");
-define_key_alias("M-p", "C-delete");
-
-// Dvorak remaining
-define_key_alias("M-i", "C-k");
-define_key_alias("M-d", "C-a");
-define_key_alias("M-D", "C-e");
-
-// C- M- is much worse than M- M-
-define_key_alias("M-space", "C-space");
-
-// define_key_alias("C-t", "C-x");
-
-// TODO: remove definition for aliased keys
-// FIXME: define multiple keys in one pass
-// OS X conventions
-define_key(default_global_keymap, "s-{", "buffer-previous");
-define_key(default_global_keymap, "s-}", "buffer-next");
-define_key(default_global_keymap, "s-=", "zoom-in-full");
-define_key(default_global_keymap, "s--", "zoom-out-full");
-define_key(default_global_keymap, "s-t", "find-url-new-buffer");
-define_key(default_global_keymap, "s-T", "ublt-open-last-closed-buffer");
-define_key(default_global_keymap, "s-`", null, $fallthrough);
-define_key(default_global_keymap, "s-tab", null, $fallthrough);
-// Uhm, so many keys to waste
-define_key(default_global_keymap, "s-k", "ublt-kill-current-buffer");
-define_key(default_global_keymap, "s-i", "inspect-chrome");
-define_key(default_global_keymap, "s-u", "ubolonton-theme");
-define_key(default_global_keymap, "s-h", "switch-to-recent-buffer");
-define_key(default_global_keymap, "s-g", "caret-mode");
-define_key(default_global_keymap, "f6", "colors-toggle");
-define_key(default_global_keymap, "f7", "darken-page-mode");
-define_key(default_global_keymap, "f8", "toggle-gmail-fixed-width-messages");
-define_key(default_global_keymap, "s-n", "switch-to-last-buffer");
-define_key(default_global_keymap, "C-G", "stop-loading-all");
-define_key(default_global_keymap, "0", "switch-to-last-tab");
-define_key(default_global_keymap, "C-M-h", "buffer-previous");
-define_key(default_global_keymap, "C-M-n", "buffer-next");
-define_key(default_global_keymap, "h", "find-url-from-history-new-buffer");
-define_key(default_global_keymap, "H", "find-url-from-history");
-// define_key(default_global_keymap, "M-m", "buffer-previous");
-// define_key(default_global_keymap, "M-v", "buffer-next");
-
-define_key(content_buffer_normal_keymap, "s-s", "save-page-complete");
-define_key(content_buffer_normal_keymap, "M-f", "follow-new-buffer-background");
-define_key(content_buffer_normal_keymap, "s-f", "follow");
-define_key(content_buffer_normal_keymap, "s-[", "back");
-define_key(content_buffer_normal_keymap, "s-]", "forward");
-define_key(content_buffer_normal_keymap, "R", "readability_arc90");
-define_key(content_buffer_normal_keymap, "s-d", "toggle-darkened-page");
-define_key(content_buffer_normal_keymap, "s-r", "save-for-later");
-define_key(content_buffer_normal_keymap, "C-c C-c", "submit-form");
-define_key(content_buffer_normal_keymap, "M-s-h", "back");
-define_key(content_buffer_normal_keymap, "M-s-n", "forward");
-
-// Dvorak
-define_key(content_buffer_normal_keymap, "M-c", "cmd_scrollLineUp");
-define_key(content_buffer_normal_keymap, "M-t", "cmd_scrollLineDown");
-define_key(content_buffer_normal_keymap, "M-h", "cmd_scrollLeft");
-define_key(content_buffer_normal_keymap, "M-n", "cmd_scrollRight");
-define_key(content_buffer_normal_keymap, "M-C", "cmd_scrollPageUp");
-define_key(content_buffer_normal_keymap, "M-T", "cmd_scrollPageDown");
-define_key(content_buffer_normal_keymap, "M-H", "scroll",
-           $browser_object = browser_object_previous_heading);
-define_key(content_buffer_normal_keymap, "M-N", "scroll",
-           $browser_object = browser_object_next_heading);
-define_key(content_buffer_normal_keymap, "M-G", "scroll-top-left");
-define_key(content_buffer_normal_keymap, "M-R", "cmd_scrollBottom");
-
-define_key(text_keymap, "M-c", "cmd_scrollLineUp");
-define_key(text_keymap, "M-t", "cmd_scrollLineDown");
-define_key(text_keymap, "M-h", "backward-char");
-define_key(text_keymap, "M-n", "forward-char");
-define_key(text_keymap, "M-g", "backward-word");
-define_key(text_keymap, "M-r", "forward-word");
-define_key(text_keymap, "M-C", "cmd_scrollPageUp");
-define_key(text_keymap, "M-T", "cmd_scrollPageDown");
-define_key(text_keymap, "M-H", "scroll",
-           $browser_object = browser_object_previous_heading);
-define_key(text_keymap, "M-N", "scroll",
-           $browser_object = browser_object_next_heading);
-define_key(text_keymap, "M-G", "scroll-top-left");
-define_key(text_keymap, "M-R", "cmd_scrollBottom");
-define_key(text_keymap, "s-a", "cmd_selectAll");
-
-define_key(read_buffer_keymap, "s-i", "inspect-chrome");
-define_key(read_buffer_keymap, "C-tab", "minibuffer-complete");
-define_key(read_buffer_keymap, "C-S-tab", "minibuffer-complete-previous");
-define_key(read_buffer_keymap, "s-return", "minibuffer-complete");
-define_key(read_buffer_keymap, "s-S-return", "minibuffer-complete-previous");
-define_key(read_buffer_keymap, "s-h", "exit-minibuffer");
-define_key(read_buffer_keymap, "s-h", "exit-minibuffer");
-define_key(read_buffer_keymap, "page_up", "minibuffer-complete-previous-page");
-define_key(read_buffer_keymap, "page_down", "minibuffer-complete-next-page");
-
-
-define_key(minibuffer_keymap, "C-m", "exit-minibuffer");
-
-define_key(hint_keymap, "C-m", "hints-exit");
-
-require("page-modes/gmail.js");
-define_key(gmail_keymap, "v", null, $fallthrough);
-define_key(gmail_keymap, "space", null, $fallthrough);
-define_key(gmail_keymap, "S-space", null, $fallthrough);
-define_key(gmail_keymap, "page_up", null, $fallthrough);
-define_key(gmail_keymap, "page_down", null, $fallthrough);
 
 // Misc
 
 // Some useful built-in modules
-require("mode-line.js");
-require("daemon.js");
-require("session.js");
-require("dom-inspector.js");
+require("mode-line");
+require("daemon");
+require("session");
+require("dom-inspector");
+require("gmail");
 
 // Some useful additional modules
 require("hackernews");
@@ -449,17 +297,6 @@ define_webjump("down?", function (url) {
 }, $argument = "optional");
 
 
-// Use numeric key to switch buffers
-function define_switch_buffer_key (key, buf_num) {
-    define_key(default_global_keymap, key,
-               function (I) {
-                   switch_to_buffer(I.window,
-                                    I.window.buffers.get_buffer(buf_num));
-               });
-}
-for (let i = 0; i < 9; ++i) {
-    define_switch_buffer_key(String((i+1)%10), i);
-}
 
 // Replacement of built-in buffer switcher
 
