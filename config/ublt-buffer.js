@@ -8,10 +8,10 @@ var ublt_recent_buffers = [];
 interactive("ublt-kill-current-buffer", "Kill current buffer after saving its url to be able to reopen",
             function(I) {
               var buffer = I.buffer;
-              var url = buffer._display_uri || buffer.document.URL;
+              var uri = buffer.display_uri_string;
               kill_buffer(buffer);
               // TODO: limit
-              ublt_recent_buffers.push(url);
+              ublt_recent_buffers.push(uri);
             });
 interactive("ublt-open-last-closed-buffer", "Open the last closed buffer",
             function(I) {
