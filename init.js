@@ -38,6 +38,9 @@ function repl_context() {
 require("ublt-dvorak");
 require("ublt-webjumps");
 require("ublt-appearance");
+require("ublt-download");
+require("ublt-proxy");
+require("ublt-user-agents");
 
 
 // Misc
@@ -109,54 +112,10 @@ url_completion_use_history = true;
 // XKCD
 xkcd_add_title = true;
 
-// Download in background
-download_buffer_automatic_open_target = OPEN_NEW_BUFFER_BACKGROUND;
-
 // Load clicked link in background
 require("clicks-in-new-buffer.js");
 clicks_in_new_buffer_target = OPEN_NEW_BUFFER_BACKGROUND;
 
-
-// Download
-
-function suggest_save_path_from_file_name(file_name, buffer) {
-    var cwd = with_current_buffer(buffer, function (I) I.local.cwd);
-    var file = cwd.clone();
-    for (let re in replace_map) {
-        if (file_name.match(re)) {
-            if (replace_map[re].path) {
-                file = make_file(replace_map[re].path);
-            }
-            // file_name = replace_map[re].transformer(file_name);
-        }
-    }
-    file.append(file_name);
-    return file.path;
-}
-
-// Default location by type
-let (d = get_home_directory()) {
-    d.append("Downloads");
-    // TODO: Windows?
-    var replace_map = {
-        ".": {
-            "path": d.path,
-            // "transformer": function(x) x
-        },
-        "\.(html|pdf|ps)$": {
-            "path": d.path + "/Documents/",
-        },
-        "\.(dmg|zip)$": {
-            "path": d.path + "/Documents/",
-        },
-        "\.(mp3)$": {
-            "path": d.path + "/Music/",
-        },
-        "\.(mov|mp4|avi)$": {
-            "path": d.path + "/Video/",
-        }
-    }
-}
 
 // Google
 require("page-modes/google-search-results.js");
@@ -397,14 +356,14 @@ interactive("search-clipboard-contents", "Search in Google the content of the se
               // "find-url-in-new-buffer",
               $browser_object=
               function(I) {
-                  return "g "+ read_from_x_primary_selection();
+                  return "google "+ read_from_x_primary_selection();
               }
 );
 interactive("search-clipboard-contents-duckduckgo", "Search in duckduckgo.com the content of the selected text (or clipboard)",
               alternates(follow_new_buffer, follow_new_window),
               $browser_object=
               function(I) {
-                  return "dd "+ read_from_x_primary_selection();
+                  return "duckduckgo "+ read_from_x_primary_selection();
               }
 );
 interactive("search-clipboard-contents-doublequoted", "Search in Google the content of the selected text (or clipboard), as a fixed string",
@@ -412,81 +371,10 @@ interactive("search-clipboard-contents-doublequoted", "Search in Google the cont
               // "find-url-in-new-buffer",
               $browser_object=
               function(I) {
-                    return "g \""+ read_from_x_primary_selection()+"\"";
-                    }
+                  return "google \""+ read_from_x_primary_selection()+"\"";
+              }
 
 );
-
-// Proxy
-
-proxy_server_default = "proxy.rmit.edu.vn";
-proxy_port_default = 8080;
-
-function set_proxy_session (window, server, port) {
-    if (server == "N") {
-       session_pref('network.proxy.type', 0); //direct connection
-       window.minibuffer.message("Direction connection to the internet enabled for this session");
-    } else {
-      if (server == "") server = proxy_server_default;
-      if (port == "") port = proxy_port_default;
-
-      session_pref('network.proxy.ftp',    server);
-      session_pref('network.proxy.gopher', server);
-      session_pref('network.proxy.http',   server);
-      session_pref('network.proxy.socks',  server);
-      session_pref('network.proxy.ssl',    server);
-
-      session_pref('network.proxy.ftp_port',    port);
-      session_pref('network.proxy.gopher_port', port);
-      session_pref('network.proxy.http_port',   port);
-      session_pref('network.proxy.socks_port',  port);
-      session_pref('network.proxy.ssl_port',    port);
-
-      session_pref('network.proxy.share_proxy_settings', 'true');
-      session_pref('network.proxy.type', 1);
-
-      window.minibuffer.message("All protocols using "+server+":"+port+" for this session");
-    }
-}
-
-interactive("set-proxy-session",
-    "set the proxy server for all protocols for this session only",
-    function (I) {
-        set_proxy_session(
-            I.window,
-            (yield I.minibuffer.read($prompt = "server ["+proxy_server_default+"] or N: ")),
-            (yield I.minibuffer.read($prompt = "port ["+proxy_port_default+"]: ")));
-    });
-
-// Impersonating other browsers
-var user_agents = {
-  "conkeror": "Mozilla/5.0 (X11; Linux x86_64; rv:8.0.1) " + "Gecko/20100101 conkeror/1.0pre",
-  "ipad": "Mozilla/5.0 (iPad; U; CPU OS 3_2 like Mac OS X; en-us) " +
-    "AppleWebKit/531.21.10 (KHTML, like Gecko) Version/4.0.4 Mobile/7B334b " +
-    "Safari/531.21.10",
-  "iphone": "Mozilla/5.0 (iPhone; U; CPU like Mac OS X; en) " +
-    "AppleWebKit/420+ (KHTML, like Gecko) Version/3.0 Mobile/1A543a " +
-    "Safari/419.3",
-  "chromium": "Mozilla/5.0 (X11; U; Linux x86_64; en-US) " +
-    "AppleWebKit/534.3 (KHTML, like Gecko) Chrome/6.0.472.63" +
-    " Safari/534.3",
-  "firefox": "Mozilla/5.0 (X11; Linux x86_64; rv:8.0.1) " +
-    "Gecko/20100101 Firefox/8.0.1",
-  "android": "Mozilla/5.0 (Linux; U; Android 2.2; en-us; " +
-    "Nexus One Build/FRF91) AppleWebKit/533.1 (KHTML, like " +
-    "Gecko) Version/4.0 Mobile Safari/533.1",
-  "ie8": "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.0)"
-};
-
-var agent_completer = prefix_completer($completions = Object.keys(user_agents));
-
-interactive("user-agent", "Pick a user agent from the list of presets",
-            function(I) {
-                var ua = (yield I.window.minibuffer.read(
-                    $prompt = "Agent:",
-                    $completer = agent_completer));
-                set_user_agent(user_agents[ua]);
-            });
 
 
 // TODO: Move into a module
