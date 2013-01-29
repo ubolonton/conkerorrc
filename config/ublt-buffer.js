@@ -5,13 +5,13 @@
 
 var ublt_recent_buffers = [];
 // FIX: add before_kill_buffer_hook to conkeror?
-interactive("ublt-kill-current-buffer", "Kill current buffer after saving its url to be able to reopen",
+interactive("ublt-kill-current-buffer", "Kill current buffer after saving its url to for re-opening if needed",
             function(I) {
               var buffer = I.buffer;
-              var uri = buffer.display_uri_string;
+              var url = buffer.display_uri_string;
               kill_buffer(buffer);
               // TODO: limit
-              ublt_recent_buffers.push(uri);
+              ublt_recent_buffers.push(url);
             });
 interactive("ublt-open-last-closed-buffer", "Open the last closed buffer",
             function(I) {
@@ -19,6 +19,30 @@ interactive("ublt-open-last-closed-buffer", "Open the last closed buffer",
               if (url) {
                 load_url_in_new_buffer(url, I.window);
                 ublt_recent_buffers.pop();
+              }
+            });
+
+interactive("ublt-open-closed-buffer", "Select a recently closed buffer to re-open",
+            function(I) {
+              if (ublt_recent_buffers.length > 0) {
+                var url = yield I.window.minibuffer.read(
+                  $prompt = "Restore:",
+                  $completer = prefix_completer(
+                    $completions = ublt_recent_buffers,
+                    $get_string = function(x) {
+                      return x ? x.toString() : "";
+                    }
+                  ),
+                  $default_completion = ublt_recent_buffers[ublt_recent_buffers.length - 1]
+                  // $auto_complete = "url",
+                  // $auto_complete_initial = true,
+                  // $auto_complete_delay = 0,
+                  // $match_required
+                );
+                // Remove from the list?
+                load_url_in_new_buffer(url);
+              } else {
+                I.window.minibuffer.message("No recently closed buffer");
               }
             });
 
@@ -72,11 +96,15 @@ minibuffer.prototype.read_recent_buffer = function () {
     var completer = all_word_completer(
         $completions = buffers,
         $get_string = function (x) {
-            return ' ' + x.title;
+            return " " + x.title || "";
         },
-        $get_description = function (x) x.description,
+        $get_description = function (x) {
+          return x.description || "";
+        },
         $get_icon = (read_buffer_show_icons ?
-                     function (x) x.icon : null)
+                     function (x) {
+                       return x.icon || null;
+                     } : null)
     );
     var result = yield this.read(
         $keymap = read_buffer_keymap,
@@ -105,6 +133,15 @@ interactive("switch-to-recent-buffer",
                                     I.window.buffers.buffer_history[1] :
                                     I.buffer))));
             });
+
+
+// Function to fix context switching hanging minibuffer
+function ublt_fix_minibuffer() {
+  var window = get_recent_conkeror_window();
+  var buffer_container = window.buffers;
+  var buffer = buffer_container.buffer_list[0];
+  buffer_container._switch_to(buffer);
+}
 
 
 
