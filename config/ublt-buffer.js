@@ -144,5 +144,58 @@ function ublt_fix_minibuffer() {
 }
 
 
+// Launchers
+function ublt_define_launcher(name, url, buffer_checker) {
+  // Defines a command that switches to the first buffer that
+  // satisfies the checker. If no buffer is found, open the given url
+  // in a new buffer instead.
+
+  var dashed_name = name.replace(" ", "-");
+
+  interactive("ublt-launch-" + dashed_name, "Launch " + name, function(I) {
+    // TODO: Something better, this is slow
+    var buffer_list = I.window.buffers;
+    for (let i = 0; i < buffer_list.count; ++i) {
+      var b = buffer_list.get_buffer(i);
+      if (buffer_checker(b)) {
+        // TODO: Load the page if it's not loaded yet
+        switch_to_buffer(I.window, b);
+        unfocus(I.window, b);
+        return;
+      }
+    }
+    // TODO: Is "unfocus" the right way to bring Conkeror to the
+    // front?
+    unfocus(I.window, I.buffer);
+    browser_object_follow(I.buffer, OPEN_NEW_BUFFER, load_spec(url));
+  });
+}
+
+// TODO: Checkers should probably check display_uri_string instead
+
+// Use xbindkeys to assign keys to these
+ublt_define_launcher("GMail", "https://mail.google.com", function(b) {
+  return b.document.location.hostname == "mail.google.com";
+});
+ublt_define_launcher("Facebook", "https://www.facebook.com", function(b) {
+  return b.document.location.hostname == "www.facebook.com";
+});
+ublt_define_launcher("Grooveshark", "http://grooveshark.com", function(b) {
+  return b.document.location.hostname == "grooveshark.com";
+});
+ublt_define_launcher("Prismatic", "http://getprismatic.com", function(b) {
+  return b.document.location.hostname == "getprismatic.com";
+});
+ublt_define_launcher("Coursera", "https://www.coursera.org", function(b) {
+  return b.document.location.hostname.search("coursera.org") > -1;
+});
+ublt_define_launcher("Google Reader", "https://www.google.com/reader", function(b) {
+  var location = b.document.location;
+  return location.hostname == "www.google.com" &&
+    location.pathname.search("/reader") == 0;
+});
+
+
+
 
 provide("ublt-buffer");

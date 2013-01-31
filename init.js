@@ -122,22 +122,6 @@ interactive("minibuffer-complete-previous-page", null,
 
 
 
-
-// HACK
-interactive("switch-to-gmail-buffer",
-            "Switch to GMail",
-            function (I) {
-              var bs = I.window.buffers;
-              for (let i = 0; i < bs.count; ++i) {
-                var b = bs.get_buffer(i);
-                if (b.document.location.hostname == "mail.google.com") {
-                  switch_to_buffer(I.window, b);
-                  return;
-                }
-              }
-            });
-
-
 define_variable("firebug_url",
                 "/home/ubolonton/Programming/Tools/firebug-lite/build/firebug-lite.js");
 
