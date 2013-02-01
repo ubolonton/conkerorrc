@@ -44,6 +44,8 @@ require("ublt-proxy");
 require("ublt-user-agents");
 require("ublt-readability");
 require("ublt-grooveshark");
+// require("content-delay");
+require("from-other");
 
 
 // Misc
@@ -92,6 +94,7 @@ Components.classes["@mozilla.org/login-manager;1"]
 
 // Use history not bookmark?
 url_completion_use_history = true;
+url_completion_use_bookmarks = false;
 
 // XKCD
 xkcd_add_title = true;
