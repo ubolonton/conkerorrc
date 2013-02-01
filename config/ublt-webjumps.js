@@ -12,6 +12,8 @@ define_webjump("ly", "https://encrypted.google.com/search?q=%s%20site%3Alyrigram
                $description = "\u21d2 Lyrigram lyrics search (Google)");
 define_webjump("lg", "https://www.lyrigram.com/search/%s",
                $description = "\u21d2 Lyrigram lyrics search (Lyrigram)");
+define_webjump("coccoc", "http://coccoc.com/result?query=%s",
+               $description = "\u21d2 C\u1ed1c C\u1ed1c");
 
 
 // Languages
