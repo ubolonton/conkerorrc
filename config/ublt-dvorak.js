@@ -118,6 +118,8 @@ define_key(content_buffer_normal_keymap, "C-c C-c", "submit-form");
 define_key(content_buffer_normal_keymap, "M-s-h", "back");
 define_key(content_buffer_normal_keymap, "M-s-n", "forward");
 
+define_key(content_buffer_normal_keymap, "s-;", "focus");
+
 // Dvorak
 define_key(text_keymap, "up", "cmd_scrollLineUp");
 define_key(text_keymap, "down", "cmd_scrollLineDown");
