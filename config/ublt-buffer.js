@@ -162,6 +162,8 @@ ublt.add({
       var buffer_list = I.window.buffers;
       for (let i = 0; i < buffer_list.count; ++i) {
         var b = buffer_list.get_buffer(i);
+        // TODO: Does the checker really need to check the whole
+        // buffer, or just the uri?
         if (buffer_checker(b)) {
           // Load the page if it's not loaded yet
           if (!ublt.is_buffer_loaded(b)) {
@@ -178,22 +180,21 @@ ublt.add({
       // No existing buffer found, open new one
       browser_object_follow(I.buffer, OPEN_NEW_BUFFER, load_spec(url));
     });
+  },
+
+  define_simple_launcher: function(name, url) {
+    var hostPort = make_uri(url).hostPort;
+    ublt.define_launcher(name, url, function(buffer) {
+      return hostPort === make_uri(buffer.display_uri_string).hostPort;
+    });
   }
 });
 
 // Use xbindkeys to assign keys to these
-ublt.define_launcher("GMail", "https://mail.google.com", function(b) {
-  return make_uri(b.display_uri_string).hostPort == "mail.google.com";
-});
-ublt.define_launcher("Facebook", "https://www.facebook.com", function(b) {
-  return make_uri(b.display_uri_string).hostPort == "www.facebook.com";
-});
-ublt.define_launcher("Grooveshark", "http://grooveshark.com", function(b) {
-  return make_uri(b.display_uri_string).hostPort == "grooveshark.com";
-});
-ublt.define_launcher("Prismatic", "http://getprismatic.com", function(b) {
-  return make_uri(b.display_uri_string).hostPort == "getprismatic.com";
-});
+ublt.define_simple_launcher("GMail", "https://mail.google.com");
+ublt.define_simple_launcher("Facebook", "https://www.facebook.com");
+ublt.define_simple_launcher("Grooveshark", "http://grooveshark.com");
+ublt.define_simple_launcher("Prismatic", "http://getprismatic.com");
 ublt.define_launcher("Coursera", "https://www.coursera.org", function(b) {
   return make_uri(b.display_uri_string).hostPort.search("coursera.org") > -1;
 });
