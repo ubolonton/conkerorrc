@@ -16,7 +16,7 @@ define_webjump("coccoc", "http://coccoc.com/result?query=%s",
                $description = "\u21d2 C\u1ed1c C\u1ed1c");
 
 
-// Languages
+// Computer Languages
 define_webjump("cljr", "https://clojars.org/search?q=%s",
                $description = "\u21d2 Clojars library search");
 define_webjump("clj", "http://clojuredocs.org/search?x=0&y=0&q=%s",
@@ -74,6 +74,8 @@ define_webjump("bm",
 
 define_webjump("wa", "http://www.wolframalpha.com/input/?i=%s",
                $description = "\u21d2 Wolfram Alpha query");
+
+define_webjump("mathworld", "http://mathworld.wolfram.com/search/?query=%s&x=0&y=0");
 
 
 

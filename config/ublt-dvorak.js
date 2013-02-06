@@ -105,6 +105,8 @@ define_key(default_global_keymap, "C-M-n", "buffer-next");
 define_key(default_global_keymap, "h", "find-url-from-history-new-buffer");
 define_key(default_global_keymap, "H", "find-url-from-history");
 
+define_key(default_global_keymap, "q", "ublt-kill-current-buffer");
+
 define_key(content_buffer_normal_keymap, "s-s", "save-page-complete");
 define_key(content_buffer_normal_keymap, "M-f", "follow-new-buffer-background");
 define_key(content_buffer_normal_keymap, "s-f", "follow");
