@@ -13,6 +13,22 @@ let (mozrepl_init = get_home_directory()) {
 
 user_pref('browser.history_expire_days', 99999);
 
+// This is not present by default
+user_pref('general.smoothScroll', true);
+
+// One (or some?) of these enables hardward acceleration. Don't know which
+// user_pref('layers.acceleration.draw-fps', true);
+user_pref('webgl.prefer-native-gl', true);
+user_pref('layers.offmainthreadcomposition.animate-opacity', true);
+user_pref('layers.offmainthreadcomposition.animate-transform', true);
+// https://wiki.mozilla.org/Blocklisting/Blocked_Graphics_Drivers#Intel_cards
+user_pref('layers.acceleration.force-enabled', true);
+user_pref('webgl.force-enabled', true);
+user_pref('webgl.msaa-force', true);
+user_pref('gfx.filter.nearest.force-enabled', true);
+// H264
+user_pref('stagefright.force-enabled', true);
+
 // Add custom modules & config to load path
 function ublt_add_path(dir) {
 let (path = get_home_directory()) {
