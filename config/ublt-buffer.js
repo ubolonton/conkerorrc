@@ -147,11 +147,14 @@ function ublt_fix_minibuffer() {
 
 // Launchers
 
-ublt.add({
-  is_buffer_loaded: function(buffer) {
+ublt.ns("ublt.buffer", {
+  is_loaded: function(buffer) {
     return buffer.display_uri_string === buffer.browser.contentWindow.location.href;
-  },
+  }
+});
 
+// TODO: Namespace
+ublt.ns("ublt", {
   // Defines a command that switches to the first buffer that
   // satisfies the checker. If no buffer is found, open the given url
   // in a new buffer instead.
@@ -164,9 +167,14 @@ ublt.add({
         var b = buffer_list.get_buffer(i);
         // TODO: Does the checker really need to check the whole
         // buffer, or just the uri?
-        if (buffer_checker(b)) {
+        var found = false;
+        try {
+          found = buffer_checker(b);
+        } catch (ex) {
+        }
+        if (found) {
           // Load the page if it's not loaded yet
-          if (!ublt.is_buffer_loaded(b)) {
+          if (!ublt.buffer.is_loaded(b)) {
             b.load(load_spec(b.display_uri_string));
           }
           switch_to_buffer(I.window, b);
@@ -206,5 +214,4 @@ ublt.define_launcher("Google Reader", "https://www.google.com/reader", function(
 
 
 
-
 provide("ublt-buffer");
