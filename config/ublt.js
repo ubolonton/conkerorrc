@@ -42,7 +42,9 @@ var ublt = ublt || {};
 // ublt.ns("ublt.mouse", {onclick: function() {...}})
 ublt.require("underscore");
 ublt.ns = function(path, extension) {
-  _.extend(ublt.get_ns(path), extension);
+  // XXX FIX: _.extend is non-recursive ($.extend is more sensible but
+  // jQuery does not seem to work outside of the browser yet)
+  return _.extend(ublt.get_ns(path), extension);
 };
 
 ublt.ns("ublt", {

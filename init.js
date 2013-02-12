@@ -35,7 +35,7 @@ let (path = get_home_directory()) {
   path.appendRelativePath(".conkerorrc");
     path.appendRelativePath(dir);
   load_paths.unshift(make_uri(path).spec);
-}
+    };
 }
 ublt_add_path("modules");
 ublt_add_path("config");
@@ -53,6 +53,7 @@ function repl_context() {
 
 require("ublt-dvorak");
 require("ublt-buffer");
+require("ublt-launchers");
 require("ublt-webjumps");
 require("ublt-appearance");
 require("ublt-download");
@@ -65,6 +66,20 @@ require("from-other");
 
 
 // Misc
+
+require("ublt-mouse");
+ublt.ns("ublt.mouse.map", {
+  "r-mouse1"    : "switch-to-last-buffer",
+  "l-mouse3"    : "toggle-dark-mode",
+  "r-wheeldown"   : "buffer-next",
+  "r-wheelup"     : "buffer-previous",
+
+  "C-mouse2"    : "zoom-reset-text",
+  "s-wheeldown" : "forward",
+  "s-wheelup"   : "back",
+  "S-wheeldown"   : "buffer-next",
+  "S-wheelup"     : "buffer-previous"
+});
 
 // Some useful built-in modules
 require("daemon");
