@@ -136,82 +136,19 @@ interactive("switch-to-recent-buffer",
             });
 
 
-// Function to fix context switching hanging minibuffer
-function ublt_fix_minibuffer() {
-  var window = get_recent_conkeror_window();
-  var buffer_container = window.buffers;
-  var buffer = buffer_container.buffer_list[0];
-  buffer_container._switch_to(buffer);
-}
-
-
-// Launchers
-
 ublt.ns("ublt.buffer", {
   is_loaded: function(buffer) {
     return buffer.display_uri_string === buffer.browser.contentWindow.location.href;
-  }
-});
-
-// TODO: Namespace
-ublt.ns("ublt", {
-  // Defines a command that switches to the first buffer that
-  // satisfies the checker. If no buffer is found, open the given url
-  // in a new buffer instead.
-  define_launcher: function(name, url, buffer_checker) {
-    var dashed_name = name.replace(" ", "-");
-    interactive("ublt-launch-" + dashed_name, "Launch " + name, function(I) {
-      // TODO: Something better, this is slow
-      var buffer_list = I.window.buffers;
-      for (let i = 0; i < buffer_list.count; ++i) {
-        var b = buffer_list.get_buffer(i);
-        // TODO: Does the checker really need to check the whole
-        // buffer, or just the uri?
-        var found = false;
-        try {
-          found = buffer_checker(b);
-        } catch (ex) {
-        }
-        if (found) {
-          // Load the page if it's not loaded yet
-          if (!ublt.buffer.is_loaded(b)) {
-            b.load(load_spec(b.display_uri_string));
-          }
-          switch_to_buffer(I.window, b);
-          unfocus(I.window, b);
-          return;
-        }
-      }
-      // TODO: Is "unfocus" the right way to bring Conkeror to the
-      // front?
-      unfocus(I.window, I.buffer);
-      // No existing buffer found, open new one
-      browser_object_follow(I.buffer, OPEN_NEW_BUFFER, load_spec(url));
-    });
   },
 
-  define_simple_launcher: function(name, url) {
-    var hostPort = make_uri(url).hostPort;
-    ublt.define_launcher(name, url, function(buffer) {
-      return hostPort === make_uri(buffer.display_uri_string).hostPort;
-    });
+  // Function to fix context switching hanging minibuffer
+  fix_minibuffer: function() {
+    var window = get_recent_conkeror_window();
+    var buffer_container = window.buffers;
+    var buffer = buffer_container.buffer_list[0];
+    buffer_container._switch_to(buffer);
   }
 });
-
-// Use xbindkeys to assign keys to these
-ublt.define_simple_launcher("GMail", "https://mail.google.com");
-ublt.define_simple_launcher("Facebook", "https://www.facebook.com");
-ublt.define_simple_launcher("Grooveshark", "http://grooveshark.com");
-ublt.define_simple_launcher("Prismatic", "http://getprismatic.com");
-ublt.define_launcher("Coursera", "https://www.coursera.org", function(b) {
-  return make_uri(b.display_uri_string).hostPort.search("coursera.org") > -1;
-});
-ublt.define_launcher("Google Reader", "https://www.google.com/reader", function(b) {
-  var uri = make_uri(b.display_uri_string);
-  return uri.hostPort == "www.google.com" &&
-    uri.path.search("/reader") == 0;
-});
-
 
 
 provide("ublt-buffer");
