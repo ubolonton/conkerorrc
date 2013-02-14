@@ -45,21 +45,18 @@ ublt.ns("ublt.mouse.combo", {
   }, BUTTON = {
     LEFT: 0, MIDDLE: 1, RIGHT: 2
   }) {
-    l: new modifier(function(event) { return event.ublt_mouse_l ||
-                               ublt.mask(event.buttons, BUTTONS.LEFT) &&
-                               (["mousedown", "mouseup", "click"].indexOf(event.type) < 0 ||
-                                event.button !== BUTTON.LEFT); },
+    l: new modifier(function(event) { return ["mousedown", "mouseup", "click", "wheel"].indexOf(event.type) > -1 &&
+                               (event.ublt_mouse_l || ublt.mask(event.buttons, BUTTONS.LEFT)) &&
+                               (event.type === "wheel" || event.button !== BUTTON.LEFT); },
                     function(event) { event.ublt_mouse_l = true; }),
-    m: new modifier(function(event) { return event.ublt_mouse_m ||
-                               ublt.mask(event.buttons, BUTTONS.MIDDLE) &&
-                               (["mousedown", "mouseup", "click"].indexOf(event.typ) < 0 ||
-                                event.button !== BUTTON.MIDDLE); },
-                    function(event) { event.ublt_mouse_m = true; }),
-    r: new modifier(function(event) { return event.ublt_mouse_r ||
-                               ublt.mask(event.buttons, BUTTONS.RIGHT) &&
-                               (["mousedown", "mouseup", "click"].indexOf(event.type) < 0 ||
-                                event.button !== BUTTON.RIGHT); },
-                    function(event) { event.ublt_mouse_r = true; })
+    r: new modifier(function(event) { return ["mousedown", "mouseup", "click", "wheel"].indexOf(event.type) > -1 &&
+                               (event.ublt_mouse_r || ublt.mask(event.buttons, BUTTONS.RIGHT)) &&
+                               (event.type === "wheel" || event.button !== BUTTON.RIGHT); },
+                    function(event) { event.ublt_mouse_r = true; }),
+    m: new modifier(function(event) { return ["mousedown", "mouseup", "click", "wheel"].indexOf(event.type) > -1 &&
+                               (event.ublt_mouse_m || ublt.mask(event.buttons, BUTTONS.MIDDLE)) &&
+                               (event.type === "wheel" || event.button !== BUTTON.MIDDLE); },
+                    function(event) { event.ublt_mouse_m = true; })
   }),
 
   monkey_patch_key_map: function() {
