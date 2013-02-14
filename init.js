@@ -3,13 +3,13 @@
 // MozRepl first, to control stuff from Emacs should there be problems
 // (4242)
 user_pref('extensions.mozrepl.autoStart', true);
-user_pref('extensions.mozrepl.loopbackOnly', false);
+// user_pref('extensions.mozrepl.loopbackOnly', false);
 let (mozrepl_init = get_home_directory()) {
     mozrepl_init.appendRelativePath(".conkerorrc");
     mozrepl_init.appendRelativePath("mozrepl");
     mozrepl_init.appendRelativePath("init.js");
     session_pref('extensions.mozrepl.initUrl', make_uri(mozrepl_init).spec);
-}
+};
 
 user_pref('browser.history_expire_days', 99999);
 
