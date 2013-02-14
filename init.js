@@ -71,14 +71,19 @@ require("ublt-mouse");
 ublt.ns("ublt.mouse.map", {
   "r-mouse1"    : "switch-to-last-buffer",
   "l-mouse3"    : "toggle-dark-mode",
-  "r-wheeldown"   : "buffer-next",
   "r-wheelup"     : "buffer-previous",
+  "r-wheeldown" : "buffer-next",
 
-  "C-mouse2"    : "zoom-reset-text",
-  "s-wheeldown" : "forward",
+  // FIX ublt-mouse: This one does not work
+  "C-mouse2"    : "zoom-reset-full",
+
+  "C-wheelup"   : "zoom-in-full",
+  "C-wheeldown" : "zoom-out-full",
+
   "s-wheelup"   : "back",
-  "S-wheeldown"   : "buffer-next",
-  "S-wheelup"     : "buffer-previous"
+  "s-wheeldown" : "forward",
+  "S-wheelup"   : "buffer-previous",
+  "S-wheeldown" : "buffer-next"
 });
 
 // Some useful built-in modules
