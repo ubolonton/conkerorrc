@@ -89,7 +89,7 @@ define_key(default_global_keymap, "s-T", "ublt-open-last-closed-buffer");
 define_key(default_global_keymap, "s-`", null, $fallthrough);
 define_key(default_global_keymap, "s-tab", null, $fallthrough);
 // Uhm, so many keys to waste
-define_key(default_global_keymap, "s-k", "ublt-kill-current-buffer");
+define_key(default_global_keymap, "s-k", "kill-current-buffer");
 define_key(default_global_keymap, "s-i", "inspect-chrome");
 define_key(default_global_keymap, "s-u", "ubolonton-theme");
 define_key(default_global_keymap, "s-h", "switch-to-recent-buffer");
@@ -104,8 +104,6 @@ define_key(default_global_keymap, "C-M-h", "buffer-previous");
 define_key(default_global_keymap, "C-M-n", "buffer-next");
 define_key(default_global_keymap, "h", "find-url-from-history-new-buffer");
 define_key(default_global_keymap, "H", "find-url-from-history");
-
-define_key(default_global_keymap, "q", "ublt-kill-current-buffer");
 
 define_key(content_buffer_normal_keymap, "s-s", "save-page-complete");
 define_key(content_buffer_normal_keymap, "M-f", "follow-new-buffer-background");
@@ -142,21 +140,21 @@ define_key(read_buffer_keymap, "page_up", "minibuffer-complete-previous-page");
 define_key(read_buffer_keymap, "page_down", "minibuffer-complete-next-page");
 
 call_after_load("gmail", function() {
-    define_key(gmail_keymap, "v", null, $fallthrough);
-    define_key(gmail_keymap, "space", null, $fallthrough);
-    define_key(gmail_keymap, "S-space", null, $fallthrough);
-    define_key(gmail_keymap, "page_up", null, $fallthrough);
-    define_key(gmail_keymap, "page_down", null, $fallthrough);
+  define_key(gmail_keymap, "v", null, $fallthrough);
+  define_key(gmail_keymap, "space", null, $fallthrough);
+  define_key(gmail_keymap, "S-space", null, $fallthrough);
+  define_key(gmail_keymap, "page_up", null, $fallthrough);
+  define_key(gmail_keymap, "page_down", null, $fallthrough);
 });
 
 
 // Use numeric key to switch buffers
 function define_switch_buffer_key (key, buf_num) {
-    define_key(default_global_keymap, key,
-               function (I) {
-                   switch_to_buffer(I.window,
-                                    I.window.buffers.get_buffer(buf_num));
-               });
+  define_key(default_global_keymap, key,
+             function (I) {
+               switch_to_buffer(I.window,
+                                I.window.buffers.get_buffer(buf_num));
+             });
 }
 
 for (let i = 0; i < 9; ++i) {
