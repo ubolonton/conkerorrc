@@ -86,16 +86,23 @@ interactive("reload-all", "Reload all documents",
 
 require("minibuffer");
 
+buffer_container.prototype.for_each_history = function(f) {
+  var buffers = this.buffer_history.slice(0);
+  buffers.push(buffers.shift());
+  var count = buffers.length;
+  for (var i = 0; i < count; ++i)
+    f(buffers[i]);
+};
+
 minibuffer.prototype.read_recent_buffer = function () {
     var window = this.window;
     var buffer = this.window.buffers.current;
     keywords(arguments, $prompt = "Buffer:",
+           $buffers = function(visitor) window.buffers.for_each_history(visitor),
              $default = buffer,
              $history = "buffer");
-    var buffers = window.buffers.buffer_history.slice(0);
-    buffers.push(buffers.shift());
     var completer = all_word_completer(
-        $completions = buffers,
+    $completions = arguments.$buffers,
         $get_string = function (x) {
             return " " + x.title || "";
         },
