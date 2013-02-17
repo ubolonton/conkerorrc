@@ -16,7 +16,7 @@ user_pref('browser.history_expire_days', 99999);
 // This is not present by default
 user_pref('general.smoothScroll', true);
 
-// One (or some?) of these enables hardward acceleration. Don't know which
+// One (or some?) of these enables hardware acceleration. Don't know which
 // user_pref('layers.acceleration.draw-fps', true);
 user_pref('webgl.prefer-native-gl', true);
 user_pref('layers.offmainthreadcomposition.animate-opacity', true);
@@ -61,11 +61,14 @@ require("ublt-proxy");
 require("ublt-user-agents");
 require("ublt-readability");
 require("ublt-grooveshark");
-// require("content-delay");
+require("content-delay");
 require("from-other");
 
 
 // Misc
+
+// For persona (allow popup?)
+// add_hook("window_initialize_hook", initialize_first_buffer_type);
 
 require("ublt-mouse");
 ublt.ns("ublt.mouse.map", {
