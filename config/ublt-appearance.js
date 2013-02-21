@@ -23,11 +23,11 @@ let (p = get_home_directory()) {
 };
 theme_unload("default");
 theme_load("ubolonton");
-interactive("ublt-theme", "Load my personal theme",
-  function(I) {
+function ublt_reload_theme () {
     theme_unload("ubolonton");
     theme_load("ubolonton");
-  });
+}
+interactive("ublt-theme", "Load my personal theme", ublt_reload_theme);
 
 
 // Stylesheet toggling
