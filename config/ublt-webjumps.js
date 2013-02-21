@@ -16,7 +16,7 @@ define_webjump("coccoc", "http://coccoc.com/result?query=%s",
                $description = "\u21d2 C\u1ed1c C\u1ed1c");
 
 
-// Computer Languages
+// Computer Languages & Systems
 define_webjump("cljr", "https://clojars.org/search?q=%s",
                $description = "\u21d2 Clojars library search");
 define_webjump("clj", "http://clojuredocs.org/search?x=0&y=0&q=%s",
@@ -29,6 +29,9 @@ define_webjump("emacswiki", "http://www.google.com/cse?cx=004774160799092323420%
                "&q=%s&sa=Search&siteurl=emacswiki.org%2F",
                $description = "\u21d2 Emacs Wiki",
                $alternative = "http://www.emacswiki.org/");
+define_webjump("mozilla", "http://mxr.mozilla.org/mozilla-central/search?string=%s",
+               $description = "\u21d2 Mozilla cross-referenced source",
+               $alternative = "http://mxr.mozilla.org/mozilla-central/source/");
 
 
 // Dictionaries and translation
