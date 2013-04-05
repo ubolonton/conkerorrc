@@ -85,11 +85,16 @@ tree.completions treechildren::-moz-tree-row(current) {
   background-color: #2B343B !important;
 }
 
-tree.completions treechildren::-moz-tree-cell-text(completion-description) {
-  font-weight: normal !important;
-  color: #8A8A8A !important;
+tree.completions treechildren::-moz-tree-cell-text(completion-string) {
+  padding-left: 7px;
 }
-
+tree.completions treechildren::-moz-tree-cell-text(completion-description) {
+  font-weight: normal;
+  color: #8A8A8A;
+}
 tree.completions treechildren::-moz-tree-cell-text(current) {
-  color: cyan !important;
+  color: #00FFFF !important;
+}
+tree.completions treechildren::-moz-tree-cell-text(current, completion-description) {
+  color: #00EEEE !important;
 }
