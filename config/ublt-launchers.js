@@ -23,8 +23,9 @@ ublt.ns("ublt.launcher", {
         } catch (ex) {
         }
         if (found) {
-          // Load the page if it's not loaded yet
-          if (!ublt.buffer.is_loaded(b)) {
+          // Load the page if it's not loaded yet (but let
+          // content-delay do it if it's loaded though)
+          if (!featurep("content-delay") && !ublt.buffer.is_loaded(b)) {
             b.load(load_spec(b.display_uri_string));
           }
           switch_to_buffer(I.window, b);
@@ -62,6 +63,5 @@ ublt.launcher.define("Google Reader", "https://www.google.com/reader", function(
   return uri.hostPort == "www.google.com" &&
     uri.path.search("/reader") == 0;
 });
-
 
 provide("ublt-launchers");
