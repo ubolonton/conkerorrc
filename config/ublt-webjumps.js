@@ -8,9 +8,9 @@ define_webjump("yt", "http://www.youtube.com/results?search_query=%s",
                $description = "\u21d2 Youtube video search");
 define_webjump("pr", "http://thepiratebay.se/search/%s",
                $description = "\u21d2 Pirate Bay torrent search");
-define_webjump("ly", "https://encrypted.google.com/search?q=%s%20site%3Alyrigram.com&ie=utf-8&oe=utf-8&aq=t",
+define_webjump("lg", "https://encrypted.google.com/search?q=%s%20site%3Alyrigram.com&ie=utf-8&oe=utf-8&aq=t",
                $description = "\u21d2 Lyrigram lyrics search (Google)");
-define_webjump("lg", "https://www.lyrigram.com/search/%s",
+define_webjump("ly", "https://www.lyrigram.com/search/%s",
                $description = "\u21d2 Lyrigram lyrics search (Lyrigram)");
 define_webjump("coccoc", "http://coccoc.com/result?query=%s",
                $description = "\u21d2 C\u1ed1c C\u1ed1c");
@@ -32,6 +32,9 @@ define_webjump("emacswiki", "http://www.google.com/cse?cx=004774160799092323420%
 define_webjump("mozilla", "http://mxr.mozilla.org/mozilla-central/search?string=%s",
                $description = "\u21d2 Mozilla cross-referenced source",
                $alternative = "http://mxr.mozilla.org/mozilla-central/source/");
+define_webjump("erldocs", "http://erldocs.com?search=%s",
+               $description = "\u21d2 Erlang Documentation",
+               $alternative = "http://erldocs.com");
 
 
 // Dictionaries and translation
@@ -43,6 +46,8 @@ define_webjump("thesaurus", "http://www.thefreedictionary.com/%s#Thesaurus",
                $description = "\u21d2 Thesaurus");
 define_webjump("urban", "http://www.urbandictionary.com/define.php?term=%s",
                $description = "\u21d2 Urban Dictionary");
+define_webjump("viet anh", "http://1tudien.com/?w=%s",
+               $description = "\u21d2 Vietnamese-English Dictionary");
 
 
 // Wikipedia
