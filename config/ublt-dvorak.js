@@ -110,6 +110,7 @@ define_key(content_buffer_normal_keymap, "M-f", "follow-new-buffer-background");
 define_key(content_buffer_normal_keymap, "s-f", "follow");
 define_key(content_buffer_normal_keymap, "s-[", "back");
 define_key(content_buffer_normal_keymap, "s-]", "forward");
+define_key(content_buffer_normal_keymap, "I", "instapaper-read-later");
 define_key(content_buffer_normal_keymap, "R", "readability-arc90");
 define_key(content_buffer_normal_keymap, "s-d", "browser-object-dom-node");
 define_key(content_buffer_normal_keymap, "s-D", "toggle-darkened-page");

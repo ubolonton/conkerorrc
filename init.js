@@ -60,6 +60,7 @@ require("ublt-download");
 require("ublt-proxy");
 require("ublt-user-agents");
 require("ublt-readability");
+require("ublt-instapaper");
 require("ublt-grooveshark");
 require("content-delay");
 require("from-other");
