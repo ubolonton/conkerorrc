@@ -53,7 +53,7 @@ ublt.ns("ublt.launcher", {
 // Use xbindkeys to assign keys to these
 ublt.launcher.simple("GMail", "https://mail.google.com");
 ublt.launcher.simple("Facebook", "https://www.facebook.com");
-ublt.launcher.simple("Grooveshark", "http://grooveshark.com");
+ublt.launcher.simple("Grooveshark", "http://grooveshark.com/#!/ubolonton/collection");
 ublt.launcher.simple("Prismatic", "http://getprismatic.com");
 ublt.launcher.define("Coursera", "https://www.coursera.org", function(b) {
   return make_uri(b.display_uri_string).hostPort.search("coursera.org") > -1;
@@ -63,5 +63,6 @@ ublt.launcher.define("Google Reader", "https://www.google.com/reader", function(
   return uri.hostPort == "www.google.com" &&
     uri.path.search("/reader") == 0;
 });
+ublt.launcher.simple("Feedly", "http://cloud.feedly.com/#my");
 
 provide("ublt-launchers");
