@@ -31,10 +31,10 @@ user_pref('stagefright.force-enabled', true);
 
 // Add custom modules & config to load path
 function ublt_add_path(dir) {
-let (path = get_home_directory()) {
-  path.appendRelativePath(".conkerorrc");
-    path.appendRelativePath(dir);
-  load_paths.unshift(make_uri(path).spec);
+    let (path = get_home_directory()) {
+        path.appendRelativePath(".conkerorrc");
+        path.appendRelativePath(dir);
+        load_paths.unshift(make_uri(path).spec);
     };
 }
 ublt_add_path("modules");
@@ -75,7 +75,7 @@ require("ublt-mouse");
 ublt.ns("ublt.mouse.map", {
   "r-mouse1"    : "switch-to-last-buffer",
   "l-mouse3"    : "toggle-dark-mode",
-  "r-wheelup"     : "buffer-previous",
+  "r-wheelup"   : "buffer-previous",
   "r-wheeldown" : "buffer-next",
 
   // FIX ublt-mouse: This one does not work
@@ -108,6 +108,7 @@ hints_auto_exit_delay = 500;
 // Ask to restore session
 // TODO: multiple session based on work/reading distinction
 session_auto_save_auto_load = "prompt";
+session_auto_save_auto_load_fn = session_auto_save_load_window_current;
 
 // Emacs-everywhere illusion
 editor_shell_command = "emacsclient";
