@@ -62,6 +62,7 @@ require("ublt-user-agents");
 require("ublt-readability");
 require("ublt-instapaper");
 require("ublt-grooveshark");
+require("feedly");
 require("content-delay");
 require("from-other");
 
