@@ -61,6 +61,8 @@ require("ublt-proxy");
 require("ublt-user-agents");
 require("ublt-readability");
 require("ublt-instapaper");
+require("ublt-diigo");
+require("ublt-evernote");
 require("ublt-grooveshark");
 require("feedly");
 require("content-delay");
