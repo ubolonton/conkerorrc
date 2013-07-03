@@ -1,3 +1,4 @@
+/*jshint moz:true */
 /* ublt-mouse.js -- A mouse gesture module for Conkeror
 
  Copyright (C) 2013 Nguyễn Tuấn Anh <ubolonton@gmail.com>
@@ -35,6 +36,7 @@ ublt.ns("ublt.mouse.map", {
 
 // This is a with-modification rip-off of keymap.js
 // FIX TODO: Don't monkey patch
+var EVENT_TYPES = ["mousedown", "mouseup", "click", "wheel"];
 ublt.ns("ublt.mouse.combo", {
   modifier_order: ["l", "r", "m"],
 
@@ -45,15 +47,15 @@ ublt.ns("ublt.mouse.combo", {
   }, BUTTON = {
     LEFT: 0, MIDDLE: 1, RIGHT: 2
   }) {
-    l: new modifier(function(event) { return ["mousedown", "mouseup", "click", "wheel"].indexOf(event.type) > -1 &&
+    l: new modifier(function(event) { return EVENT_TYPES.indexOf(event.type) > -1 &&
                                (event.ublt_mouse_l || ublt.mask(event.buttons, BUTTONS.LEFT)) &&
                                (event.type === "wheel" || event.button !== BUTTON.LEFT); },
                     function(event) { event.ublt_mouse_l = true; }),
-    r: new modifier(function(event) { return ["mousedown", "mouseup", "click", "wheel"].indexOf(event.type) > -1 &&
+    r: new modifier(function(event) { return EVENT_TYPES.indexOf(event.type) > -1 &&
                                (event.ublt_mouse_r || ublt.mask(event.buttons, BUTTONS.RIGHT)) &&
                                (event.type === "wheel" || event.button !== BUTTON.RIGHT); },
                     function(event) { event.ublt_mouse_r = true; }),
-    m: new modifier(function(event) { return ["mousedown", "mouseup", "click", "wheel"].indexOf(event.type) > -1 &&
+    m: new modifier(function(event) { return EVENT_TYPES.indexOf(event.type) > -1 &&
                                (event.ublt_mouse_m || ublt.mask(event.buttons, BUTTONS.MIDDLE)) &&
                                (event.type === "wheel" || event.button !== BUTTON.MIDDLE); },
                     function(event) { event.ublt_mouse_m = true; })
@@ -154,14 +156,14 @@ ublt.ns("ublt.mouse.listener", {
   },
 
   add_all: function(buffer) {
-    ["mousedown", "mouseup", "click", "wheel"].forEach(function(event) {
-      buffer.browser.addEventListener(event, ublt.mouse.listener["on" + event], true);
+    EVENT_TYPES.forEach(function(eventType) {
+      buffer.browser.addEventListener(eventType, ublt.mouse.listener["on" + eventType], true);
     });
   },
 
   remove_all: function(buffer) {
-    ["mousedown", "mouseup", "click", "wheel"].forEach(function(event) {
-      buffer.browser.removeEventListener(event, ublt.mouse.listener["on" + event], true);
+    EVENT_TYPES.forEach(function(eventType) {
+      buffer.browser.removeEventListener(eventType, ublt.mouse.listener["on" + eventType], true);
     });
   }
 });
