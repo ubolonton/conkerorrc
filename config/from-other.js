@@ -47,7 +47,7 @@ function load_minibuffer_history () {
 
 
 // Default webjump
-read_url_handler_list = [read_url_make_default_webjump_handler("duckduckgo")];
+read_url_handler_list = [read_url_make_default_webjump_handler("google")];
 
 function possibly_valid_url (str) {
     return /^\s*[^\/\s]*(\/|\s*$)/.test(str)
