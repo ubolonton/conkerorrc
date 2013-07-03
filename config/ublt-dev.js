@@ -1,3 +1,5 @@
+require("ublt");
+
 
 function m_class(el) {
   var cl = el.getAttribute("class");
@@ -51,5 +53,20 @@ function contentW() {
 function w() {
     return repl_context().window;
 }
+
+// This doesn't work yet for some reason related to EXPORTED_SYMBOLS
+let (require = function(module) {
+    var temp = {
+        require: require,
+        exports: {},
+    };
+    Components.utils.import(module, temp);
+    return temp.exports;
+}) {
+    ublt.ns("ublt.commonjs", {
+        require: require
+    });
+};
+
 
 provide("ublt-util");
