@@ -51,6 +51,8 @@ function repl_context() {
     return ctx;
 }
 
+require("feedly");
+require("facebook");
 require("ublt-dvorak");
 require("ublt-buffer");
 require("ublt-launchers");
@@ -64,7 +66,6 @@ require("ublt-instapaper");
 require("ublt-diigo");
 require("ublt-evernote");
 require("ublt-grooveshark");
-require("feedly");
 require("content-delay");
 require("from-other");
 

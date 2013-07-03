@@ -1,3 +1,23 @@
+/* ublt-mouse.js -- A mouse gesture module for Conkeror
+
+ Copyright (C) 2013 Nguyễn Tuấn Anh <ubolonton@gmail.com>
+
+ This program is free software; you can redistribute it and/or
+ modify it under the terms of the GNU General Public License
+ as published by the Free Software Foundation; either version 2
+ of the License, or (at your option) any later version.
+
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with this program; if not, write to the Free Software
+ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+ */
+
 require("content-buffer.js");
 
 define_keymap("feedly_keymap", $display_name = "feedly");
@@ -6,10 +26,10 @@ define_keymap("feedly_keymap", $display_name = "feedly");
 define_key(feedly_keymap, "?", null, $fallthrough);
 
 // Jumping
-define_key(feedly_keymap, "g", null, $fallthrough);
-define_key(feedly_keymap, "m", null, $fallthrough);
-define_key(feedly_keymap, "a", null, $fallthrough);
-define_key(feedly_keymap, "l", null, $fallthrough);
+define_key(feedly_keymap, "g", null, $fallthrough); // gg: search box
+define_key(feedly_keymap, "m", null, $fallthrough); // gm: today
+define_key(feedly_keymap, "a", null, $fallthrough); // ga: all
+define_key(feedly_keymap, "l", null, $fallthrough); // gl: saved
 
 // Navigation
 define_key(feedly_keymap, "j", null, $fallthrough);
@@ -20,7 +40,7 @@ define_key(feedly_keymap, "n", null, $fallthrough);
 define_key(feedly_keymap, "p", null, $fallthrough);
 
 // Application
-define_key(feedly_keymap, "a", null, $fallthrough); // add
+define_key(feedly_keymap, "a", null, $fallthrough); // add content
 define_key(feedly_keymap, "r", null, $fallthrough); // refresh
 
 // Acting
