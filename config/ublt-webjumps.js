@@ -48,6 +48,8 @@ define_webjump("urban", "http://www.urbandictionary.com/define.php?term=%s",
                $description = "\u21d2 Urban Dictionary");
 define_webjump("viet anh", "http://1tudien.com/?w=%s",
                $description = "\u21d2 Vietnamese-English Dictionary");
+define_webjump("wordnik", "https://www.wordnik.com/words/%s",
+               $description = "\u21d2 Wordnik");
 
 
 // Wikipedia
