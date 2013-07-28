@@ -23,21 +23,29 @@ _.extend(buffer_container.prototype, {
   kill_buffer: function(buffer) {
     this.closed_urls = this.closed_urls || [];
     var url = buffer.display_uri_string;
+    var data = {
+      scrollX: buffer.scrollX,
+      scrollY: buffer.scrollY
+    };
     var result = ublt.buffer.orig_kill_buffer.call(this, buffer);
     // TODO: limit
-    if (result)
-      this.closed_urls.push(url);
+    if (result) {
+      // this.closed_urls[url] = data;
+      this.closed_urls.push([url, data]);
+    }
     return result;
   },
 
   open_last_closed: function() {
     var recent = this.closed_urls;
-    if (!recent)
+    if (recent.length < 1)
       return;
-    var url = recent[recent.length - 1];
-    if (url)
+    // TODO: Restore attributes (e.g. scroll position)
+    var [url, data] = recent.pop();
+    if (url) {
       load_url_in_new_buffer(url, this.window);
-    recent.pop();
+      // delete this.closed_urls[url];
+    }
   }
 });
 
@@ -57,7 +65,7 @@ interactive("ublt-open-closed-buffer",
           $completer = all_word_completer(
             $completions = recent,
             $get_string = function(x) {
-              return x ? x.toString() : "";
+              return x ? x[0].toString() : "";
             }
           ),
           $default_completion = recent[recent.length - 1]
