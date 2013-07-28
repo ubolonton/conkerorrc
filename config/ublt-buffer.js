@@ -40,11 +40,20 @@ _.extend(buffer_container.prototype, {
     var recent = this.closed_urls;
     if (recent.length < 1)
       return;
-    // TODO: Restore attributes (e.g. scroll position)
+    // TODO: Restore more attributes?
     var [url, data] = recent.pop();
     if (url) {
+      // TODO: More pervasive solution (persisting more states, across
+      // sessions)
       load_url_in_new_buffer(url, this.window);
-      // delete this.closed_urls[url];
+      // TODO: Is this the correct way to get the newly created
+      // buffer? Can another buffer becomes current before this?
+      var current = this.window.buffers.current;
+      var browser = current.browser;
+      // Restore scroll position after loading
+      browser.addEventListener("load", function(event) {
+        browser.contentWindow.scroll(data.scrollX, data.scrollY);
+      }, true);
     }
   }
 });
