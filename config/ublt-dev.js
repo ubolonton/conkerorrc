@@ -54,7 +54,7 @@ function w() {
     return repl_context().window;
 }
 
-// // This doesn't work yet for some reason related to EXPORTED_SYMBOLS
+// // This doesn't work for some reason related to EXPORTED_SYMBOLS
 // let (require = function(module) {
 //     var temp = {
 //         require: require,
@@ -68,6 +68,46 @@ function w() {
 //     });
 // };
 
+function getServices() {
+  var scope = {};
+  Components.utils.import("resource://gre/modules/Services.jsm", scope);
+  return scope.Services;
+}
+
+// CommonJS-style loader. Copied & modified from Erik Vold <erikvvold@gmail.com>
+// TODO: How about versioning?
+function makeLoader() {
+  var modules = {};
+  var {io, scriptloader} = getServices();
+
+  // TODO: Find a sensible way to separate searching and loading
+  var base = io.newURI("file:///home/ubolonton/.conkerorrc/node_modules/", null, null);
+
+  var require = function(src) {
+    if (modules[src])
+      return modules[src];
+
+    // Prepare a scope with only require function and empty exports
+    var scope = {
+      require: require,
+      exports: {}
+    };
+
+    // TODO: Move the export strategy out
+    var uri = io.newURI(src + "/" + src + ".js", null, base);
+    // Load source into scope
+    scriptloader.loadSubScript(uri.spec, scope);
+    // Expose exports from loaded module
+    modules[src] = scope.exports;
+
+    return modules[src];
+  };
+
+  return {
+    require: require,
+    modules: modules
+  };
+}
 
 /* Imports a commonjs style javascript file with loadSubScrpt
  * By Erik Vold <erikvvold@gmail.com> http://erikvold.com/
@@ -77,7 +117,7 @@ function w() {
  */
 (function(global) {
     var modules = {};
-    global.require1 = function require(src) {
+    global.require = function require(src) {
         if (modules[src]) return modules[src];
         var scope = {require: global.require, exports: {}};
         var tools = {};
@@ -93,7 +133,8 @@ function w() {
         }
         return modules[src] = scope.exports;
     };
-})(this);
+})// (this)
+;
 
 function makeI() {
     return new interactive_context(repl_context().window);
