@@ -54,19 +54,122 @@ function w() {
     return repl_context().window;
 }
 
-// This doesn't work yet for some reason related to EXPORTED_SYMBOLS
-let (require = function(module) {
-    var temp = {
-        require: require,
-        exports: {},
+// // This doesn't work yet for some reason related to EXPORTED_SYMBOLS
+// let (require = function(module) {
+//     var temp = {
+//         require: require,
+//         exports: {},
+//     };
+//     Components.utils.import(module, temp);
+//     return temp.exports;
+// }) {
+//     ublt.ns("ublt.commonjs", {
+//         require: require
+//     });
+// };
+
+
+/* Imports a commonjs style javascript file with loadSubScrpt
+ * By Erik Vold <erikvvold@gmail.com> http://erikvold.com/
+ *
+ * @param src (String)
+ * The url of a javascript file.
+ */
+(function(global) {
+    var modules = {};
+    global.require1 = function require(src) {
+        if (modules[src]) return modules[src];
+        var scope = {require: global.require, exports: {}};
+        var tools = {};
+        Components.utils.import("resource://gre/modules/Services.jsm", tools);
+        var baseURI = tools.Services.io.newURI(__SCRIPT_URI_SPEC__, null, null);
+        try {
+            var uri = tools.Services.io.newURI(
+                "packages/" + src + ".js", null, baseURI);
+            tools.Services.scriptloader.loadSubScript(uri.spec, scope);
+        } catch (e) {
+            var uri = tools.Services.io.newURI(src, null, baseURI);
+            tools.Services.scriptloader.loadSubScript(uri.spec, scope);
+        }
+        return modules[src] = scope.exports;
     };
-    Components.utils.import(module, temp);
-    return temp.exports;
-}) {
-    ublt.ns("ublt.commonjs", {
-        require: require
+})(this);
+
+function makeI() {
+    return new interactive_context(repl_context().window);
+}
+
+function minibuffer_complete_follow(window, count) {
+    minibuffer_complete(window, count);
+
+    var m = window.minibuffer;
+    var s = m.current_state;
+    if (! (s instanceof text_entry_minibuffer_state))
+        throw new Error("Invalid minibuffer state");
+
+    var val = m._input_text;
+
+    if (s.validator != null && ! s.validator(val, m))
+        return;
+
+    var match = null;
+
+    if (s.completer && s.match_required) {
+        if (! s.completions_valid || s.completions === undefined)
+            s.update_completions(false /* not conservative */, false /* don't update */);
+
+        let c = s.completions;
+        let i = s.selected_completion_index;
+        if (c != null && i >= 0 && i < c.count) {
+            if (c.get_value != null)
+                match = c.get_value(i);
+            else
+                match = c.get_string(i);
+        } else {
+            m.message("No match");
+            return;
+        }
+    }
+
+    // if (s.history) {
+    //     s.history.push(val);
+    //     if (s.history.length > minibuffer_history_max_items)
+    //         s.history.splice(0, s.history.length - minibuffer_history_max_items);
+    // }
+
+    // var cont = s.continuation;
+    // // delete s.continuation;
+    // // m.pop_state();
+    // if (cont) {
+    //     if (s.match_required)
+    //         cont(match);
+    //     else
+    //         cont(val);
+    // }
+    // XXX
+    if (match instanceof buffer) {
+        switch_to_buffer(window, match);
+    }
+}
+
+interactive(
+    "minibuffer-complete-follow", null,
+    function(I) {
+        minibuffer_complete_follow(I.window, I.p);
     });
-};
+interactive(
+    "minibuffer-complete-previous-follow", null,
+    function(I) {
+        minibuffer_complete_follow(I.window, -I.p);
+    });
+define_key(read_buffer_keymap, "C-M-t", "minibuffer-complete-follow");
+define_key(read_buffer_keymap, "C-M-c",
+           "minibuffer-complete-previous-follow");
 
+add_hook("kill_buffer_hook", function(buffer) {
+    DATA = buffer;
+    buffer.dead = false;
+    buffer.dead = true;
+});
 
-provide("ublt-util");
+provide("ublt-dev");
