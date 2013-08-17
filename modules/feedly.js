@@ -1,4 +1,4 @@
-/* ublt-mouse.js -- A mouse gesture module for Conkeror
+/* feedly.js - Feedly page-mode for Conkeror
 
  Copyright (C) 2013 Nguyễn Tuấn Anh <ubolonton@gmail.com>
 

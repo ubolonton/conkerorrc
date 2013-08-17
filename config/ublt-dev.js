@@ -54,7 +54,8 @@ function w() {
     return repl_context().window;
 }
 
-// // This doesn't work for some reason related to EXPORTED_SYMBOLS
+// // This doesn't work for some reason related to EXPORTED_SYMBOLS.
+// // Maybe it's just for .jsm files?
 // let (require = function(module) {
 //     var temp = {
 //         require: require,
