@@ -31,10 +31,6 @@
   top: 28px;
   width: 70%;
   left: 15%;
-  /* width: 100%; */
-  /* left: 0%; */
-  /* width: 25%; */
-  /* left: 75%; */
   opacity: 0.9;
   font-size: 22px;
   padding-top: 10px !important;
@@ -115,11 +111,11 @@ tree.completions {
   top: 51px;
   width: 70%;
   left: 15%;
-  /* width: 70%; */
-  /* left: 75%; */
-  /* height: 100%; */
   height: 10px;
   opacity: 0.75;
+  /* height: 500px !important; */
+  height: 10px;
+  opacity: 0.85;
 }
 
 tree.completions treechildren {
