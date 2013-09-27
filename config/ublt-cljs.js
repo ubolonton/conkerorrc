@@ -14,6 +14,7 @@ function loadScript(url, context) {
 function makeEnv(baseURL) {
   // TODO: Do we really need a system principal?
   var principal = CC("@mozilla.org/systemprincipal;1", "nsIPrincipal")();
+  // TODO: And do we really need a sandbox?
   return new Cu.Sandbox(principal, {
     sandboxPrototype: {
       CLOSURE_BASE_PATH: baseURL
@@ -33,7 +34,9 @@ function googURL(module, env) {
 function setUp(env) {
   // src is a URL
   env.CLOSURE_IMPORT_SCRIPT = function(src) {
+    // TODO: How do we handle possible errors here?
     loadScript(src, env);
+    return true;
   };
   loadScript(googURL("base", env), env);
   // TODO: Maybe this should be optional?
