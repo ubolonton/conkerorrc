@@ -1,0 +1,8 @@
+@-moz-document url-prefix(http) {
+  *:not(img) {
+    background: #0C141E !important;
+    color: #A0AFA8 !important;
+    border-color: #444 !important;
+  }
+}
+

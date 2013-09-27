@@ -1,0 +1,61 @@
+
+@namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");
+
+#tab2-bar {
+  -moz-appearance: textfield;
+  border-bottom: 1px solid threedshadow;
+}
+
+.tab2 {
+  /* -moz-appearance: statusbar; */
+  -moz-appearance: none;
+  min-width: 150px;
+  max-width: 200px;
+  overflow: hidden; /* Chops end of label */
+  border-style: solid;
+  border-width: 1px 1px 0 1px;
+  border-color: #999999;
+  -moz-border-radius-topleft: 10px 12px;
+  -moz-border-radius-topright: 10px 12px;
+  background: -moz-linear-gradient(top, rgba(170,170,170,255), rgba(240,240,240,255));
+  /* background: -moz-linear-gradient(top, rgba(44,51,64,255), rgba(44,51,64,255)); */
+  color: #2C3340;
+  /* color: #B8C1C9; */
+  height: 23px;
+}
+
+.tab2:hover {
+  /* background: -moz-linear-gradient(top, rgba(240,240,240,255), rgba(240,240,240,255)); */
+  background: -moz-linear-gradient(top, rgba(142,142,142,255), rgba(200,200,200,255));
+}
+
+.tab2[selected="true"] {
+  /* -moz-appearance: toolbar; */
+  background: -moz-linear-gradient(top, rgba(137,161,243,255), rgba(225,230,243,255));
+  /* background: -moz-linear-gradient(top, rgba(255,255,255,255), rgba(255,255,255,255)); */
+  color: black;
+}
+
+.tab2-label {
+  margin-left: 4px;
+  margin-top: 4px;
+  padding-top: 2px;
+  font-family: DejaVu Sans Condensed, Helvetica;
+  font-size: 14px;
+  font-weight: normal;
+}
+
+.tab2-index {
+  font: 500 15px DejaVu Sans Mono, Menlo;
+  text-align: center;
+  color: blue;
+  max-width: 30px;
+}
+
+.tab2-icon  {
+  width: 16px;
+  height: 16px;
+  /* -moz-margin-start: 4px; */
+  /* -moz-margin-end: 3px; */
+  margin: 3px 0px 3px 2px;
+}

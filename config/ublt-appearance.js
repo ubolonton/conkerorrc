@@ -28,6 +28,10 @@ function ublt_reload_theme () {
     theme_load("ubolonton");
 }
 interactive("ublt-theme", "Load my personal theme", ublt_reload_theme);
+interactive("ublt-theme-test", "", function(I) {
+  theme_unload("ubolonton-test");
+  theme_load("ubolonton-test");
+});
 
 
 // Stylesheet toggling

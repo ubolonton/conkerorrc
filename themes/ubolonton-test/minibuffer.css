@@ -1,0 +1,173 @@
+
+@namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");
+
+#minibuffer {
+  border-top: 0px solid #99B1F3;
+  font-family: DejaVu Sans Mono, Menlo;
+  font-size: 14px;
+  background-color: #0C141E !important;
+  color: #A0AFA8 !important;
+
+  /* position: fixed; */
+  /* top: 100px; */
+  /* width: 80%; */
+  /* left: 10%; */
+  /* opacity: 0.75; */
+}
+
+#minibuffer-prompt {
+  font-weight: bold;
+  color: cyan;
+  position: fixed;
+  top: 100px;
+  left: 15%;
+}
+
+#minibuffer-input {
+  color: #A0AFA8 !important;
+  background-color: #0C141E !important;
+  /* background-color: green !important; */
+  position: fixed;
+  top: 28px;
+  width: 70%;
+  left: 15%;
+  /* width: 100%; */
+  /* left: 0%; */
+  /* width: 25%; */
+  /* left: 75%; */
+  opacity: 0.9;
+  font-size: 22px;
+  padding-top: 10px !important;
+  height: 50px;
+  /* border: 2px solid transparent !important; */
+}
+
+#minibuffer-input deck {
+  padding-left: 10px;
+  width: 100%;
+}
+#minibuffer-input label {
+  width: 100%;
+  padding-left: 10px !important;
+  background-color: #0C141E;
+  /* word-break: break-word !important; */
+  /* display: block !important; */
+}
+
+tree.completions .tree-stack {
+  width: 100% !important;
+}
+
+/* #minibuffer-mode-indicator { */
+/*   position: fixed; */
+/*   right: 0; */
+/* } */
+
+
+/* mode text widgets */
+
+#minibuffer .mode-text-widget {
+  display: none;
+}
+
+#minibuffer[minibuffermode="message"] .mode-text-widget {
+  display: block;
+  border-left: 1px solid threedshadow;
+  padding-left: 4px !important;
+  padding-right: 4px !important;
+  margin-left: 0px !important;
+  margin-right: 0px !important;
+}
+
+#minibuffer[minibuffermode="message"] .mode-text-widget[value=""] {
+  display: none;
+}
+
+
+/* minibuffer highlighting */
+
+#minibuffer.highlight {
+  background-color: #2B343B !important;
+  color: #A0AFA8 !important;
+  font-weight: bold !important;
+}
+
+#minibuffer.highlight[minibuffermode="message"] .mode-text-widget {
+  border-left: 1px solid highlighttext;
+}
+
+
+/* Completions display */
+
+tree.completions {
+  margin: 0px !important;
+  /* padding-left: 4px !important; */
+  background-color: #0C141E !important;
+  color: #A0AFA8 !important;
+  -moz-appearance: none !important;
+  border: 0px none !important;
+  border-top: 0px solid -moz-Dialog !important;
+  font-size: 22px;
+  /* height: 150px; */
+  /* -moz-border-top-colors: -moz-initial !important; */
+
+  position: fixed;
+  top: 51px;
+  width: 70%;
+  left: 15%;
+  /* width: 70%; */
+  /* left: 75%; */
+  /* height: 100%; */
+  height: 10px;
+  opacity: 0.75;
+}
+
+tree.completions treechildren {
+  /* background-color: green; */
+  border: none !important;
+  width: 100% !important;
+  /* width: 1000px; */
+  position: relative;
+  left: 0 !important;
+  top: 0 !important;
+}
+
+tree.completions treecols {
+  width: 100%;
+  /* position: relative; */
+}
+
+tree.completions treecol {
+  -moz-binding: none !important;
+  /* width: 80%; */
+}
+
+tree.completions treechildren::-moz-tree-row {
+  height: 57px !important;
+  border: none;
+  background-color: #0C141E !important;
+  color: #A0AFA8 !important;
+  /* background-color: black !important; */
+}
+
+tree.completions treechildren::-moz-tree-row(current) {
+  background-color: #2B343B !important;
+}
+
+tree.completions treechildren::-moz-tree-cell-text {
+  padding-left: 10px !important;
+}
+
+tree.completions treechildren::-moz-tree-cell-text(completion-string) {
+  padding-left: 7px;
+}
+tree.completions treechildren::-moz-tree-cell-text(completion-description) {
+  font-weight: normal;
+  color: #8A8A8A;
+}
+tree.completions treechildren::-moz-tree-cell-text(current) {
+  color: #00FFFF !important;
+}
+tree.completions treechildren::-moz-tree-cell-text(current, completion-description) {
+  color: #00EEEE !important;
+}
