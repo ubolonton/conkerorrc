@@ -64,5 +64,6 @@ ublt.launcher.define("Google Reader", "https://www.google.com/reader", function(
     uri.path.search("/reader") == 0;
 });
 ublt.launcher.simple("Feedly", "http://cloud.feedly.com/#my");
+ublt.launcher.simple("CIAS", "http://cias.cogini.com");
 
 provide("ublt-launchers");
