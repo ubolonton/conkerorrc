@@ -5,21 +5,33 @@ require("suggest-file-name");
 // Download in background
 download_buffer_automatic_open_target = OPEN_NEW_BUFFER_BACKGROUND;
 
-// XXX: There must be a better way than redefining this function
-function suggest_save_path_from_file_name(file_name, buffer) {
-    var cwd = with_current_buffer(buffer, function (I) I.local.cwd);
-    var file = cwd.clone();
-    for (let re in replace_map) {
-        if (file_name.match(re)) {
-            if (replace_map[re].path) {
-                file = make_file(replace_map[re].path);
-            }
-            // file_name = replace_map[re].transformer(file_name);
-        }
+let (last_save_path = cwd.path) {
+    function update_save_path(info) {
+        last_save_path = info.target_file.parent.path;
     }
-    file.append(file_name);
-    return file.path;
-}
+    add_hook("download_added_hook", update_save_path);
+
+    // XXX: There must be a better way than redefining this function
+    suggest_save_path_from_file_name = function (file_name, buffer) {
+        var cwd = with_current_buffer(buffer, function (I) I.local.cwd);
+        var file = cwd.clone();
+        var replaced = false;
+        for (let re in replace_map) {
+            if (file_name.match(re)) {
+                if (replace_map[re].path) {
+                    file = make_file(replace_map[re].path);
+                    replaced = true;
+                }
+                // file_name = replace_map[re].transformer(file_name);
+            }
+        }
+        if (!replaced) {
+            file = make_file(last_save_path);
+        }
+        file.append(file_name);
+        return file.path;
+    };
+};
 
 // Default location by type
 let (d = get_home_directory()) {
