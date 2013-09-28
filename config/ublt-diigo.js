@@ -2,11 +2,10 @@ require("ublt");
 
 ublt.ns("ublt.diigo", {
     show_toolbar: function(I) {
-        var document = I.buffer.document;
-
+        var document = I.buffer.document.wrappedJSObject;
         var script = document.createElement("script");
         script.setAttribute("type", "text/javascripts");
-        script.setAttribute("src", "http://www.diigo.com/javascripts/webtoolbar/diigolet_b_h_b.js");
+        script.setAttribute("src", "https://www.diigo.com/javascripts/webtoolbar/diigolet_b_h_b.js");
         document.body.appendChild(script);
     }
 });
