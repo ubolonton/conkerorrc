@@ -61,7 +61,7 @@ function goog_new_env(baseURL, deps, additions) {
   for (var ns in additions) {
     let module = additions[ns];
     cljs.goog.provide(ns);
-    cljs.goog[ns] = module;
+    cljs[ns] = module;
   }
   return cljs;
 }
@@ -74,9 +74,9 @@ var cljs = goog_new_env(
   [["../../../../out/cljs/core.js", ["cljs.core"],
     ["goog.string", "goog.string.StringBuffer",
      "goog.object", "goog.array"]]], {
-    "repl": repl,
+    repl: repl,
     // For (require '[conkeror])
-    "conkeror": Cc["@conkeror.mozdev.org/application;1"].getService().wrappedJSObject
+    conkeror: Cc["@conkeror.mozdev.org/application;1"].getService().wrappedJSObject
   });
 
 
