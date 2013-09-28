@@ -138,7 +138,7 @@ function makeLoader() {
 ;
 
 function makeI() {
-    return new interactive_context(repl_context().window);
+    return new interactive_context(repl_context().buffer);
 }
 
 // 
