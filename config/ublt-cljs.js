@@ -44,6 +44,22 @@ function goog_set_up(env) {
     return true;
   };
   loadScript(goog_url("base", env), env);
+  // XXX
+  var provide0 = env.goog.provide;
+  env.goog.provide = function(name) {
+    try {
+      provide0(name);
+    } catch (e) {
+      var message = e.message || "";
+      if (!(message.indexOf("Namespace") > -1 &&
+            message.indexOf("already declared") > -1)) {
+        throw e;
+      } else {
+        // Just reloading, goog.provide is crazy for not allowing
+        // providing twice
+      }
+    }
+  };
   // TODO: Maybe this should be optional?
   loadScript(goog_url("deps", env), env);
 }
