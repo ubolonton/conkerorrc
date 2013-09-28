@@ -51,6 +51,7 @@ function repl_context() {
     return ctx;
 }
 
+// require("block-content-focus-change");
 require("feedly");
 require("facebook");
 require("ublt-dvorak");
@@ -283,3 +284,6 @@ if ('@eff.org/https-everywhere;1' in Cc) {
                   "", "chrome,titlebar,toolbar,centerscreen,resizable", null);
               });
 }
+
+
+require("ublt-dev");

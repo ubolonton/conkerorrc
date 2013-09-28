@@ -141,8 +141,15 @@ function makeI() {
     return new interactive_context(repl_context().window);
 }
 
+// 
+// This section is full of epic HACKs
+
+// This is a modified copy of exit_minibuffer
 function minibuffer_complete_follow(window, count) {
     minibuffer_complete(window, count);
+    if (!window._minibuffer_complete_should_follow) {
+      return;
+    }
 
     var m = window.minibuffer;
     var s = m.current_state;
@@ -173,26 +180,31 @@ function minibuffer_complete_follow(window, count) {
         }
     }
 
-    // if (s.history) {
-    //     s.history.push(val);
-    //     if (s.history.length > minibuffer_history_max_items)
-    //         s.history.splice(0, s.history.length - minibuffer_history_max_items);
-    // }
-
-    // var cont = s.continuation;
-    // // delete s.continuation;
-    // // m.pop_state();
-    // if (cont) {
-    //     if (s.match_required)
-    //         cont(match);
-    //     else
-    //         cont(val);
-    // }
-    // XXX
-    if (match instanceof buffer) {
-        switch_to_buffer(window, match);
+  if (match instanceof buffer) {
+    switch_to_buffer(window, match);
+  } else {
+    if (s.history) {
+      s.history.push(val);
+      if (s.history.length > minibuffer_history_max_items)
+        s.history.splice(0, s.history.length - minibuffer_history_max_items);
     }
+
+    var cont = s.continuation;
+    delete s.continuation;
+    m.pop_state();
+    if (cont) {
+      if (s.match_required)
+        cont(match);
+      else
+        cont(val);
+    }
+  }
 }
+
+define_variable(
+  "minibuffer_complete_should_follow",
+  false,
+  "Whether to auto-preview on switching buffer");
 
 interactive(
     "minibuffer-complete-follow", null,
@@ -204,14 +216,96 @@ interactive(
     function(I) {
         minibuffer_complete_follow(I.window, -I.p);
     });
-define_key(read_buffer_keymap, "C-M-t", "minibuffer-complete-follow");
-define_key(read_buffer_keymap, "C-M-c",
-           "minibuffer-complete-previous-follow");
+// define_key(read_buffer_keymap, "C-M-t", "minibuffer-complete-follow");
+// define_key(read_buffer_keymap, "C-M-c", "minibuffer-complete-previous-follow");
 
-add_hook("kill_buffer_hook", function(buffer) {
-    DATA = buffer;
-    buffer.dead = false;
-    buffer.dead = true;
+define_key(read_buffer_keymap, "down", "minibuffer-complete-follow");
+define_key(read_buffer_keymap, "up", "minibuffer-complete-previous-follow");
+
+interactive("switch-to-recent-buffer",
+    "Prompt for a buffer and switch to it.",
+    function (I) {
+      I.window._last_buffer = I.buffer;
+      I.window._minibuffer_complete_should_follow = minibuffer_complete_should_follow;
+      var buffer = (yield I.minibuffer.read_recent_buffer(
+        $prompt = "Switch to buffer (p):",
+        $default = (I.window.buffers.count > 1 ?
+                    I.window.buffers.buffer_history[1] :
+                    I.buffer)));
+
+      I.window._last_buffer = undefined;
+      I.window._minibuffer_complete_should_follow = undefined;
+      switch_to_buffer(I.window, buffer);
+    });
+
+interactive("minibuffer-abort", null, function (I) {
+  if (I.window._minibuffer_complete_should_follow) {
+    I.window._minibuffer_complete_should_follow = undefined;
+  }
+  if (I.window._last_buffer)  {
+    var last_buffer = I.window._last_buffer;
+    I.window._last_buffer = undefined;
+    switch_to_buffer(I.window, last_buffer);
+    minibuffer_abort(I.window);
+  } else  {
+    minibuffer_abort(I.window);
+  }
 });
+
+interactive("minibuffer-toggle-complete-follow", null, function(I) {
+  I.window._minibuffer_complete_should_follow = !I.window.minibuffer_complete_should_follow;
+});
+
+// define_key(read_buffer_keymap, "C-c C-f", "minibuffer-toggle-complete-follow");
+define_key(read_buffer_keymap, "s-f", "minibuffer-toggle-complete-follow");
+
+// 
+
+// add_hook("kill_buffer_hook", function(buffer) {
+//     DATA = buffer;
+//     buffer.dead = false;
+//     buffer.dead = true;
+// });
+
+var {classes: Cc, Constructor: CC, interfaces: Ci, utils: Cu,
+     results: Cr, manager: Cm } = Components;
+
+var sb = new Cu.Sandbox(w(), {
+  sandboxPrototype: w(),
+  wantXrays: false
+});
+
+function parse(string, type) {
+  return Cu.evalInSandbox("new DOMParser", sb).parseFromString(string, type || "text/xml");
+}
+
+var {Services: Services} = Cu.import("resource://gre/modules/Services.jsm", {});
+
+Cu.import("resource://gre/modules/FileUtils.jsm");
+FileUtils.File("/home/ubolonton/.conkerorrc/config/tmp.js");
+
+function readFile(file) {
+  var data = "";
+  var fstream = Cc["@mozilla.org/network/file-input-stream;1"].
+        createInstance(Components.interfaces.nsIFileInputStream);
+  var cstream = Cc["@mozilla.org/intl/converter-input-stream;1"].
+        createInstance(Ci.nsIConverterInputStream);
+  fstream.init(file, -1, 0, 0);
+  cstream.init(fstream, "UTF-8", 0, 0); // you can use another encoding here if you wish
+
+  let (str = {}) {
+    let read = 0;
+    do {
+      read = cstream.readString(0xffffffff, str); // read as much as we can and put it in str.value
+      data += str.value;
+    } while (read != 0);
+  };
+  cstream.close(); // this closes fstream
+  return data;
+}
+
+// var {Loader, Require, Unload} = Cu.import("resource:///modules/sdk/loader.js");
+
+
 
 provide("ublt-dev");
