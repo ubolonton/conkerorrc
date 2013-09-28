@@ -105,6 +105,9 @@ define_key(default_global_keymap, "C-M-n", "buffer-next");
 define_key(default_global_keymap, "h", "find-url-from-history-new-buffer");
 define_key(default_global_keymap, "H", "find-url-from-history");
 
+define_key(default_global_keymap, "home", "cmd_scrollTop");
+define_key(default_global_keymap, "M-<", "cmd_scrollTop");
+
 define_key(content_buffer_normal_keymap, "s-s", "save-page-complete");
 define_key(content_buffer_normal_keymap, "M-f", "follow-new-buffer-background");
 define_key(content_buffer_normal_keymap, "s-f", "follow");
@@ -121,12 +124,16 @@ define_key(content_buffer_normal_keymap, "M-s-n", "forward");
 
 define_key(content_buffer_normal_keymap, "s-;", "focus");
 
+define_key(content_buffer_normal_keymap, "home", "cmd_scrollTop");
+define_key(content_buffer_normal_keymap, "M-<", "cmd_scrollTop");
+
 // Dvorak
 define_key(text_keymap, "up", "cmd_scrollLineUp");
 define_key(text_keymap, "down", "cmd_scrollLineDown");
 define_key(text_keymap, "page_up", "cmd_scrollPageUp");
 define_key(text_keymap, "page_down", "cmd_scrollPageDown");
 define_key(text_keymap, "home", "scroll-top-left");
+// define_key(text_keymap, "home", "cmd_scrollTop");
 define_key(text_keymap, "end", "cmd_scrollBottom");
 define_key(text_keymap, "s-a", "cmd_selectAll");
 
