@@ -1,0 +1,14 @@
+Compiling
+#+begin_src shell
+lein cljsbuild once
+#+end_src
+
+Auto-recompiling
+#+begin_src shell
+lein cljsbuild auto
+#+end_src
+
+Built files are put under =build/=.
+
+=init.js= creates a cljs environment (=global_cljs_env=), which is
+configured to use these built files.
