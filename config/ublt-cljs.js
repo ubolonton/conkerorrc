@@ -83,17 +83,17 @@ function goog_new_env(baseURL, deps, additions) {
 }
 
 
-var cljs = goog_new_env(
-  "file:///home/ubolonton/Programming/Clojure/lib/clojurescript/closure/library/closure/goog/",
-  // XXX: Google Closure doesn't seem to support a list of search paths
-  // For (require '[cljs.core])
-  [["../../../../out/cljs/core.js", ["cljs.core"],
-    ["goog.string", "goog.string.StringBuffer",
-     "goog.object", "goog.array"]]], {
-    repl: repl,
-    // For (require '[conkeror])
-    conkeror: Cc["@conkeror.mozdev.org/application;1"].getService().wrappedJSObject
-  });
+// var cljs = goog_new_env(
+//   "file:///home/ubolonton/Programming/Clojure/lib/clojurescript/closure/library/closure/goog/",
+//   // XXX: Google Closure doesn't seem to support a list of search paths
+//   // For (require '[cljs.core])
+//   [["../../../../out/cljs/core.js", ["cljs.core"],
+//     ["goog.string", "goog.string.StringBuffer",
+//      "goog.object", "goog.array"]]], {
+//     repl: repl,
+//     // For (require '[conkeror])
+//     conkeror: Cc["@conkeror.mozdev.org/application;1"].getService().wrappedJSObject
+//   });
 
 
 provide("ublt-cljs");
