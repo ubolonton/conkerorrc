@@ -222,11 +222,21 @@ interactive(
 define_key(read_buffer_keymap, "down", "minibuffer-complete-follow");
 define_key(read_buffer_keymap, "up", "minibuffer-complete-previous-follow");
 
+function minibuffer_set_cf(I, b) {
+  I.window._minibuffer_complete_should_follow = b;
+  I.minibuffer.element.setAttribute("followmode", b);
+  var state = I.minibuffer.current_state;
+  if (state && state.completions_display_element) {
+    state.completions_display_element.setAttribute("followmode", b);
+  }
+}
+
 interactive("switch-to-recent-buffer",
     "Prompt for a buffer and switch to it.",
     function (I) {
       I.window._last_buffer = I.buffer;
-      I.window._minibuffer_complete_should_follow = minibuffer_complete_should_follow;
+      // I.window._minibuffer_complete_should_follow = minibuffer_complete_should_follow;
+      minibuffer_set_cf(I, minibuffer_complete_should_follow);
       var buffer = (yield I.minibuffer.read_recent_buffer(
         $prompt = "Switch to buffer (p):",
         $default = (I.window.buffers.count > 1 ?
@@ -234,13 +244,13 @@ interactive("switch-to-recent-buffer",
                     I.buffer)));
 
       I.window._last_buffer = undefined;
-      I.window._minibuffer_complete_should_follow = undefined;
+      minibuffer_set_cf(I, undefined);
       switch_to_buffer(I.window, buffer);
     });
 
 interactive("minibuffer-abort", null, function (I) {
   if (I.window._minibuffer_complete_should_follow) {
-    I.window._minibuffer_complete_should_follow = undefined;
+    minibuffer_set_cf(I, undefined);
   }
   if (I.window._last_buffer)  {
     var last_buffer = I.window._last_buffer;
@@ -253,7 +263,7 @@ interactive("minibuffer-abort", null, function (I) {
 });
 
 interactive("minibuffer-toggle-complete-follow", null, function(I) {
-  I.window._minibuffer_complete_should_follow = !I.window.minibuffer_complete_should_follow;
+  minibuffer_set_cf(I, !I.window._minibuffer_complete_should_follow);
 });
 
 // define_key(read_buffer_keymap, "C-c C-f", "minibuffer-toggle-complete-follow");
