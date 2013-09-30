@@ -31,29 +31,43 @@ var cljs_mozrepl_interactor = {
     return "";
   },
 
-  pr_str: function(data) {
-    return this.env.cljs.core.pr_str(data);
-  },
+  // pr_str: function(data) {
+  //   return this.env.cljs.core.pr_str(data);
+  // },
+
+  // keyword: function(str) {
+  //   return this.env.cljs.core.keyword(str);
+  // },
 
   handleInput: function(repl, input) {
     repl.debug("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
     repl.debug(input);
     var result;
+    var c = this.env.cljs.core;
+    var k = function(str) {
+      return c.keyword(str);
+    };
+    var m = c.js__GT_clj({});
     try {
-      result = {
-        status: "success",
-        value: this.pr_str(repl.evaluate(input, this.env))
-      };
+      result = c.assoc(m, k("status"), k("success"));
+      result = c.assoc(result, k("value"), repl.evaluate(input, this.env));
+      // result = {
+      //   status: k("success"),
+      //   value: c.pr_str()
+      // };
     } catch (e) {
-      result = {
-        status: "exception",
-        value: this.pr_str(e),
-        stack: e.hasOwnProperty("stack") ? e.stack : "No stacktrace available."
-      };
+      result = c.assoc(m, k("status"), k("exception"));
+      result = c.assoc(result, k("value"), c.pr_str(e));
+      result = c.assoc(result, k("stacktrace"), e.hasOwnProperty("stack") ? e.stack : "No stacktrace available.");
+      // result = {
+      //   status: k("exception"),
+      //   value: c.pr_str(e),
+      //   stack: e.hasOwnProperty("stack") ? e.stack : "No stacktrace available."
+      // };
     }
     repl.debug("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
     repl.debug(result);
-    var rep = repl.represent(result);
+    var rep = c.pr_str(result);
     repl.debug("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
     repl.debug(rep);
     repl.print(rep);
