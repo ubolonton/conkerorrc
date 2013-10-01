@@ -287,3 +287,29 @@ if ('@eff.org/https-everywhere;1' in Cc) {
 
 
 require("ublt-dev");
+
+require("ublt-cljs");
+
+function make_url(parts) {
+  var f = get_home_directory();
+  f.appendRelativePath(".conkerorrc");
+  parts.forEach(function(p) {
+    f.appendRelativePath(p);
+  });
+  return "file://" + f.path;
+}
+
+let (baseURL = make_url(["cljs", "build", "goog/"]),
+     depsURL = make_url(["cljs", "deps.js"])) {
+  var global_cljs_env = goog_new_env(
+    baseURL, [], {
+      // repl: repl,
+      // For (require '[conkeror])
+      conkeror: Cc["@conkeror.mozdev.org/application;1"].getService().wrappedJSObject
+    });
+  // repl.print(depsURL);
+  loadScript(depsURL, global_cljs_env);
+};
+
+// Load init namespace
+global_cljs_env.goog.require("ublt.conkeror.init");
