@@ -8,13 +8,13 @@
   (doseq [[from to] pairs]
     (c/define_key_alias (str from) (str to))))
 
-(set-print-fn! (fn [s] (.print c/repl s)))
+;; (set-print-fn! (fn [s] (.print c/repl s)))
 
 ;; (defn test []
 ;;   (js/yield 1))
 
-(defn test [v]
-  (js* "yield " v))
+;; (defn test [v]
+;;   (js* "yield " v))
 
 ;; (println "Here")
 
