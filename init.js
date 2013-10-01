@@ -311,5 +311,7 @@ let (baseURL = make_url(["cljs", "build", "goog/"]),
   loadScript(depsURL, global_cljs_env);
 };
 
-// Load init namespace
+// Load init namespace. This needs pre-compilation of cljs files (see
+// cljs dir). The long term goal is run-time compilation (through a
+// JVM service, or through cinc once it's ready)
 global_cljs_env.goog.require("ublt.conkeror.init");

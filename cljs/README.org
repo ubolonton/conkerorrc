@@ -1,3 +1,5 @@
+Conkeror config with clojurescript
+
 Compiling
 #+begin_src shell
 lein cljsbuild once
