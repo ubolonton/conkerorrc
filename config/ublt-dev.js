@@ -280,19 +280,19 @@ define_key(read_buffer_keymap, "s-f", "minibuffer-toggle-complete-follow");
 var {classes: Cc, Constructor: CC, interfaces: Ci, utils: Cu,
      results: Cr, manager: Cm } = Components;
 
-var sb = new Cu.Sandbox(w(), {
-  sandboxPrototype: w(),
-  wantXrays: false
-});
+// var sb = new Cu.Sandbox(w(), {
+//   sandboxPrototype: w(),
+//   wantXrays: false
+// });
 
-function parse(string, type) {
-  return Cu.evalInSandbox("new DOMParser", sb).parseFromString(string, type || "text/xml");
-}
+// function parse(string, type) {
+//   return Cu.evalInSandbox("new DOMParser", sb).parseFromString(string, type || "text/xml");
+// }
 
-var {Services: Services} = Cu.import("resource://gre/modules/Services.jsm", {});
+// var {Services: Services} = Cu.import("resource://gre/modules/Services.jsm", {});
 
-Cu.import("resource://gre/modules/FileUtils.jsm");
-FileUtils.File("/home/ubolonton/.conkerorrc/config/tmp.js");
+// Cu.import("resource://gre/modules/FileUtils.jsm");
+// FileUtils.File("/home/ubolonton/.conkerorrc/config/tmp.js");
 
 function readFile(file) {
   var data = "";
