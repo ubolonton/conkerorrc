@@ -299,19 +299,25 @@ function make_url(parts) {
   return "file://" + f.path;
 }
 
-let (baseURL = make_url(["cljs", "build", "goog/"]),
-     depsURL = make_url(["cljs", "deps.js"])) {
-  var global_cljs_env = goog_new_env(
-    baseURL, [], {
-      // repl: repl,
-      // For (require '[conkeror])
-      conkeror: Cc["@conkeror.mozdev.org/application;1"].getService().wrappedJSObject
-    });
-  // repl.print(depsURL);
-  loadScript(depsURL, global_cljs_env);
-};
+try {
+  let (baseURL = make_url(["cljs", "build", "goog/"]),
+       depsURL = make_url(["cljs", "deps.js"])) {
+    var global_cljs_env = goog_new_env(
+      baseURL, [], {
+        // repl: repl,
+        // For (require '[conkeror])
+        conkeror: Cc["@conkeror.mozdev.org/application;1"].getService().wrappedJSObject
+      });
+    // repl.print(depsURL);
+    loadScript(depsURL, global_cljs_env);
+  };
 
-// Load init namespace. This needs pre-compilation of cljs files (see
-// cljs dir). The long term goal is run-time compilation (through a
-// JVM service, or through cinc once it's ready)
-global_cljs_env.goog.require("ublt.conkeror.init");
+  // Load init namespace. This needs pre-compilation of cljs files (see
+  // cljs dir). The long term goal is run-time compilation (through a
+  // JVM service, or through cinc once it's ready)
+  global_cljs_env.goog.require("ublt.conkeror.init");
+  conkeror.get_recent_conkeror_window().minibuffer.message(
+    "Loaded namespace ublt.conkeror.init");
+} catch (e) {
+  conkeror.get_recent_conkeror_window().minibuffer.message(e);
+}
