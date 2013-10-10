@@ -1,14 +1,14 @@
 (ns ublt.conkeror.dvorak
-  (:require [conkeror :as c]))
+  (:require [ublt.conkeror.util :as u]))
 
-(.require c/conkeror "keymap")
-(.require c/conkeror "global-overlay-keymap")
+(u/require :keymap)
+(u/require :global-overlay-keymap)
 
 (defn aliases [pairs]
   (doseq [[from to] pairs]
-    (c/define_key_alias (str from) (str to))))
+    (u/define_key_alias (str from) (str to))))
 
-;; (set-print-fn! (fn [s] (.print c/repl s)))
+;; (set-print-fn! (fn [s] (.print u/repl s)))
 
 ;; (defn test []
 ;;   (js/yield 1))

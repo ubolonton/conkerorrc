@@ -1,6 +1,5 @@
 (ns ublt.conkeror.readability
-  ;; (:import conkeror)
-  )
+  (:require [ublt.conkeror.util :as u]))
 
 (def *token* "u3UkrgRbELzG4mM5CGBEnu2qLMVC8JNnxXd76Mtc")
 
@@ -16,16 +15,16 @@
     e))
 
 (defn read-now [I]
-  (let [window (-> I (.-window) (.-buffers) (.-current))
-               document (.-document window)]
+  (let [window (u/content-window I)
+        document (.-document window)]
     (merge! window
             {:baseUrl "http://www.readability.com"
              :readabilityToken *token*})
     (.appendChild (.-documentElement document)
-     (element! document "script"
-              {:type "text/javascript"
-               :charset "UTF-8"
-               :src (str (.-baseUrl "/bookmarklet/read.js"))}))))
+                  (element! document "script"
+                            {:type "text/javascript"
+                             :charset "UTF-8"
+                             :src (str (.-baseUrl "/bookmarklet/read.js"))}))))
 
 
 ;; (.interactive conkeror "readability-read-now" "" read-now)
