@@ -11,7 +11,12 @@ let (mozrepl_init = get_home_directory()) {
     session_pref('extensions.mozrepl.initUrl', make_uri(mozrepl_init).spec);
 };
 
+var {classes: Cc, Constructor: CC, interfaces: Ci, utils: Cu,
+     results: Cr, manager: Cm } = Components;
+
 user_pref('browser.history_expire_days', 99999);
+
+session_pref("layout.spellcheckDefault", 1);
 
 // This is not present by default
 user_pref('general.smoothScroll', true);
@@ -135,8 +140,9 @@ can_kill_last_buffer = false;
 user_pref("signon.prefillForms", true);
 user_pref("signon.autofillForms", true);
 user_pref("signon.rememberSignons", true);
-Components.classes["@mozilla.org/login-manager;1"]
-    .getService(Components.interfaces.nsILoginManager);
+user_pref("signon.expireMasterPassword", false);
+user_pref("signon.debug", true);
+Cc["@mozilla.org/login-manager;1"].getService(Ci.nsILoginManager); // init
 
 // Use history not bookmark?
 url_completion_use_history = true;
