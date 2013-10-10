@@ -25,6 +25,10 @@ function goog_make_env(baseURL) {
     // TODO: Do we need really this?
     wantXrays: false
   });
+  // var ctx = {};
+  // ctx.__proto__ = Cc["@conkeror.mozdev.org/application;1"].getService().wrappedJSObject;
+  // ctx.CLOSURE_BASE_PATH = baseURL;
+  // return ctx;
 }
 
 
@@ -60,6 +64,18 @@ function goog_set_up(env) {
       }
     }
   };
+
+  // // NOTE: Was going to hack something to allow reloading code. Then I
+  // // realized that it may be unnecessary if we use the REPL
+  // var require0 = env.goog.require;
+  // env.goog.require = function(name) {
+  //   // .isProvided_(name)
+  //   // .getPathFromDeps_(name)
+  //   // .included_[path]
+  //   // .dependencies_.written[path]
+  //   // .dependencies_.visited[path]
+  // };
+
   // TODO: Maybe this should be optional?
   loadScript(goog_url("deps", env), env);
 }

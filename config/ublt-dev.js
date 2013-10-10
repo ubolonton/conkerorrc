@@ -1,5 +1,7 @@
 require("ublt");
 
+// Components.utils.import('resource://gre/modules/commonjs/toolkit/loader.js');
+// Components.utils.import('jar:file:///home/ubolonton/Programming/Tools/xulrunner/omni.ja!/modules/commonjs/toolkit/loader.js');
 
 function m_class(el) {
   var cl = el.getAttribute("class");
@@ -316,6 +318,226 @@ function readFile(file) {
 
 // var {Loader, Require, Unload} = Cu.import("resource:///modules/sdk/loader.js");
 
+
+// text_entry_minibuffer_state.prototype = {
+//     constructor: text_entry_minibuffer_state,
+//     __proto__: basic_minibuffer_state.prototype,
+//     load: function () {
+//         basic_minibuffer_state.prototype.load.call(this);
+//         var window = this.minibuffer.window;
+//         if (this.completer) {
+//             // Create completion display element if needed
+//             if (! this.completion_element) {
+//                 /* FIXME: maybe use the dom_generator */
+//                 var list = create_XUL(window, "richlistbox");
+//                 // var tree = create_XUL(window, "tree");
+//                 var s = this;
+//                 list.addEventListener("select", function () {
+//                   s.selected_completion_index = s.completions_display_element.selectedIndex;
+//                   s.handle_completion_selected();
+//                 }, true);
+//                 list.setAttribute("class", "completions");
 
+//                 // tree.setAttribute("rows", minibuffer_completion_rows);
 
+//                 list.setAttribute("collapsed", "true");
+
+//                 // tree.setAttribute("hidecolumnpicker", "true");
+//                 // tree.setAttribute("hideheader", "true");
+//                 // if (this.enable_icons)
+//                 //     tree.setAttribute("hasicons", "true");
+
+//                 // var treecols = create_XUL(window, "treecols");
+//                 // tree.appendChild(treecols);
+//                 // var treecol = create_XUL(window, "treecol");
+//                 // treecol.setAttribute("flex", "1");
+//                 // treecols.appendChild(treecol);
+//                 // treecol = create_XUL(window, "treecol");
+//                 // treecol.setAttribute("flex", "1");
+//                 // treecols.appendChild(treecol);
+//                 // tree.appendChild(create_XUL(window, "treechildren"));
+
+//                 this.minibuffer.insert_before(list);
+//                 // list.view = new completions_tree_view(this);
+//                 this.completions_display_element = list;
+
+//                 // This is the initial loading of this minibuffer state.
+//                 // If this.auto_complete_initial is true, generate
+//                 // completions.
+//                 if (this.auto_complete_initial)
+//                     this.handle_input();
+//             }
+//             this.update_completions_display();
+//         }
+//     },
+
+//     unload: function () {
+//         if (this.completions_display_element)
+//             this.completions_display_element.setAttribute("collapsed", "true");
+//         basic_minibuffer_state.prototype.unload.call(this);
+//     },
+
+//     destroy: function () {
+//         if (this.completions != null && this.completions.destroy)
+//             this.completions.destroy();
+//         delete this.completions;
+//         if (this.completions_cont)
+//             this.completions_cont.throw(abort());
+//         delete this.completions_cont;
+
+//         var el = this.completions_display_element;
+//         if (el) {
+//             el.parentNode.removeChild(el);
+//             this.completions_display_element = null;
+//         }
+//         if (this.continuation)
+//             this.continuation.throw(abort());
+//         basic_minibuffer_state.prototype.destroy.call(this);
+//     },
+
+//     handle_input: function () {
+//         if (! this.completer)
+//             return;
+//         this.completions_valid = false;
+//         if (! this.auto_complete)
+//             return;
+//         var s = this;
+//         var window = this.minibuffer.window;
+//         if (this.auto_complete_delay > 0) {
+//             if (this.completions_timer_ID != null)
+//                 window.clearTimeout(this.completions_timer_ID);
+//             this.completions_timer_ID = window.setTimeout(
+//                 function () {
+//                     s.completions_timer_ID = null;
+//                     s.update_completions(true /* auto */, true /* update completions display */);
+//                 }, this.auto_complete_delay);
+//             return;
+//         }
+//         s.update_completions(true /* auto */, true /* update completions display */);
+//     },
+
+//     update_completions_display: function () {
+//         var m = this.minibuffer;
+//         if (m.current_state == this) {
+//             if (this.completions && this.completions.count > 0) {
+//                 var e = this.completions_display_element;
+//                 for (let i = e.children.length - 1; i >= 0; i--) {
+//                     e.removeChild(e.children[i]);
+//                 }
+//                 var window = m.window;
+//                 for (let i = 0; i < this.completions.count; i++) {
+//                     var item = create_XUL(window, "richlistitem");
+//                     e.appendChild(item);
+//                 }
+
+//                 // this.completions_display_element.view = this.completions_display_element.view;
+//                 this.completions_display_element.setAttribute("collapsed", "false");
+//                 this.completions_display_element.selectedIndex = this.selected_completion_index;
+//                 var max_display = this.completions_display_element.getNumberofVisibleRows();
+//                 var mid_point = Math.floor(max_display / 2);
+//                 if (this.completions.count - this.selected_completion_index <= mid_point)
+//                     var pos = this.completions.count - max_display;
+//                 else
+//                     pos = Math.max(0, this.selected_completion_index - mid_point);
+
+//                 this.completions_display_element.scrollToIndex(pos);
+//             } else {
+//                 this.completions_display_element.setAttribute("collapsed", "true");
+//             }
+//         }
+//     },
+
+//     /* If auto is true, this update is due to auto completion, rather
+//      * than specifically requested. */
+//     update_completions: function (auto, update_display) {
+//         var window = this.minibuffer.window;
+//         if (this.completions_timer_ID != null) {
+//             window.clearTimeout(this.completions_timer_ID);
+//             this.completions_timer_ID = null;
+//         }
+//         var m = this.minibuffer;
+//         if (this.completions_cont) {
+//             this.completions_cont.throw(abort());
+//             this.completions_cont = null;
+//         }
+//         let c = this.completer(m._input_text, m._selection_start,
+//                                auto && this.auto_complete_conservative);
+//         if (is_coroutine(c)) {
+//             var s = this;
+//             var already_done = false;
+//             this.completions_cont = co_call(function () {
+//                 try {
+//                     var x = yield c;
+//                 } catch (e) {
+//                     handle_interactive_error(window, e);
+//                 } finally {
+//                     s.completions_cont = null;
+//                     already_done = true;
+//                 }
+//                 s.update_completions_done(x, update_display);
+//             }());
+//             // In case the completer actually already finished
+//             if (already_done)
+//                 this.completions_cont = null;
+//         } else
+//             this.update_completions_done(c, update_display);
+//     },
+
+//     update_completions_done: function (c, update_display) {
+//         /* The completer should return undefined if completion was not
+//          * attempted due to auto being true.  Otherwise, it can return
+//          * null to indicate no completions. */
+//         if (this.completions != null && this.completions.destroy)
+//             this.completions.destroy();
+
+//         this.completions = c;
+//         this.completions_valid = true;
+//         this.applied_common_prefix = false;
+
+//         if (c && ("get_match_required" in c))
+//             this.match_required = c.get_match_required();
+//         if (this.match_required == null)
+//             this.match_required = this.match_required_default;
+
+//         if (c && c.count > 0) {
+//             var i = -1;
+//             if (this.match_required) {
+//                 if (c.count == 1)
+//                     i = 0;
+//                 else if (c.default_completion != null)
+//                     i = c.default_completion;
+//                 else if (this.default_completion && this.completions.index_of)
+//                     i = this.completions.index_of(this.default_completion);
+//             }
+//             this.selected_completion_index = i;
+//         }
+
+//         if (update_display)
+//             this.update_completions_display();
+//     },
+
+//     select_completion: function (i) {
+//         this.selected_completion_index = i;
+//         this.completions_display_element.currentIndex = i;
+//         if (i >= 0)
+//             this.completions_display_element.ensureIndexIsVisible(i);
+//         this.handle_completion_selected();
+//     },
+
+//     handle_completion_selected: function () {
+//         /**
+//          * When a completion is selected, apply it to the input text
+//          * if a match is not "required"; otherwise, the completion is
+//          * only displayed.
+//          */
+//         var i = this.selected_completion_index;
+//         var m = this.minibuffer;
+//         var c = this.completions;
+
+//         if (this.completions_valid && c && !this.match_required && i >= 0 && i < c.count)
+//             m.set_input_state(c.get_input_state(i));
+//     }
+// };
+
+
 provide("ublt-dev");

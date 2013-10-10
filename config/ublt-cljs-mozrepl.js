@@ -40,8 +40,8 @@ var cljs_mozrepl_interactor = {
   // },
 
   handleInput: function(repl, input) {
-    repl.debug("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-    repl.debug(input);
+    dumpln("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+    dumpln(input);
     var result;
     var c = this.env.cljs.core;
     var k = function(str) {
@@ -65,11 +65,11 @@ var cljs_mozrepl_interactor = {
       //   stack: e.hasOwnProperty("stack") ? e.stack : "No stacktrace available."
       // };
     }
-    repl.debug("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-    repl.debug(result);
+    dumpln("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+    dumpln(result);
     var rep = c.pr_str(result);
-    repl.debug("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-    repl.debug(rep);
+    dumpln("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+    dumpln(rep);
     repl.print(rep);
     repl._prompt();
   }

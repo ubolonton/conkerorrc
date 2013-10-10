@@ -299,6 +299,29 @@ function make_url(parts) {
   return "file://" + f.path;
 }
 
+// try {
+//   let (baseURL = make_url(["cljs", "build", "goog/"]),
+//        depsURL = make_url(["cljs", "deps.js"])) {
+//     var env = conkeror;
+//     env.CLOSURE_BASE_PATH = baseURL;
+//     goog_set_up(env);
+//     loadScript(depsURL, env);
+//   };
+//   // Load init namespace. This needs pre-compilation of cljs files (see
+//   // cljs dir). The long term goal is run-time compilation (through a
+//   // JVM service, or through cinc once it's ready)
+//   env.goog.require("ublt.conkeror.init");
+//   var msg = "Loaded namespace ublt.conkeror.init";
+//   dumpln(msg);
+//   // FIX
+//   conkeror.get_recent_conkeror_window().minibuffer.message(msg);
+// } catch (e) {
+//   dumpln(e);
+//   // FIX
+//   conkeror.get_recent_conkeror_window().minibuffer.message(e);
+// }
+
+
 try {
   let (baseURL = make_url(["cljs", "build", "goog/"]),
        depsURL = make_url(["cljs", "deps.js"])) {
@@ -316,8 +339,12 @@ try {
   // cljs dir). The long term goal is run-time compilation (through a
   // JVM service, or through cinc once it's ready)
   global_cljs_env.goog.require("ublt.conkeror.init");
-  conkeror.get_recent_conkeror_window().minibuffer.message(
-    "Loaded namespace ublt.conkeror.init");
+  var msg = "Loaded namespace ublt.conkeror.init";
+  dumpln(msg);
+  // FIX
+  conkeror.get_recent_conkeror_window().minibuffer.message(msg);
 } catch (e) {
+  dumpln(e);
+  // FIX
   conkeror.get_recent_conkeror_window().minibuffer.message(e);
 }
