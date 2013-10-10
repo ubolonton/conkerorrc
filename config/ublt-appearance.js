@@ -22,7 +22,7 @@ let (p = get_home_directory()) {
   theme_load_paths.unshift(p);
 };
 theme_unload("default");
-theme_load("ubolonton");
+theme_load("ubolonton-test");
 function ublt_reload_theme () {
     theme_unload("ubolonton");
     theme_load("ubolonton");
