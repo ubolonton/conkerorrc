@@ -5,12 +5,12 @@
   border-top: 0px solid #99B1F3;
   font-family: DejaVu Sans Mono, Menlo;
   font-size: 14px;
-  background-color: #0C141E !important;
+  background-color: #0C141E;
   color: #A0AFA8 !important;
 
   /* position: fixed; */
-  /* top: 100px; */
-  /* width: 80%; */
+  /* top: 500px; */
+  /* width: 100%; */
   /* left: 10%; */
   /* opacity: 0.75; */
 }
@@ -18,7 +18,7 @@
 #minibuffer-prompt {
   font-weight: bold;
   color: cyan;
-  position: fixed;
+  position: fixed !important;
   top: 100px;
   left: 15%;
 }
@@ -26,15 +26,10 @@
 #minibuffer-input {
   color: #A0AFA8 !important;
   background-color: #0C141E !important;
-  /* background-color: green !important; */
   position: fixed;
   top: 28px;
   width: 70%;
   left: 15%;
-  /* width: 100%; */
-  /* left: 0%; */
-  /* width: 25%; */
-  /* left: 75%; */
   opacity: 0.9;
   font-size: 22px;
   padding-top: 10px !important;
@@ -49,7 +44,7 @@
 #minibuffer-input label {
   width: 100%;
   padding-left: 10px !important;
-  background-color: #0C141E;
+  /* background-color: #0C141E; */
   /* word-break: break-word !important; */
   /* display: block !important; */
 }
@@ -87,7 +82,7 @@ tree.completions .tree-stack {
 /* minibuffer highlighting */
 
 #minibuffer.highlight {
-  background-color: #2B343B !important;
+  /* background-color: #2B343B !important; */
   color: #A0AFA8 !important;
   font-weight: bold !important;
 }
@@ -102,7 +97,7 @@ tree.completions .tree-stack {
 tree.completions {
   margin: 0px !important;
   /* padding-left: 4px !important; */
-  background-color: #0C141E !important;
+  /* background-color: #0C141E !important; */
   color: #A0AFA8 !important;
   -moz-appearance: none !important;
   border: 0px none !important;
@@ -115,11 +110,9 @@ tree.completions {
   top: 51px;
   width: 70%;
   left: 15%;
-  /* width: 70%; */
-  /* left: 75%; */
-  /* height: 100%; */
   height: 10px;
-  opacity: 0.75;
+  /* height: 500px !important; */
+  /* opacity: 0.85; */
 }
 
 tree.completions treechildren {
@@ -145,29 +138,45 @@ tree.completions treecol {
 tree.completions treechildren::-moz-tree-row {
   height: 57px !important;
   border: none;
-  background-color: #0C141E !important;
+  /* background-color: #0C141E !important; */
+  background-color: rgba(12, 20, 30, 0.85) !important;
   color: #A0AFA8 !important;
-  /* background-color: black !important; */
 }
 
 tree.completions treechildren::-moz-tree-row(current) {
-  background-color: #2B343B !important;
+  /* background-color: #2B343B !important; */
+  background-color: rgba(43, 52, 59, 0.85) !important;
 }
 
 tree.completions treechildren::-moz-tree-cell-text {
-  padding-left: 10px !important;
+  padding-left: 10px;
 }
 
-tree.completions treechildren::-moz-tree-cell-text(completion-string) {
-  padding-left: 7px;
-}
 tree.completions treechildren::-moz-tree-cell-text(completion-description) {
   font-weight: normal;
-  color: #8A8A8A;
+  font-size: 18px;
+  color: #8A8A8A !important;
 }
+
 tree.completions treechildren::-moz-tree-cell-text(current) {
   color: #00FFFF !important;
 }
 tree.completions treechildren::-moz-tree-cell-text(current, completion-description) {
   color: #00EEEE !important;
 }
+
+
+#minibuffer[followmode="true"] #minibuffer-input {
+  left: 75%;
+  width: 60%;
+}
+
+tree.completions[followmode="true"] {
+  left: 75%;
+  width: 60%;
+  /* font-size: 18px; */
+}
+
+/* tree.completions[followmode="true"] treechildren::-moz-tree-row { */
+/*   height: 46px !important; */
+/* } */

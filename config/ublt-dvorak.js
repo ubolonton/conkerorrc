@@ -145,7 +145,7 @@ define_key(read_buffer_keymap, "C-S-tab", "minibuffer-complete-previous");
 define_key(read_buffer_keymap, "s-return", "minibuffer-complete");
 define_key(read_buffer_keymap, "s-S-return", "minibuffer-complete-previous");
 define_key(read_buffer_keymap, "s-h", "exit-minibuffer");
-define_key(read_buffer_keymap, "s-h", "exit-minibuffer");
+// define_key(read_buffer_keymap, "s-n", "exit-minibuffer");
 define_key(read_buffer_keymap, "page_up", "minibuffer-complete-previous-page");
 define_key(read_buffer_keymap, "page_down", "minibuffer-complete-next-page");
 

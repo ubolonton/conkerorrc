@@ -54,7 +54,7 @@ ublt.ns("ublt.launcher", {
 ublt.launcher.simple("GMail", "https://mail.google.com");
 ublt.launcher.simple("Facebook", "https://www.facebook.com");
 ublt.launcher.simple("Grooveshark", "http://grooveshark.com/#!/ubolonton/collection");
-ublt.launcher.simple("Prismatic", "http://getprismatic.com");
+ublt.launcher.simple("Prismatic", "http://preview.getprismatic.com");
 ublt.launcher.define("Coursera", "https://www.coursera.org", function(b) {
   return make_uri(b.display_uri_string).hostPort.search("coursera.org") > -1;
 });
