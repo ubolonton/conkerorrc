@@ -81,6 +81,9 @@ require("from-other");
 // For persona (allow popup?)
 // add_hook("window_initialize_hook", initialize_first_buffer_type);
 
+require("ublt-login");
+ublt_login_autofill_mode(true);
+
 require("ublt-mouse");
 ublt.ns("ublt.mouse.map", {
   "r-mouse1"    : "switch-to-last-buffer",
