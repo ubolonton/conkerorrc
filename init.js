@@ -350,10 +350,6 @@ try {
   global_cljs_env.goog.require("ublt.conkeror.init");
   var msg = "Loaded namespace ublt.conkeror.init";
   dumpln(msg);
-  // FIX
-  conkeror.get_recent_conkeror_window().minibuffer.message(msg);
 } catch (e) {
   dumpln(e);
-  // FIX
-  conkeror.get_recent_conkeror_window().minibuffer.message(e);
 }
