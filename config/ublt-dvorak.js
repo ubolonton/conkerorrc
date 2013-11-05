@@ -120,6 +120,7 @@ define_key(content_buffer_normal_keymap, "s-r", "save-for-later");
 define_key(content_buffer_normal_keymap, "C-c C-c", "submit-form");
 define_key(content_buffer_normal_keymap, "M-s-h", "back");
 define_key(content_buffer_normal_keymap, "M-s-n", "forward");
+define_key(content_buffer_normal_keymap, "s-a", "cmd_selectAll");
 
 define_key(content_buffer_normal_keymap, "s-;", "focus");
 
