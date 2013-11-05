@@ -145,6 +145,8 @@ user_pref("signon.autofillForms", true);
 user_pref("signon.rememberSignons", true);
 user_pref("signon.expireMasterPassword", false);
 user_pref("signon.debug", true);
+// FIX: Looks like login manager is not woken up (i.e. not offering to
+// remember passwords) until its fillForm method is called?
 Cc["@mozilla.org/login-manager;1"].getService(Ci.nsILoginManager); // init
 
 // Use history not bookmark?
