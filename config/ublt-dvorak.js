@@ -122,7 +122,10 @@ define_key(content_buffer_normal_keymap, "M-s-h", "back");
 define_key(content_buffer_normal_keymap, "M-s-n", "forward");
 
 define_key(content_buffer_normal_keymap, "s-;", "focus");
-define_key(content_buffer_normal_keymap, "s-b", "ublt-fill-current-form");
+
+undefine_key(text_keymap, "M-b");
+undefine_key(caret_keymap, "M-b");
+define_key(content_buffer_normal_keymap, "M-b", "ublt-fill-current-form");
 
 // Dvorak
 define_key(text_keymap, "up", "cmd_scrollLineUp");
