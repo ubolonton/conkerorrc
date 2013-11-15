@@ -98,6 +98,8 @@ define_key(default_global_keymap, "f6", "colors-toggle");
 define_key(default_global_keymap, "f7", "darken-page-mode");
 define_key(default_global_keymap, "f8", "toggle-gmail-fixed-width-messages");
 define_key(default_global_keymap, "s-n", "switch-to-last-buffer");
+// FIX: Make sure content document doesn't get certain keys instead
+define_key(default_global_keymap, "s-N", "switch-to-last-buffer");
 define_key(default_global_keymap, "C-G", "stop-loading-all");
 define_key(default_global_keymap, "0", "switch-to-last-tab");
 define_key(default_global_keymap, "C-M-h", "buffer-previous");
