@@ -63,7 +63,7 @@ ublt.launcher.define("Google Reader", "https://www.google.com/reader", function(
   return uri.hostPort == "www.google.com" &&
     uri.path.search("/reader") == 0;
 });
-ublt.launcher.simple("Feedly", "http://cloud.feedly.com/#my");
+ublt.launcher.simple("Feedly", "http://feedly.com/#my");
 ublt.launcher.simple("CIAS", "http://cias.cogini.com");
 ublt.launcher.simple("Redmine", "http://redmine.cogini.com");
 ublt.launcher.simple("Gitlab", "http://gitlab.cogini.com");

@@ -54,7 +54,7 @@ define_key(feedly_keymap, "A", null, $fallthrough); // all read
 define_key(feedly_keymap, "o", null, $fallthrough); // open/close
 
 define_keymaps_page_mode("feedly-mode",
-    build_url_regexp($domain = "cloud.feedly",
+    build_url_regexp($domain = "feedly",
                      $tlds = ["com"]),
     { normal: feedly_keymap },
     $display_name = "Feedly");
