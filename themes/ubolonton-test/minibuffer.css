@@ -24,16 +24,19 @@
 }
 
 #minibuffer-input {
-  color: #A0AFA8 !important;
+  /* font-family: Fira Sans; */
+  color: #DDDDDD !important;
+  /* color: cyan !important; */
   background-color: #0C141E !important;
   position: fixed;
-  top: 28px;
+  top: 0px;
   width: 70%;
   left: 15%;
-  opacity: 0.9;
-  font-size: 22px;
-  padding-top: 10px !important;
-  height: 50px;
+  opacity: 0.85;
+  font-size: 18px;
+  /* font-weight: bold; */
+  padding-top: 2px !important;
+  height: 28px;
   /* border: 2px solid transparent !important; */
 }
 
@@ -107,10 +110,10 @@ tree.completions {
   /* -moz-border-top-colors: -moz-initial !important; */
 
   position: fixed;
-  top: 51px;
+  top: 1px;
   width: 70%;
   left: 15%;
-  height: 10px;
+  height: 0px;
   /* height: 500px !important; */
   /* opacity: 0.85; */
 }
