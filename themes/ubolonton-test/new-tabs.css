@@ -6,6 +6,10 @@
   border-bottom: 1px solid threedshadow;
 }
 
+#main-window.full-screen #tab2-bar {
+  display: none;
+}
+
 .tab2 {
   /* -moz-appearance: statusbar; */
   -moz-appearance: none;

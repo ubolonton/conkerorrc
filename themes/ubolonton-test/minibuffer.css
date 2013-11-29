@@ -15,6 +15,12 @@
   /* opacity: 0.75; */
 }
 
+#main-window.full-screen #minibuffer {
+  position: fixed;
+  /* XXX: Don't use this, because minibuffer-input is inside */
+  /* display: none; */
+}
+
 #minibuffer-prompt {
   font-weight: bold;
   color: cyan;

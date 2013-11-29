@@ -10,3 +10,7 @@
   background-color: #89A1F3;
   color: black;
 }
+
+#main-window.full-screen .mode-line {
+  display: none;
+}

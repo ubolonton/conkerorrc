@@ -78,6 +78,9 @@ define_key_alias("M-v", "M-n"); // was cmd_scrollPageUp
 
 
 
+
+define_key(default_global_keymap, "s-F", "ublt-toggle-full-screen");
+
 // TODO: define multiple keys in one pass
 // OS X conventions
 define_key(default_global_keymap, "s-{", "buffer-previous");

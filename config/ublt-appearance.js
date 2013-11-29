@@ -192,6 +192,13 @@ interactive("colors-toggle", "toggle between document and forced colors",
                 }
             });
 
+interactive(
+  "ublt-toggle-full-screen",
+  "Toggle full-screen. Needs custom theme to work",
+  function(I) {
+    I.window.document.getElementById("main-window").classList.toggle("full-screen");
+  });
+
 
 
 provide("ublt-appearance");
