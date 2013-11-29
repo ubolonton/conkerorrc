@@ -81,6 +81,27 @@ require("from-other");
 // For persona (allow popup?)
 // add_hook("window_initialize_hook", initialize_first_buffer_type);
 
+// Ha ha no! Github uses the "keydown" event (which is insane)
+// add_hook("keypress_hook", function(window, I, event) {
+//   dumpln("HERE");
+//   var location = I.buffer.browser.contentWindow.location;
+//   if (location.host.startsWith("github.com")) {
+//     dumpln("*&^$#*)#$ github");
+//     event_kill(event);
+//   }
+// });
+
+// So that most sites (importantly Facebook, feedly) can use "keydown"
+// (which is the default behavior of Conkeror) except for github. This
+// requires my fork of Conkeror with keydown support;
+add_hook("keydown_hook", function(window, I, event) {
+  var location = I.buffer.browser.contentWindow.location;
+  if (location.host == "github.com") {
+    // TODO: Maybe only certain important keys?
+    event.stopPropagation();
+  }
+});
+
 require("ublt-login");
 ublt_login_autofill_mode(true);
 
