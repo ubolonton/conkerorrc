@@ -14,6 +14,8 @@ define_webjump("ly", "https://www.lyrigram.com/search/%s",
                $description = "\u21d2 Lyrigram lyrics search (Lyrigram)");
 define_webjump("coccoc", "http://coccoc.com/result?query=%s",
                $description = "\u21d2 C\u1ed1c C\u1ed1c");
+define_webjump("imdb", "http://www.imdb.com/find?q=%s&s=all",
+               $description = "\u21d2 Internet Movie Database");
 
 
 // Computer Languages & Systems
