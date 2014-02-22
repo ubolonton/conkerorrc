@@ -109,6 +109,7 @@ define_key(default_global_keymap, "C-M-h", "buffer-previous");
 define_key(default_global_keymap, "C-M-n", "buffer-next");
 define_key(default_global_keymap, "h", "find-url-from-history-new-buffer");
 define_key(default_global_keymap, "H", "find-url-from-history");
+define_key(default_global_keymap, "/", "isearch-forward");
 
 define_key(content_buffer_normal_keymap, "s-s", "save-page-complete");
 define_key(content_buffer_normal_keymap, "M-f", "follow-new-buffer-background");
@@ -126,6 +127,8 @@ define_key(content_buffer_normal_keymap, "C-c C-c", "submit-form");
 define_key(content_buffer_normal_keymap, "M-s-h", "back");
 define_key(content_buffer_normal_keymap, "M-s-n", "forward");
 define_key(content_buffer_normal_keymap, "s-a", "cmd_selectAll");
+// undefine_key(content_buffer_normal_keymap, "l");
+
 
 define_key(content_buffer_normal_keymap, "s-;", "focus");
 
