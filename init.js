@@ -96,7 +96,8 @@ require("from-other");
 // requires my fork of Conkeror with keydown support;
 add_hook("keydown_hook", function(window, I, event) {
   var location = I.buffer.browser.contentWindow.location;
-  if (location.host == "github.com") {
+  if (location.host === "github.com" ||
+      location.host === "preview.getprismatic.com") {
     // TODO: Maybe only certain important keys?
     event.stopPropagation();
   }
