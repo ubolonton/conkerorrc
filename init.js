@@ -58,6 +58,7 @@ function repl_context() {
 
 // require("block-content-focus-change");
 require("feedly");
+require("_9gag");
 require("facebook");
 require("ublt-dvorak");
 require("ublt-buffer");
