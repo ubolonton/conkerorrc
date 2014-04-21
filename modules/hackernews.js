@@ -104,7 +104,7 @@ function hackernews_next_item (I, dom_filter, marker_class) {
     }
 
     // select the next item by adding marker_class
-    var next = items[next_i]
+    var next = items[next_i];
     if (current)
         dom_remove_class(current, marker_class);
     dom_add_class(next, marker_class);
@@ -158,7 +158,7 @@ function hackernews_focus (I, el, selector) {
 
     // scroll into view if necessary
     var boundRect = el.getBoundingClientRect();
-    var win = I.buffer.focused_frame
+    var win = I.buffer.focused_frame;
     if (boundRect.top < 0 || boundRect.bottom > win.innerHeight)
         el.scrollIntoView();
 }
@@ -233,7 +233,7 @@ interactive("hackernews-view-comments",
         var doc = I.buffer.document;
         var comments_link = doc.querySelector("tr.current+tr a[href^=item]");
         if (comments_link)
-            browser_object_follow(I.buffer, FOLLOW_DEFAULT, comments_link);
+            browser_object_follow(I.buffer, OPEN_NEW_BUFFER_BACKGROUND, comments_link);
     });
 
 /*
