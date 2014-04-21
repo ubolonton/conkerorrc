@@ -59,6 +59,7 @@ function repl_context() {
 // require("block-content-focus-change");
 require("feedly");
 require("_9gag");
+require("prismatic");
 require("facebook");
 require("ublt-dvorak");
 require("ublt-buffer");
@@ -98,7 +99,7 @@ require("from-other");
 add_hook("keydown_hook", function(window, I, event) {
   var location = I.buffer.browser.contentWindow.location;
   if (location.host === "github.com" ||
-      location.host === "preview.getprismatic.com") {
+      location.host === "getprismatic.com") {
     // TODO: Maybe only certain important keys?
     event.stopPropagation();
   }
