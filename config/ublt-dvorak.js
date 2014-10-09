@@ -110,6 +110,8 @@ define_key(default_global_keymap, "f6", "colors-toggle");
 define_key(default_global_keymap, "f7", "darken-page-mode");
 define_key(default_global_keymap, "f8", "toggle-gmail-fixed-width-messages");
 define_key(default_global_keymap, "s-n", "switch-to-last-buffer");
+define_key(default_global_keymap, "s-i", "instapaper-read-later");
+define_key(default_global_keymap, "s-I", "inspect-chrome");
 // FIX: Make sure content document doesn't get certain keys instead
 define_key(default_global_keymap, "s-N", "switch-to-last-buffer");
 define_key(default_global_keymap, "C-G", "stop-loading-all");
@@ -125,7 +127,6 @@ define_key(content_buffer_normal_keymap, "M-f", "follow-new-buffer-background");
 define_key(content_buffer_normal_keymap, "s-f", "follow");
 define_key(content_buffer_normal_keymap, "s-[", "back");
 define_key(content_buffer_normal_keymap, "s-]", "forward");
-define_key(content_buffer_normal_keymap, "I", "instapaper-read-later");
 // define_key(content_buffer_normal_keymap, "R", "readability-arc90");
 define_key(content_buffer_normal_keymap, "R", "readability-read-now");
 define_key(content_buffer_normal_keymap, "L", "readability-read-later");
@@ -137,6 +138,10 @@ define_key(content_buffer_normal_keymap, "M-s-h", "back");
 define_key(content_buffer_normal_keymap, "M-s-n", "forward");
 define_key(content_buffer_normal_keymap, "s-a", "cmd_selectAll");
 // undefine_key(content_buffer_normal_keymap, "l");
+// Don't need find-url, find-alternate-url is enough
+undefine_key(content_buffer_normal_keymap, "g");
+// Use s-k instead
+undefine_key(default_global_keymap, "q");
 
 
 define_key(content_buffer_normal_keymap, "s-;", "focus");
@@ -154,7 +159,7 @@ define_key(text_keymap, "home", "scroll-top-left");
 define_key(text_keymap, "end", "cmd_scrollBottom");
 define_key(text_keymap, "s-a", "cmd_selectAll");
 
-define_key(read_buffer_keymap, "s-i", "inspect-chrome");
+define_key(read_buffer_keymap, "s-I", "inspect-chrome");
 define_key(read_buffer_keymap, "C-tab", "minibuffer-complete");
 define_key(read_buffer_keymap, "C-S-tab", "minibuffer-complete-previous");
 define_key(read_buffer_keymap, "s-return", "minibuffer-complete");
