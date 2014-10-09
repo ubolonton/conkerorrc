@@ -8,10 +8,12 @@ var {classes: Cc, Constructor: CC, interfaces: Ci, utils: Cu,
 
 // TODO: Is this the best way to load script?
 function loadScript(url, context) {
+  var ctx = context || {};
   var scope = {};
   Cu.import("resource://gre/modules/Services.jsm", scope);
   var {Services} = scope;
-  Services.scriptloader.loadSubScript(url, context);
+  Services.scriptloader.loadSubScript(url, ctx);
+  return ctx;
 }
 
 function goog_make_env(baseURL) {

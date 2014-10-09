@@ -3,6 +3,20 @@ require("ublt");
 // Components.utils.import('resource://gre/modules/commonjs/toolkit/loader.js');
 // Components.utils.import('jar:file:///home/ubolonton/Programming/Tools/xulrunner/omni.ja!/modules/commonjs/toolkit/loader.js');
 
+let (i = 0) {
+  function loadScript(url, context) {
+    var ctx = context || {};
+    var scope = {};
+    Cu.import("resource://gre/modules/Services.jsm", scope);
+    var {Services} = scope;
+    // EXPORTED_SYMBOLS problem, so we need to use this instead of
+    // Cu.import
+    i++;
+    Services.scriptloader.loadSubScript(url+"?t="+i, ctx);
+    return ctx;
+  }
+};
+
 function m_class(el) {
   var cl = el.getAttribute("class");
   cl = cl ? cl.split(" ")[0] : "";
@@ -538,6 +552,125 @@ function readFile(file) {
 //             m.set_input_state(c.get_input_state(i));
 //     }
 // };
+
+
+
+// let { Loader } = require('toolkit/loader');
+// let loader = l.Loader({
+//   paths: {
+//     // Resolve all modules starting with `toolkit/` as follows:
+//     // toolkit/foo      ->  resource://gre/modules/commonjs/toolkit/foo.js
+//     // toolkit/foo/bar  ->  resource://gre/modules/commonjs/toolkit/foo/bar.js
+//     'toolkit/': 'resource://gre/modules/commonjs/toolkit/',
+//     // Resolve all other non-relative module requirements as follows:
+//     // devtools/gcli    ->  resource:///modules/devtools/gcli.js
+//     // panel            ->  resource:///modules/panel.js
+//     '': 'resource:///modules/'
+//   }
+// });
+
+
+
+function StreamListener(mCallbackFunc) {
+  this.mCallbackFunc = mCallbackFunc;
+}
+
+StreamListener.prototype = {
+  mData: "",
+
+  // nsIStreamListener
+  onStartRequest: function (aRequest, aContext) {
+    this.mData = "";
+  },
+
+  onDataAvailable: function (aRequest, aContext, aStream, aSourceOffset, aLength) {
+    var scriptableInputStream =
+      Cc["@mozilla.org/scriptableinputstream;1"]
+        .createInstance(Ci.nsIScriptableInputStream);
+    scriptableInputStream.init(aStream);
+
+    this.mData += scriptableInputStream.read(aLength);
+  },
+
+  onStopRequest: function (aRequest, aContext, aStatus) {
+    if (Components.isSuccessCode(aStatus)) {
+      // request was successfull
+      this.mCallbackFunc(this.mData);
+    } else {
+      // request failed
+      this.mCallbackFunc(null);
+    }
+  },
+
+  // nsIChannelEventSink
+  onChannelRedirect: function (aOldChannel, aNewChannel, aFlags) {
+    // if redirecting, store the new channel
+    // gChannel = aNewChannel;
+  },
+
+  // nsIInterfaceRequestor
+  getInterface: function (aIID) {
+    try {
+      return this.QueryInterface(aIID);
+    } catch (e) {
+      throw Components.results.NS_NOINTERFACE;
+    }
+  },
+
+  // nsIProgressEventSink (not implementing will cause annoying exceptions)
+  onProgress : function (aRequest, aContext, aProgress, aProgressMax) { },
+  onStatus : function (aRequest, aContext, aStatus, aStatusArg) { },
+
+  // nsIHttpEventSink (not implementing will cause annoying exceptions)
+  onRedirect : function (aOldChannel, aNewChannel) { },
+
+  // we are faking an XPCOM interface, so we need to implement QI
+  QueryInterface : function(aIID) {
+    if (aIID.equals(Ci.nsISupports) ||
+        aIID.equals(Ci.nsIInterfaceRequestor) ||
+        aIID.equals(Ci.nsIChannelEventSink) ||
+        aIID.equals(Ci.nsIProgressEventSink) ||
+        aIID.equals(Ci.nsIHttpEventSink) ||
+        aIID.equals(Ci.nsIStreamListener))
+      return this;
+
+    throw Components.results.NS_NOINTERFACE;
+  }
+};
+
+function post(url, data, callback) {
+  var {io} = getServices();
+  var uri = io.newURI(url, null, null);
+
+  var inputStream = Cc["@mozilla.org/io/string-input-stream;1"]
+        .createInstance(Ci.nsIStringInputStream);
+  inputStream.setData(data, data.length);
+
+  var channel = io.newChannelFromURI(uri);
+  var uploadChannel = channel.QueryInterface(Ci.nsIUploadChannel);
+  uploadChannel.setUploadStream(inputStream, "application/x-www-form-urlencoded", -1);
+  channel.QueryInterface(Ci.nsIHttpChannel).requestMethod = "POST";
+
+  var listener = new StreamListener(function(value) {
+    repl.print("--------------------------------------------------");
+    callback(value);
+  });
+  channel.asyncOpen(listener, null);
+}
+
+function post(url, data, callback) {
+  var request = new XMLHttpRequest();
+  request.onload = function(event) {
+    repl.print("--------------------------------------------------");
+    repl.print(request.status + request.statusText);
+    callback(request.responseText);
+  };
+  request.timeout = 50000;
+  request.open("POST", url, true);
+  request.send(data);
+}
+
+
 
 
 provide("ublt-dev");
