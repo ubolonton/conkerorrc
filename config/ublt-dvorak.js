@@ -31,6 +31,9 @@ modifier_order = ['C', 'M', 'S', 's'];
 
 // Aliases
 
+// NTA: Many of these are now handled system-wide by `autokey', but
+// are kept here just in case
+
 // OS X style
 define_key_alias("s-c", "M-w");
 define_key_alias("s-x", "C-w");
@@ -61,6 +64,12 @@ define_key_alias("M-e", "back_space");
 define_key_alias("M-u", "delete");
 define_key_alias("M-.", "C-back_space");
 define_key_alias("M-p", "C-delete");
+
+// "Help" autokey
+define_key_alias("C-home", "M-<");
+define_key_alias("C-end", "M->");
+define_key_alias("home", "C-a");
+define_key_alias("end", "C-e");
 
 // Dvorak remaining
 define_key_alias("M-i", "C-k");
