@@ -19,7 +19,7 @@ var user_agents = {
   "ie8": "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.0)"
 };
 
-var agent_completer = prefix_completer($completions = Object.keys(user_agents));
+var agent_completer = new prefix_completer($completions = Object.keys(user_agents));
 
 interactive("user-agent", "Pick a user agent from the list of presets",
             function(I) {

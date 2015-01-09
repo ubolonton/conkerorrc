@@ -71,7 +71,7 @@ interactive("ublt-open-closed-buffer",
       if (recent && recent.length > 0) {
         var url = yield I.window.minibuffer.read(
           $prompt = "Restore:",
-          $completer = all_word_completer(
+          $completer = new all_word_completer(
             $completions = recent,
             $get_string = function(x) {
               return x ? x[0].toString() : "";
@@ -147,7 +147,7 @@ minibuffer.prototype.read_recent_buffer = function () {
            $buffers = function(visitor) window.buffers.for_each_history(visitor),
            $default = buffer,
            $history = "buffer");
-  var completer = all_word_completer(
+  var completer = new all_word_completer(
     $completions = arguments.$buffers,
     $get_string = function (x) {
       return "" + x.title || "";

@@ -72,16 +72,16 @@ define_webjump("down?",
                },
                $description = "\u21d2 Check if a page is down",
                $argument = "optional",
-               $completer = history_completer($use_history = false,
-                                              $use_bookmarks = true)
+               $completer = new history_completer($use_history = false,
+                                                  $use_bookmarks = true)
               );
 
 // TODO: key for this not webjump
 define_webjump("bm",
                function(term) {return term;},
-               $completer = history_completer($use_history = false,
-                                              $use_bookmarks = true,
-                                              $match_required = true),
+               $completer = new history_completer($use_history = false,
+                                                  $use_bookmarks = true,
+                                                  $match_required = true),
                $description = "\u21d2 Visit a conkeror bookmark");
 
 define_webjump("wa", "http://www.wolframalpha.com/input/?i=%s",
