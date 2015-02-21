@@ -132,7 +132,6 @@ define_key(content_buffer_normal_keymap, "R", "readability-read-now");
 define_key(content_buffer_normal_keymap, "L", "readability-read-later");
 define_key(content_buffer_normal_keymap, "s-d", "browser-object-dom-node");
 define_key(content_buffer_normal_keymap, "s-D", "toggle-darkened-page");
-define_key(content_buffer_normal_keymap, "s-r", "ublt-capture-link");
 define_key(content_buffer_normal_keymap, "C-c C-c", "submit-form");
 define_key(content_buffer_normal_keymap, "M-s-h", "back");
 define_key(content_buffer_normal_keymap, "M-s-n", "forward");
@@ -142,6 +141,17 @@ define_key(content_buffer_normal_keymap, "s-a", "cmd_selectAll");
 undefine_key(content_buffer_normal_keymap, "g");
 // Use s-k instead
 undefine_key(default_global_keymap, "q");
+
+define_key(content_buffer_normal_keymap, "s-r s-r", "ublt-org-capture-link");
+define_key(content_buffer_normal_keymap, "s-r s-t", "ublt-org-capture-talk");
+define_key(content_buffer_normal_keymap, "s-r s-a", "ublt-org-capture-article");
+define_key(content_buffer_normal_keymap, "s-r s-p", "ublt-org-capture-paper");
+define_key(content_buffer_normal_keymap, "s-r s-b", "ublt-org-capture-book");
+define_key(content_buffer_normal_keymap, "s-r r", "ublt-org-capture-link");
+define_key(content_buffer_normal_keymap, "s-r t", "ublt-org-capture-talk");
+define_key(content_buffer_normal_keymap, "s-r a", "ublt-org-capture-article");
+define_key(content_buffer_normal_keymap, "s-r p", "ublt-org-capture-paper");
+define_key(content_buffer_normal_keymap, "s-r b", "ublt-org-capture-book");
 
 
 define_key(content_buffer_normal_keymap, "s-;", "focus");
