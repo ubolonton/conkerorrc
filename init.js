@@ -66,6 +66,7 @@ require("ublt-buffer");
 require("ublt-launchers");
 require("ublt-webjumps");
 require("ublt-appearance");
+require("ublt-capture");
 require("ublt-download");
 require("ublt-proxy");
 require("ublt-user-agents");

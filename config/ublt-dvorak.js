@@ -132,7 +132,7 @@ define_key(content_buffer_normal_keymap, "R", "readability-read-now");
 define_key(content_buffer_normal_keymap, "L", "readability-read-later");
 define_key(content_buffer_normal_keymap, "s-d", "browser-object-dom-node");
 define_key(content_buffer_normal_keymap, "s-D", "toggle-darkened-page");
-define_key(content_buffer_normal_keymap, "s-r", "save-for-later");
+define_key(content_buffer_normal_keymap, "s-r", "ublt-capture-link");
 define_key(content_buffer_normal_keymap, "C-c C-c", "submit-form");
 define_key(content_buffer_normal_keymap, "M-s-h", "back");
 define_key(content_buffer_normal_keymap, "M-s-n", "forward");
