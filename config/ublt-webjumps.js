@@ -3,55 +3,55 @@
 
 // Search
 define_webjump("pd", "http://search.pdfchm.net/?q=%s",
-               $description = "\u21d2 pdfchm book search");
+               $doc = "\u21d2 pdfchm book search");
 define_webjump("yt", "http://www.youtube.com/results?search_query=%s",
-               $description = "\u21d2 Youtube video search");
+               $doc = "\u21d2 Youtube video search");
 define_webjump("pr", "http://thepiratebay.se/search/%s",
-               $description = "\u21d2 Pirate Bay torrent search");
+               $doc = "\u21d2 Pirate Bay torrent search");
 define_webjump("lg", "https://encrypted.google.com/search?q=%s%20site%3Alyrigram.com&ie=utf-8&oe=utf-8&aq=t",
-               $description = "\u21d2 Lyrigram lyrics search (Google)");
+               $doc = "\u21d2 Lyrigram lyrics search (Google)");
 define_webjump("ly", "https://www.lyrigram.com/search/%s",
-               $description = "\u21d2 Lyrigram lyrics search (Lyrigram)");
+               $doc = "\u21d2 Lyrigram lyrics search (Lyrigram)");
 define_webjump("coccoc", "http://coccoc.com/result?query=%s",
-               $description = "\u21d2 C\u1ed1c C\u1ed1c");
+               $doc = "\u21d2 C\u1ed1c C\u1ed1c");
 define_webjump("imdb", "http://www.imdb.com/find?q=%s&s=all",
-               $description = "\u21d2 Internet Movie Database");
+               $doc = "\u21d2 Internet Movie Database");
 
 
 // Computer Languages & Systems
 define_webjump("cljr", "https://clojars.org/search?q=%s",
-               $description = "\u21d2 Clojars library search");
+               $doc = "\u21d2 Clojars library search");
 define_webjump("clj", "http://clojuredocs.org/search?x=0&y=0&q=%s",
-               $description = "\u21d2 Clojure documentation search");
+               $doc = "\u21d2 Clojure documentation search");
 define_webjump("php", "http://www.php.net/manual-lookup.php?pattern=%s&scope=quickref",
-               $description = "\u21d2 PHP documentation search");
+               $doc = "\u21d2 PHP documentation search");
 define_webjump("js", "https://developer.mozilla.org/en-US/search?q=%s",
-               $description = "\u21d2 Javascript documentation search (Mozila)");
+               $doc = "\u21d2 Javascript documentation search (Mozila)");
 define_webjump("emacswiki", "http://www.google.com/cse?cx=004774160799092323420%3A6-ff2s0o6yi" +
                "&q=%s&sa=Search&siteurl=emacswiki.org%2F",
-               $description = "\u21d2 Emacs Wiki",
+               $doc = "\u21d2 Emacs Wiki",
                $alternative = "http://www.emacswiki.org/");
 define_webjump("mozilla", "http://mxr.mozilla.org/mozilla-central/search?string=%s",
-               $description = "\u21d2 Mozilla cross-referenced source",
+               $doc = "\u21d2 Mozilla cross-referenced source",
                $alternative = "http://mxr.mozilla.org/mozilla-central/source/");
 define_webjump("erldocs", "http://erldocs.com?search=%s",
-               $description = "\u21d2 Erlang Documentation",
+               $doc = "\u21d2 Erlang Documentation",
                $alternative = "http://erldocs.com");
 
 
 // Dictionaries and translation
 define_webjump("ety", "http://www.etymonline.com/index.php?search=%s",
-               $description = "\u21d2 Etymology search");
+               $doc = "\u21d2 Etymology search");
 define_webjump("trans", "http://translate.google.com/translate_t#auto|en|%s",
-               $description = "\u21d2 Google Translate");
+               $doc = "\u21d2 Google Translate");
 define_webjump("thesaurus", "http://www.thefreedictionary.com/%s#Thesaurus",
-               $description = "\u21d2 Thesaurus");
+               $doc = "\u21d2 Thesaurus");
 define_webjump("urban", "http://www.urbandictionary.com/define.php?term=%s",
-               $description = "\u21d2 Urban Dictionary");
+               $doc = "\u21d2 Urban Dictionary");
 define_webjump("viet anh", "http://1tudien.com/?w=%s",
-               $description = "\u21d2 Vietnamese-English Dictionary");
+               $doc = "\u21d2 Vietnamese-English Dictionary");
 define_webjump("wordnik", "https://www.wordnik.com/words/%s",
-               $description = "\u21d2 Wordnik");
+               $doc = "\u21d2 Wordnik");
 
 
 // Wikipedia
@@ -70,8 +70,8 @@ define_webjump("down?",
                        return "javascript:window.location.href='http://downforeveryoneorjustme.com/'+window.location.href;";
                    }
                },
-               $description = "\u21d2 Check if a page is down",
-               $argument = "optional",
+               $doc = "\u21d2 Check if a page is down",
+               // $argument = "optional",
                $completer = new history_completer($use_history = false,
                                                   $use_bookmarks = true)
               );
@@ -80,12 +80,12 @@ define_webjump("down?",
 define_webjump("bm",
                function(term) {return term;},
                $completer = new history_completer($use_history = false,
-                                                  $use_bookmarks = true,
-                                                  $match_required = true),
-               $description = "\u21d2 Visit a conkeror bookmark");
+                                                  $use_bookmarks = true),
+               $require_match = true,
+               $doc = "\u21d2 Visit a conkeror bookmark");
 
 define_webjump("wa", "http://www.wolframalpha.com/input/?i=%s",
-               $description = "\u21d2 Wolfram Alpha query");
+               $doc = "\u21d2 Wolfram Alpha query");
 
 define_webjump("mathworld", "http://mathworld.wolfram.com/search/?query=%s&x=0&y=0");
 

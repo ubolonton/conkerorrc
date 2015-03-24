@@ -81,7 +81,7 @@ interactive("ublt-open-closed-buffer",
           // $auto_complete = "url",
           // $auto_complete_initial = true,
           // $auto_complete_delay = 0,
-          // $match_required
+          // $require_match
         );
         // Remove from the list?
         load_url_in_new_buffer(url);
@@ -166,7 +166,7 @@ minibuffer.prototype.read_recent_buffer = function () {
     $history = arguments.$history,
     $completer = completer,
     $enable_icons = read_buffer_show_icons,
-    $match_required = true,
+    $require_match = true,
     $auto_complete = "buffer",
     $auto_complete_initial = true,
     $auto_complete_delay = 0,
