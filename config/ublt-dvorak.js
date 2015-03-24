@@ -147,11 +147,13 @@ define_key(content_buffer_normal_keymap, "s-r s-t", "ublt-org-capture-talk");
 define_key(content_buffer_normal_keymap, "s-r s-a", "ublt-org-capture-article");
 define_key(content_buffer_normal_keymap, "s-r s-p", "ublt-org-capture-paper");
 define_key(content_buffer_normal_keymap, "s-r s-b", "ublt-org-capture-book");
+define_key(content_buffer_normal_keymap, "s-r s-m", "ublt-org-capture-movie");
 define_key(content_buffer_normal_keymap, "s-r r", "ublt-org-capture-link");
 define_key(content_buffer_normal_keymap, "s-r t", "ublt-org-capture-talk");
 define_key(content_buffer_normal_keymap, "s-r a", "ublt-org-capture-article");
 define_key(content_buffer_normal_keymap, "s-r p", "ublt-org-capture-paper");
 define_key(content_buffer_normal_keymap, "s-r b", "ublt-org-capture-book");
+define_key(content_buffer_normal_keymap, "s-r m", "ublt-org-capture-movie");
 
 
 define_key(content_buffer_normal_keymap, "s-;", "focus");

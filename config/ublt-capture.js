@@ -55,4 +55,10 @@ interactive(
     yield ublt.capture.current_page(I, "xb");
   });
 
+interactive(
+  "ublt-org-capture-movie",
+  "Save the current page's movie in org-mode for later watching", function(I) {
+    yield ublt.capture.current_page(I, "xm");
+  });
+
 provide("ublt-capture");
