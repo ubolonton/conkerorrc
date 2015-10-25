@@ -47,7 +47,7 @@ modifier_order = ['C', 'M', 'S', 's'];
 
 // Aliases
 
-// NTA: Many of these are now handled system-wide by `autokey', but
+// NTA: Many of these are now handled system-wide by `autokey'/'Karabiner', but
 // are kept here just in case
 
 // OS X style
@@ -100,6 +100,13 @@ define_key_alias("M-m", "M-p");
 define_key_alias("M-v", "M-n"); // was cmd_scrollPageUp
 
 // define_key_alias("C-t", "C-x");
+
+// Undo some combos globally translated by Karabiner.
+define_key_alias("s-left", "C-a");
+define_key_alias("s-right", "C-e");
+define_key_alias("s-up", "M-<");
+define_key_alias("s-down", "M->");
+define_key_alias("M-delete", "C-delete");
 
 
 
