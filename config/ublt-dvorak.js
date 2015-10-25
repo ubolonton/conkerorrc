@@ -7,11 +7,9 @@ global_overlay_keymap_chain_aliases = false;
 
 // Custom key bindings
 
-
 // FIX: This comment is obsolete
 // OSX:    Command    => A    Option   => M
 // Ubuntu: Mod4/Super => A    Alt/Meta => M
-
 modifiers.M = new modifier(function (event) { return event.altKey; },
                            function (event) { event.altKey = true; });
 
@@ -20,11 +18,29 @@ modifiers.M = new modifier(function (event) { return event.altKey; },
 // keypress event (most attributes unset?!?) and keyup/keydown(metaKey
 // is never set?!?)). The fix is to use os-key instead of meta key
 
-// Handle old versions of xulrunner and conkeror
-if (!modifiers.s) {
-  modifiers.s = new modifier(function (event) { return event.metaKey; },
-                             function (event) { event.metaKey = true; });
-}
+// // Handle old versions of xulrunner and conkeror
+// if (!modifiers.s) {
+//   modifiers.s = new modifier(function (event) { return event.metaKey; },
+//                              function (event) { event.metaKey = true; });
+// }
+
+// XXX: It changed again. Fix Conkeror.
+// https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/getModifierState.
+modifiers.s = new modifier(function(event) {
+  if (event.superKey) {
+    return true;
+  }
+  if (!("getModifierState" in event)) {
+    return false;
+  }
+  // XXX: This is OSX only. See above link.
+  if (event.getModifierState("Meta")) {
+    return true;
+  }
+  return false;
+}, function(event) {
+  event.superKey = true;
+});
 
 modifier_order = ['C', 'M', 'S', 's'];
 
