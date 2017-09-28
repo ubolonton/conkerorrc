@@ -81,11 +81,16 @@ define_key_alias("M-u", "delete");
 define_key_alias("M-.", "C-back_space");
 define_key_alias("M-p", "C-delete");
 
-// "Help" autokey
-define_key_alias("C-home", "M-<");
-define_key_alias("C-end", "M->");
-define_key_alias("home", "C-a");
-define_key_alias("end", "C-e");
+// // Autokey integration
+// define_key_alias("C-home", "M-<");
+// define_key_alias("C-end", "M->");
+// define_key_alias("home", "C-a");
+// define_key_alias("end", "C-e");
+
+// Karabiner integration (undoing some combos globally translated by it).
+define_key_alias("end", "M->");
+define_key_alias("home", "M-<");
+define_key_alias("M-delete", "C-delete");
 
 // Dvorak remaining
 define_key_alias("M-i", "C-k");
@@ -101,12 +106,9 @@ define_key_alias("M-v", "M-n"); // was cmd_scrollPageUp
 
 // define_key_alias("C-t", "C-x");
 
-// Undo some combos globally translated by Karabiner.
-define_key_alias("s-left", "C-a");
-define_key_alias("s-right", "C-e");
-define_key_alias("s-up", "M-<");
-define_key_alias("s-down", "M->");
-define_key_alias("M-delete", "C-delete");
+// XXX: OS X treats option key as special shift key.
+define_key_alias("M-s-`", "s-[");
+define_key_alias("M-s-~", "s-]");
 
 
 
@@ -150,6 +152,8 @@ define_key(content_buffer_normal_keymap, "M-f", "follow-new-buffer-background");
 define_key(content_buffer_normal_keymap, "s-f", "follow");
 define_key(content_buffer_normal_keymap, "s-[", "back");
 define_key(content_buffer_normal_keymap, "s-]", "forward");
+define_key(content_buffer_normal_keymap, "M-s-`", "back");
+define_key(content_buffer_normal_keymap, "M-s-~", "forward");
 // define_key(content_buffer_normal_keymap, "R", "readability-arc90");
 define_key(content_buffer_normal_keymap, "R", "readability-read-now");
 define_key(content_buffer_normal_keymap, "L", "readability-read-later");
